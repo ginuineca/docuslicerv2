@@ -44,7 +44,7 @@ This is a monorepo containing:
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/gnumeco/docuslicerv2.git
+git clone https://github.com/ginuineca/docuslicerv2.git
 cd docuslicerv2
 ```
 
