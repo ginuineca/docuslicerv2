@@ -2,6 +2,8 @@
 
 A modern PDF workflow automation platform built with React, Node.js, and TypeScript.
 
+🚀 **Now deploying to DigitalOcean App Platform!**
+
 ## 🚀 Features
 
 - **PDF Processing**: Extract, convert, merge, and split PDFs
