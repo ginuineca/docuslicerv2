@@ -53,7 +53,7 @@ static_sites:
     deploy_on_push: true
     repo: ginuineca/docuslicerv2
   name: web
-  output_dir: /dist
+  output_dir: dist
   source_dir: /apps/web
   envs:
   - key: VITE_API_URL
