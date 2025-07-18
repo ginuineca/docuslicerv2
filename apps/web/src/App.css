@@ -1,0 +1,23 @@
+/* Custom styles for DocuSlicer */
+
+.app {
+  min-height: 100vh;
+}
+
+/* Custom button styles */
+.btn-primary {
+  @apply bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors;
+}
+
+.btn-secondary {
+  @apply bg-gray-100 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-200 transition-colors;
+}
+
+/* Card styles */
+.card {
+  @apply bg-white rounded-lg shadow-sm p-6;
+}
+
+.card-hover {
+  @apply hover:shadow-md transition-shadow cursor-pointer;
+}
