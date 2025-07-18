@@ -26,7 +26,7 @@ ingress:
 name: docuslicer
 region: sfo
 services:
-- build_command: npm ci && npm run build && npm ci --only=production
+- build_command: npm install --include=dev && npm run build:api
   environment_slug: node-js
   github:
     branch: master
