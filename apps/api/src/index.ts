@@ -22,10 +22,11 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // Health check endpoint
 app.get('/health', (req, res) => {
-  res.json({ 
-    status: 'ok', 
+  res.json({
+    status: 'ok',
     timestamp: new Date().toISOString(),
-    service: 'DocuSlicer API'
+    service: 'DocuSlicer API',
+    version: '1.0.0'
   });
 });
 
