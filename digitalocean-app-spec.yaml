@@ -46,15 +46,15 @@ services:
     scope: RUN_AND_BUILD_TIME
     value: ${APP_URL}
 static_sites:
-- build_command: npm install && npm run build:web
+- build_command: cd /workspace && npm install && npm run build:web
   environment_slug: node-js
   github:
     branch: master
     deploy_on_push: true
     repo: ginuineca/docuslicerv2
   name: web
-  output_dir: dist
-  source_dir: /apps/web
+  output_dir: /apps/web/dist
+  source_dir: /
   envs:
   - key: VITE_API_URL
     scope: BUILD_TIME
