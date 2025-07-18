@@ -26,7 +26,7 @@ ingress:
 name: docuslicer
 region: sfo
 services:
-- build_command: npm install && npm run build:api
+- build_command: cd /workspace && npm install && npm run build:api
   environment_slug: node-js
   github:
     branch: master
@@ -36,8 +36,8 @@ services:
   instance_count: 1
   instance_size_slug: apps-s-1vcpu-1gb
   name: api
-  run_command: npm run start
-  source_dir: /apps/api
+  run_command: cd apps/api && npm run start
+  source_dir: /
   envs:
   - key: PORT
     scope: RUN_AND_BUILD_TIME
