@@ -1,24 +1,35 @@
 import { Link } from 'react-router-dom'
 import { FileText, Zap, Shield, ArrowRight } from 'lucide-react'
+import { useAuth } from '../contexts/AuthContext'
+import { Logo } from '../components'
 
 export function HomePage() {
+  const { user } = useAuth()
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* Header */}
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
-            <div className="flex items-center">
-              <FileText className="h-8 w-8 text-blue-600" />
-              <span className="ml-2 text-2xl font-bold text-gray-900">DocuSlicer</span>
-            </div>
+            <Logo />
             <nav className="flex space-x-8">
-              <Link to="/dashboard" className="text-gray-600 hover:text-gray-900">
-                Dashboard
-              </Link>
-              <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
-                Sign In
-              </button>
+              {user ? (
+                <>
+                  <Link to="/dashboard" className="text-gray-600 hover:text-gray-900">
+                    Dashboard
+                  </Link>
+                  <span className="text-gray-600">Welcome, {user.email}</span>
+                </>
+              ) : (
+                <>
+                  <Link to="/signin" className="text-gray-600 hover:text-gray-900">
+                    Sign In
+                  </Link>
+                  <Link to="/signup" className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+                    Get Started
+                  </Link>
+                </>
+              )}
             </nav>
           </div>
         </div>
@@ -37,10 +48,10 @@ export function HomePage() {
           </p>
           <div className="mt-10 flex justify-center gap-4">
             <Link
-              to="/dashboard"
+              to={user ? "/dashboard" : "/signup"}
               className="bg-blue-600 text-white px-8 py-3 rounded-md text-lg font-medium hover:bg-blue-700 flex items-center"
             >
-              Get Started
+              {user ? "Go to Dashboard" : "Get Started"}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
             <button className="border border-gray-300 text-gray-700 px-8 py-3 rounded-md text-lg font-medium hover:bg-gray-50">
