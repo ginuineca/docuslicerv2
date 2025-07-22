@@ -1,0 +1,34 @@
+{
+  "name": "Legal Practice Management Suite",
+  "industry": "legal",
+  "description": "Comprehensive legal document management, case tracking, and compliance solution",
+  "features": [
+    "Case document organization",
+    "Contract analysis and review",
+    "E-discovery preparation",
+    "Court filing integration",
+    "Billable time tracking",
+    "Client communication management",
+    "Legal research integration",
+    "Compliance monitoring"
+  ],
+  "templates": [],
+  "workflows": [],
+  "complianceRequirements": [],
+  "automationRules": [],
+  "integrations": [],
+  "pricing": {
+    "tier": "professional",
+    "monthlyPrice": 199,
+    "annualPrice": 1990,
+    "features": [
+      "Unlimited cases",
+      "Advanced analytics",
+      "API access",
+      "Priority support"
+    ]
+  },
+  "id": "solution_1753066843130_doe343ph8",
+  "createdAt": "2025-07-21T03:00:43.130Z",
+  "updatedAt": "2025-07-21T03:00:43.130Z"
+}

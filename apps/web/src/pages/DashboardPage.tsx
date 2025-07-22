@@ -9,12 +9,24 @@ export function DashboardPage() {
   const navigate = useNavigate()
   const [apiStatus, setApiStatus] = useState<string>('checking...')
 
+  console.log('📊 DashboardPage - Rendering for user:', user?.email)
+
   useEffect(() => {
+    console.log('📊 DashboardPage - Checking API connection...')
     // Check API connection
     fetch('/api/status')
-      .then(res => res.json())
-      .then(data => setApiStatus(data.message))
-      .catch(() => setApiStatus('API connection failed'))
+      .then(res => {
+        console.log('📊 API Response status:', res.status)
+        return res.json()
+      })
+      .then(data => {
+        console.log('📊 API Response data:', data)
+        setApiStatus(data.message)
+      })
+      .catch(error => {
+        console.error('📊 API Error:', error)
+        setApiStatus('API connection failed')
+      })
   }, [])
 
   const handleSignOut = async () => {

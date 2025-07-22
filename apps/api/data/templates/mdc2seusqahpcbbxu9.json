@@ -1,0 +1,28 @@
+{
+  "name": "Contract Splitting",
+  "description": "Split multi-page contracts into individual documents",
+  "category": "document-processing",
+  "tags": [
+    "contract",
+    "split",
+    "legal"
+  ],
+  "isPublic": true,
+  "steps": [
+    {
+      "id": "step1",
+      "type": "split",
+      "name": "Split by Pages",
+      "config": {
+        "method": "pages",
+        "interval": 2
+      },
+      "order": 1
+    }
+  ],
+  "id": "mdc2seusqahpcbbxu9",
+  "createdAt": "2025-07-20T19:34:19.444Z",
+  "updatedAt": "2025-07-20T19:34:19.444Z",
+  "usageCount": 0,
+  "version": "1.0.0"
+}

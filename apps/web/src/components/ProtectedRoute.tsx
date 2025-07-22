@@ -10,7 +10,10 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
   const { user, loading } = useAuth()
   const location = useLocation()
 
+  console.log('🔒 ProtectedRoute - Loading:', loading, 'User:', user?.email || 'No user')
+
   if (loading) {
+    console.log('⏳ ProtectedRoute - Still loading...')
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
@@ -22,9 +25,11 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
   }
 
   if (!user) {
+    console.log('❌ ProtectedRoute - No user, redirecting to signin')
     // Redirect to sign in page with return url
     return <Navigate to="/signin" state={{ from: location }} replace />
   }
 
+  console.log('✅ ProtectedRoute - User authenticated, rendering children')
   return <>{children}</>
 }

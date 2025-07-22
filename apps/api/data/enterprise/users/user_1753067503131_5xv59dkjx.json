@@ -1,0 +1,33 @@
+{
+  "id": "user_1753067503131_5xv59dkjx",
+  "organizationId": "org_1753067503130_29wc4n284",
+  "email": "admin@example.com",
+  "firstName": "Admin",
+  "lastName": "User",
+  "role": "admin",
+  "permissions": [
+    "*"
+  ],
+  "status": "active",
+  "mfaEnabled": false,
+  "preferences": {
+    "theme": "light",
+    "language": "en",
+    "timezone": "UTC",
+    "notifications": {
+      "email": true,
+      "browser": true,
+      "mobile": false
+    },
+    "dashboard": {
+      "layout": "default",
+      "widgets": [
+        "overview",
+        "recent_documents",
+        "analytics"
+      ]
+    }
+  },
+  "createdAt": "2025-07-21T03:11:43.131Z",
+  "updatedAt": "2025-07-21T03:11:43.131Z"
+}

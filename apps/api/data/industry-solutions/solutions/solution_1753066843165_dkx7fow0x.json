@@ -1,0 +1,34 @@
+{
+  "name": "Financial Services Documentation",
+  "industry": "financial_services",
+  "description": "Regulatory-compliant financial document processing and risk management",
+  "features": [
+    "Risk assessment automation",
+    "Regulatory reporting",
+    "Client onboarding (KYC)",
+    "Audit documentation",
+    "Compliance monitoring",
+    "Investment documentation",
+    "Loan processing",
+    "Anti-money laundering (AML)"
+  ],
+  "templates": [],
+  "workflows": [],
+  "complianceRequirements": [],
+  "automationRules": [],
+  "integrations": [],
+  "pricing": {
+    "tier": "enterprise",
+    "monthlyPrice": 399,
+    "annualPrice": 3990,
+    "features": [
+      "Full compliance suite",
+      "Advanced analytics",
+      "Custom integrations",
+      "White-label options"
+    ]
+  },
+  "id": "solution_1753066843165_dkx7fow0x",
+  "createdAt": "2025-07-21T03:00:43.165Z",
+  "updatedAt": "2025-07-21T03:00:43.165Z"
+}

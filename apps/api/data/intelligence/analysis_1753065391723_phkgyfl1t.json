@@ -1,0 +1,115 @@
+{
+  "id": "analysis_1753065391723_phkgyfl1t",
+  "fileName": "simple-contract.txt",
+  "fileType": ".txt",
+  "fileSize": 172,
+  "pageCount": 1,
+  "wordCount": 31,
+  "language": "english",
+  "confidence": 0.2,
+  "processingTime": 11,
+  "extractedData": {
+    "text": "This is a simple contract between Company A and Company B. The effective date is January 1, 2024. The total amount is fifty thousand dollars. Payment is due within 30 days.",
+    "entities": [],
+    "keyTerms": [
+      {
+        "term": "company",
+        "frequency": 2,
+        "importance": 0.24413606414846883,
+        "category": "business",
+        "context": [
+          "is a simple contract between Company A and Company B. The e",
+          "ontract between Company A and Company B. The effective date"
+        ]
+      }
+    ],
+    "dates": [
+      {
+        "text": "January 1, 2024",
+        "parsedDate": "2024-01-01T08:00:00.000Z",
+        "type": "effective_date",
+        "confidence": 0.8,
+        "context": "pany B. The effective date is January 1, 2024. The total amo"
+      }
+    ],
+    "amounts": [],
+    "contacts": [],
+    "addresses": [],
+    "tables": [],
+    "metadata": {}
+  },
+  "classification": {
+    "primaryType": "contract",
+    "confidence": 0.2,
+    "indicators": [
+      "contract",
+      "invoice"
+    ],
+    "suggestedActions": [
+      "Review terms and conditions",
+      "Verify party information",
+      "Check compliance requirements",
+      "Set up renewal reminders"
+    ]
+  },
+  "riskAssessment": {
+    "overallRisk": "medium",
+    "riskScore": 40,
+    "riskFactors": [
+      {
+        "factor": "Missing standard contract clauses",
+        "severity": "medium",
+        "description": "Missing: governing law, dispute resolution, force majeure, confidentiality",
+        "recommendation": "Consider adding standard protective clauses"
+      }
+    ],
+    "complianceIssues": [],
+    "securityConcerns": []
+  },
+  "complianceCheck": {
+    "regulations": [],
+    "dataPrivacy": {
+      "piiDetected": false,
+      "phiDetected": false,
+      "sensitiveData": [],
+      "recommendations": []
+    },
+    "retention": {
+      "suggestedPeriod": "7 years after expiration",
+      "legalRequirements": [],
+      "businessRequirements": []
+    }
+  },
+  "insights": {
+    "summary": "This is a simple contract between Company A and Company B.  The effective date is January 1, 2024.  The total amount is fifty thousand dollars.",
+    "keyPoints": [
+      "Key term: company (mentioned 2 times)"
+    ],
+    "actionItems": [
+      {
+        "action": "Review contract terms",
+        "priority": "high"
+      },
+      {
+        "action": "Verify party signatures",
+        "priority": "medium"
+      },
+      {
+        "action": "Set up renewal calendar",
+        "priority": "low"
+      }
+    ],
+    "relatedDocuments": [],
+    "suggestedWorkflows": [
+      "Contract Review Workflow",
+      "Legal Approval Process",
+      "Signature Collection",
+      "Contract Management"
+    ],
+    "businessImpact": {
+      "operational": "Document processing completed in 1753065391723ms",
+      "strategic": "contract analysis provides insights for business decision-making"
+    }
+  },
+  "createdAt": "2025-07-21T02:36:31.723Z"
+}

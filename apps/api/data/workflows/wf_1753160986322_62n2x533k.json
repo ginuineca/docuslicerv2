@@ -1,0 +1,84 @@
+{
+  "name": "PDF Split and OCR",
+  "description": "Split PDF into pages and extract text using OCR",
+  "nodes": [
+    {
+      "id": "input",
+      "type": "input",
+      "label": "Input PDF",
+      "operation": "file-input",
+      "config": {
+        "acceptedTypes": [
+          "pdf"
+        ]
+      },
+      "position": {
+        "x": 100,
+        "y": 100
+      },
+      "status": "idle",
+      "progress": 0
+    },
+    {
+      "id": "split",
+      "type": "process",
+      "label": "Split PDF",
+      "operation": "pdf-split",
+      "config": {
+        "ranges": [
+          {
+            "start": 1,
+            "end": -1,
+            "name": "page"
+          }
+        ]
+      },
+      "position": {
+        "x": 300,
+        "y": 100
+      },
+      "status": "idle",
+      "progress": 0
+    },
+    {
+      "id": "ocr",
+      "type": "process",
+      "label": "Extract Text",
+      "operation": "ocr-extract",
+      "config": {
+        "density": 200
+      },
+      "position": {
+        "x": 500,
+        "y": 100
+      },
+      "status": "idle",
+      "progress": 0
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "source": "input",
+      "target": "split"
+    },
+    {
+      "id": "e2",
+      "source": "split",
+      "target": "ocr"
+    }
+  ],
+  "triggers": [
+    {
+      "id": "t1",
+      "type": "manual",
+      "config": {},
+      "isActive": true
+    }
+  ],
+  "isActive": true,
+  "id": "wf_1753160986322_62n2x533k",
+  "createdAt": "2025-07-22T05:09:46.322Z",
+  "updatedAt": "2025-07-22T05:09:46.322Z",
+  "version": 1
+}

@@ -1,0 +1,27 @@
+{
+  "name": "Form Data Extraction",
+  "description": "Extract data from filled PDF forms",
+  "category": "form-automation",
+  "tags": [
+    "forms",
+    "data-extraction",
+    "automation"
+  ],
+  "isPublic": true,
+  "steps": [
+    {
+      "id": "step1",
+      "type": "form-fill",
+      "name": "Extract Form Data",
+      "config": {
+        "extractOnly": true
+      },
+      "order": 1
+    }
+  ],
+  "id": "mdc2seuuym6t2hqkji",
+  "createdAt": "2025-07-20T19:34:19.446Z",
+  "updatedAt": "2025-07-20T19:34:19.446Z",
+  "usageCount": 0,
+  "version": "1.0.0"
+}

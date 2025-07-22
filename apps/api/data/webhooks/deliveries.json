@@ -1,0 +1,15 @@
+[
+  {
+    "id": "66d8282f-7081-4b7c-a986-e6ca55dd0ea5",
+    "webhookId": "0a399e22-b595-469a-90cb-a12607bb1e89",
+    "eventId": "cf519a2c-07de-45c3-9417-2ff9c2bc9dc3",
+    "url": "https://httpbin.org/post",
+    "status": "success",
+    "attempts": 1,
+    "createdAt": "2025-07-21T02:18:15.452Z",
+    "lastAttemptAt": "2025-07-21T02:18:15.453Z",
+    "duration": 438,
+    "responseStatus": 200,
+    "responseBody": "{\"args\":{},\"data\":\"{\\\"id\\\":\\\"cf519a2c-07de-45c3-9417-2ff9c2bc9dc3\\\",\\\"type\\\":\\\"document.processed\\\",\\\"data\\\":{\\\"fileName\\\":\\\"test-document.pdf\\\",\\\"documentId\\\":\\\"doc-123\\\",\\\"operations\\\":[\\\"extract-text\\\",\\\"add-watermark\\\"]},\\\"timestamp\\\":\\\"2025-07-21T02:18:15.452Z\\\",\\\"source\\\":\\\"test\\\"}\",\"files\":{},\"form\":{},\"headers\":{\"Accept\":\"application/json, text/plain, */*\",\"Accept-Encoding\":\"gzip, compress, deflate, br\",\"Content-Length\":\"237\",\"Content-Type\":\"application/json\",\"Host\":\"httpbin.org\",\"User-Agent\":\"DocuSlicer-Webhook/1.0\",\"X-Amzn-Trace-Id\":\"Root=1-687da368-08be40a721fd9b8858dbc2b0\",\"X-Docuslicer-Delivery\":\"66d8282f-7081-4b7c-a986-e6ca55dd0ea5\",\"X-Docuslicer-Event\":\"document.processed\",\"X-Docuslicer-Signature\":\"sha256=01babd5c7fbdcc823b75098010db67363262cb13626bb534605df34b24fa51be\"},\"json\":{\"data\":{\"documentId\":\"doc-123\",\"fileName\":\"test-document.pdf\",\"operations\":[\"extract-text\",\"add-watermark\"]},\"id\":\"cf519a2c-07de-45c3-9417-2ff9c2bc9dc3\",\"source\":\"test\",\"timestamp\":\"2025-07-21T02"
+  }
+]

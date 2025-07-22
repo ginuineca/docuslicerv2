@@ -1,0 +1,84 @@
+{
+  "name": "StartupCorp",
+  "domain": "startupcorp.io",
+  "type": "startup",
+  "industry": "technology",
+  "size": "small",
+  "plan": "professional",
+  "settings": {
+    "branding": {},
+    "security": {
+      "ssoEnabled": false,
+      "mfaRequired": false,
+      "passwordPolicy": {
+        "minLength": 8,
+        "requireUppercase": true,
+        "requireLowercase": true,
+        "requireNumbers": true,
+        "requireSpecialChars": false,
+        "maxAge": 90,
+        "preventReuse": 5
+      },
+      "sessionTimeout": 480,
+      "ipWhitelist": [],
+      "dataRetention": 365
+    },
+    "compliance": {
+      "auditLogging": false,
+      "dataEncryption": true,
+      "backupRetention": 365,
+      "complianceFrameworks": []
+    },
+    "integrations": {
+      "allowedIntegrations": [],
+      "webhookEndpoints": [],
+      "apiKeys": []
+    },
+    "notifications": {
+      "emailNotifications": true,
+      "customWebhooks": []
+    }
+  },
+  "billing": {
+    "plan": "professional",
+    "billingCycle": "monthly",
+    "seats": 10,
+    "usage": {
+      "documents": 0,
+      "storage": 0,
+      "apiCalls": 0,
+      "bandwidth": 0
+    },
+    "limits": {
+      "documents": 10000,
+      "storage": 100,
+      "apiCalls": 100000,
+      "bandwidth": 100
+    },
+    "nextBillingDate": "2025-08-20T03:11:43.120Z",
+    "paymentMethod": "credit_card",
+    "billingContact": {
+      "name": "Billing Contact",
+      "email": "billing@example.com"
+    }
+  },
+  "features": [
+    "api_access",
+    "webhooks",
+    "integrations"
+  ],
+  "limits": {
+    "maxUsers": 25,
+    "maxDocuments": 10000,
+    "maxStorage": 100,
+    "maxApiCalls": 100000,
+    "maxWebhooks": 25,
+    "maxIntegrations": 10,
+    "processingTimeout": 120,
+    "concurrentProcessing": 5
+  },
+  "status": "active",
+  "id": "org_1753067503130_29wc4n284",
+  "createdAt": "2025-07-21T03:11:43.130Z",
+  "updatedAt": "2025-07-21T03:11:43.130Z"
+}

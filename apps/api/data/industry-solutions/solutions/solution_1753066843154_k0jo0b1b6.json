@@ -1,0 +1,34 @@
+{
+  "name": "Real Estate Transaction Processing",
+  "industry": "real_estate",
+  "description": "Streamlined real estate transaction and document management",
+  "features": [
+    "Property disclosure automation",
+    "Contract package assembly",
+    "Closing document management",
+    "Multi-party coordination",
+    "Transaction timeline tracking",
+    "Commission calculations",
+    "Regulatory compliance",
+    "Client portal access"
+  ],
+  "templates": [],
+  "workflows": [],
+  "complianceRequirements": [],
+  "automationRules": [],
+  "integrations": [],
+  "pricing": {
+    "tier": "professional",
+    "monthlyPrice": 149,
+    "annualPrice": 1490,
+    "features": [
+      "Unlimited transactions",
+      "Client portals",
+      "Mobile access",
+      "Standard support"
+    ]
+  },
+  "id": "solution_1753066843154_k0jo0b1b6",
+  "createdAt": "2025-07-21T03:00:43.154Z",
+  "updatedAt": "2025-07-21T03:00:43.154Z"
+}

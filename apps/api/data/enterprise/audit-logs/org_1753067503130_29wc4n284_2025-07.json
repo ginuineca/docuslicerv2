@@ -1,0 +1,18 @@
+[
+  {
+    "organizationId": "org_1753067503130_29wc4n284",
+    "userId": "system",
+    "action": "organization.created",
+    "resource": "organization",
+    "resourceId": "org_1753067503130_29wc4n284",
+    "details": {
+      "name": "StartupCorp",
+      "plan": "professional"
+    },
+    "ipAddress": "127.0.0.1",
+    "userAgent": "system",
+    "severity": "medium",
+    "id": "audit_1753067503132_tsuadvjjq",
+    "timestamp": "2025-07-21T03:11:43.132Z"
+  }
+]

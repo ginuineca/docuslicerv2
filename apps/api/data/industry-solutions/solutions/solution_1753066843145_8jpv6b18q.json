@@ -1,0 +1,34 @@
+{
+  "name": "Healthcare Document Compliance",
+  "industry": "healthcare",
+  "description": "HIPAA-compliant document management for healthcare providers",
+  "features": [
+    "HIPAA compliance monitoring",
+    "Patient record management",
+    "Insurance claim processing",
+    "Medical device documentation",
+    "Audit trail management",
+    "PHI protection",
+    "Regulatory reporting",
+    "Quality assurance tracking"
+  ],
+  "templates": [],
+  "workflows": [],
+  "complianceRequirements": [],
+  "automationRules": [],
+  "integrations": [],
+  "pricing": {
+    "tier": "enterprise",
+    "monthlyPrice": 299,
+    "annualPrice": 2990,
+    "features": [
+      "HIPAA compliance",
+      "Unlimited users",
+      "Advanced security",
+      "Dedicated support"
+    ]
+  },
+  "id": "solution_1753066843145_8jpv6b18q",
+  "createdAt": "2025-07-21T03:00:43.145Z",
+  "updatedAt": "2025-07-21T03:00:43.145Z"
+}

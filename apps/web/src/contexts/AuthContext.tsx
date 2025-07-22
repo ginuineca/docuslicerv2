@@ -20,10 +20,44 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    // Check if we're in development mode with placeholder Supabase config
+    const isDevelopment = import.meta.env.DEV &&
+      (!import.meta.env.VITE_SUPABASE_URL || import.meta.env.VITE_SUPABASE_URL === 'https://placeholder.supabase.co')
+
+    if (isDevelopment) {
+      // Create a mock user for development
+      console.log('🔧 Running in development mode with mock authentication')
+      const mockUser = {
+        id: 'dev-user-123',
+        email: 'dev@docuslicer.com',
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        app_metadata: {},
+        user_metadata: {},
+        aud: 'authenticated',
+        role: 'authenticated'
+      } as User
+
+      setUser(mockUser)
+      setSession({
+        access_token: 'dev-token',
+        refresh_token: 'dev-refresh',
+        expires_in: 3600,
+        token_type: 'bearer',
+        user: mockUser
+      } as Session)
+      setLoading(false)
+      console.log('✅ Mock user created:', mockUser.email)
+      return
+    }
+
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session)
       setUser(session?.user ?? null)
+      setLoading(false)
+    }).catch(() => {
+      // If Supabase fails, set loading to false anyway
       setLoading(false)
     })
 
@@ -40,29 +74,103 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
-    return { error }
+    // Check if we're in development mode
+    const isDevelopment = import.meta.env.DEV &&
+      (!import.meta.env.VITE_SUPABASE_URL || import.meta.env.VITE_SUPABASE_URL === 'https://placeholder.supabase.co')
+
+    if (isDevelopment) {
+      // Mock successful sign in for development
+      const mockUser = {
+        id: 'dev-user-123',
+        email: email,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        app_metadata: {},
+        user_metadata: {},
+        aud: 'authenticated',
+        role: 'authenticated'
+      } as User
+
+      setUser(mockUser)
+      setSession({
+        access_token: 'dev-token',
+        refresh_token: 'dev-refresh',
+        expires_in: 3600,
+        token_type: 'bearer',
+        user: mockUser
+      } as Session)
+
+      return { error: null }
+    }
+
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
+      return { error }
+    } catch (err) {
+      return { error: err as AuthError }
+    }
   }
 
   const signUp = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-    })
-    return { error }
+    // Check if we're in development mode
+    const isDevelopment = import.meta.env.DEV &&
+      (!import.meta.env.VITE_SUPABASE_URL || import.meta.env.VITE_SUPABASE_URL === 'https://placeholder.supabase.co')
+
+    if (isDevelopment) {
+      // Mock successful sign up for development
+      return { error: null }
+    }
+
+    try {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+      })
+      return { error }
+    } catch (err) {
+      return { error: err as AuthError }
+    }
   }
 
   const signOut = async () => {
-    const { error } = await supabase.auth.signOut()
-    return { error }
+    // Check if we're in development mode
+    const isDevelopment = import.meta.env.DEV &&
+      (!import.meta.env.VITE_SUPABASE_URL || import.meta.env.VITE_SUPABASE_URL === 'https://placeholder.supabase.co')
+
+    if (isDevelopment) {
+      // Mock successful sign out for development
+      setUser(null)
+      setSession(null)
+      return { error: null }
+    }
+
+    try {
+      const { error } = await supabase.auth.signOut()
+      return { error }
+    } catch (err) {
+      return { error: err as AuthError }
+    }
   }
 
   const resetPassword = async (email: string) => {
-    const { error } = await supabase.auth.resetPasswordForEmail(email)
-    return { error }
+    // Check if we're in development mode
+    const isDevelopment = import.meta.env.DEV &&
+      (!import.meta.env.VITE_SUPABASE_URL || import.meta.env.VITE_SUPABASE_URL === 'https://placeholder.supabase.co')
+
+    if (isDevelopment) {
+      // Mock successful password reset for development
+      return { error: null }
+    }
+
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email)
+      return { error }
+    } catch (err) {
+      return { error: err as AuthError }
+    }
   }
 
   const value = {

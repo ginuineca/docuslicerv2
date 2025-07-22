@@ -1,0 +1,1857 @@
+[
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /health",
+      "responseTime": 12.3475,
+      "memoryDelta": 128872,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 172279616,
+        "heapTotal": 211832832,
+        "external": 10853648,
+        "rss": 293556224
+      }
+    },
+    "duration": 12.3475,
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753051410840_nlli3ofbp",
+    "timestamp": "2025-07-20T22:43:30.840Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "GET /health",
+    "metadata": {
+      "statusCode": 200,
+      "method": "GET",
+      "path": "/health",
+      "query": {},
+      "responseTime": 13
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 13,
+    "id": "evt_1753051410840_cvtqwfngy",
+    "timestamp": "2025-07-20T22:43:30.840Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /summary",
+      "responseTime": 1.057,
+      "memoryDelta": 99576,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 110242248,
+        "heapTotal": 120549376,
+        "external": 9911393,
+        "rss": 200880128
+      }
+    },
+    "duration": 1.057,
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753051434965_njb1g58ft",
+    "timestamp": "2025-07-20T22:43:54.965Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "GET /summary",
+    "metadata": {
+      "statusCode": 200,
+      "method": "GET",
+      "path": "/summary",
+      "query": {},
+      "responseTime": 1
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 1,
+    "id": "evt_1753051434965_u5ev75e52",
+    "timestamp": "2025-07-20T22:43:54.965Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /dashboard",
+      "responseTime": 1.9883,
+      "memoryDelta": 126432,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 110497784,
+        "heapTotal": 120549376,
+        "external": 9911393,
+        "rss": 201064448
+      }
+    },
+    "duration": 1.9883,
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753051465090_z98ut14o6",
+    "timestamp": "2025-07-20T22:44:25.090Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "GET /dashboard",
+    "metadata": {
+      "statusCode": 200,
+      "method": "GET",
+      "path": "/dashboard",
+      "query": {
+        "period": "day"
+      },
+      "responseTime": 2
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 2,
+    "id": "evt_1753051465090_z6939jjus",
+    "timestamp": "2025-07-20T22:44:25.090Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /health",
+      "responseTime": 12.6415,
+      "memoryDelta": 128416,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 182463944,
+        "heapTotal": 221638656,
+        "external": 10888794,
+        "rss": 302604288
+      }
+    },
+    "duration": 12.6415,
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753051876521_ex2hbyofe",
+    "timestamp": "2025-07-20T22:51:16.521Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "GET /health",
+    "metadata": {
+      "statusCode": 200,
+      "method": "GET",
+      "path": "/health",
+      "query": {},
+      "responseTime": 13
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 13,
+    "id": "evt_1753051876522_wfifkjl88",
+    "timestamp": "2025-07-20T22:51:16.522Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /tiers",
+      "responseTime": 1.4473,
+      "memoryDelta": 106448,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 110454792,
+        "heapTotal": 120811520,
+        "external": 9911393,
+        "rss": 199659520
+      }
+    },
+    "duration": 1.4473,
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753051903283_4tfegsobv",
+    "timestamp": "2025-07-20T22:51:43.283Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "GET /tiers",
+    "metadata": {
+      "statusCode": 200,
+      "method": "GET",
+      "path": "/tiers",
+      "query": {},
+      "responseTime": 2
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 2,
+    "id": "evt_1753051903283_n6pifeys4",
+    "timestamp": "2025-07-20T22:51:43.283Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /test/user123",
+      "responseTime": 1.1357,
+      "memoryDelta": 66800,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 110634376,
+        "heapTotal": 120811520,
+        "external": 9911393,
+        "rss": 200032256
+      }
+    },
+    "duration": 1.1357,
+    "userId": "user123",
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753051932046_y0retc6go",
+    "timestamp": "2025-07-20T22:52:12.046Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "GET /test/user123",
+    "userId": "user123",
+    "metadata": {
+      "statusCode": 200,
+      "method": "GET",
+      "path": "/test/user123",
+      "query": {},
+      "responseTime": 1
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 1,
+    "id": "evt_1753051932046_z3otcm16y",
+    "timestamp": "2025-07-20T22:52:12.046Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /test/user123",
+      "responseTime": 0.6024,
+      "memoryDelta": 51704,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 110797368,
+        "heapTotal": 120811520,
+        "external": 9911393,
+        "rss": 140255232
+      }
+    },
+    "duration": 0.6024,
+    "userId": "user123",
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753051962988_opcg95o1m",
+    "timestamp": "2025-07-20T22:52:42.988Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "GET /test/user123",
+    "userId": "user123",
+    "metadata": {
+      "statusCode": 200,
+      "method": "GET",
+      "path": "/test/user123",
+      "query": {},
+      "responseTime": 1
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 1,
+    "id": "evt_1753051962988_wlifenx6w",
+    "timestamp": "2025-07-20T22:52:42.988Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /test/user123",
+      "responseTime": 0.4351,
+      "memoryDelta": 57888,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 110915928,
+        "heapTotal": 120811520,
+        "external": 9911393,
+        "rss": 140402688
+      }
+    },
+    "duration": 0.4351,
+    "userId": "user123",
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753051963532_m13rpsobx",
+    "timestamp": "2025-07-20T22:52:43.532Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "GET /test/user123",
+    "userId": "user123",
+    "metadata": {
+      "statusCode": 200,
+      "method": "GET",
+      "path": "/test/user123",
+      "query": {},
+      "responseTime": 0
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 0,
+    "id": "evt_1753051963532_3zlmhmf5x",
+    "timestamp": "2025-07-20T22:52:43.532Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /test/user123",
+      "responseTime": 0.5106,
+      "memoryDelta": 65232,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 111042832,
+        "heapTotal": 120811520,
+        "external": 9911393,
+        "rss": 140476416
+      }
+    },
+    "duration": 0.5106,
+    "userId": "user123",
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753051964056_kgzu8e1b6",
+    "timestamp": "2025-07-20T22:52:44.056Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "GET /test/user123",
+    "userId": "user123",
+    "metadata": {
+      "statusCode": 200,
+      "method": "GET",
+      "path": "/test/user123",
+      "query": {},
+      "responseTime": 1
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 1,
+    "id": "evt_1753051964056_v5y2vlebr",
+    "timestamp": "2025-07-20T22:52:44.056Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /test/user123",
+      "responseTime": 0.3884,
+      "memoryDelta": 50728,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 110529608,
+        "heapTotal": 121860096,
+        "external": 9911393,
+        "rss": 140881920
+      }
+    },
+    "duration": 0.3884,
+    "userId": "user123",
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753051964581_d2t2t08yc",
+    "timestamp": "2025-07-20T22:52:44.581Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "GET /test/user123",
+    "userId": "user123",
+    "metadata": {
+      "statusCode": 200,
+      "method": "GET",
+      "path": "/test/user123",
+      "query": {},
+      "responseTime": 0
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 0,
+    "id": "evt_1753051964581_a2ulp2ls7",
+    "timestamp": "2025-07-20T22:52:44.581Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /test/user123",
+      "responseTime": 0.4474,
+      "memoryDelta": 52480,
+      "statusCode": 429,
+      "memoryUsage": {
+        "heapUsed": 110642040,
+        "heapTotal": 121860096,
+        "external": 9911393,
+        "rss": 141037568
+      }
+    },
+    "duration": 0.4474,
+    "userId": "user123",
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753051965105_zqvht90hc",
+    "timestamp": "2025-07-20T22:52:45.105Z"
+  },
+  {
+    "eventType": "error",
+    "category": "system",
+    "action": "GET /test/user123",
+    "userId": "user123",
+    "metadata": {
+      "statusCode": 429,
+      "method": "GET",
+      "path": "/test/user123",
+      "query": {},
+      "responseTime": 1,
+      "error": "Rate limit exceeded",
+      "errorMessage": "Test rate limit exceeded"
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 1,
+    "id": "evt_1753051965105_fsg5pkt6s",
+    "timestamp": "2025-07-20T22:52:45.105Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /test/user123",
+      "responseTime": 0.754,
+      "memoryDelta": 113472,
+      "statusCode": 429,
+      "memoryUsage": {
+        "heapUsed": 110833672,
+        "heapTotal": 121860096,
+        "external": 9911393,
+        "rss": 141209600
+      }
+    },
+    "duration": 0.754,
+    "userId": "user123",
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753051965629_9pim2yxsw",
+    "timestamp": "2025-07-20T22:52:45.629Z"
+  },
+  {
+    "eventType": "error",
+    "category": "system",
+    "action": "GET /test/user123",
+    "userId": "user123",
+    "metadata": {
+      "statusCode": 429,
+      "method": "GET",
+      "path": "/test/user123",
+      "query": {},
+      "responseTime": 0,
+      "error": "Rate limit exceeded",
+      "errorMessage": "Test rate limit exceeded"
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 0,
+    "id": "evt_1753051965629_2a2x36pwf",
+    "timestamp": "2025-07-20T22:52:45.629Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /test/user123",
+      "responseTime": 0.4231,
+      "memoryDelta": 54328,
+      "statusCode": 429,
+      "memoryUsage": {
+        "heapUsed": 111017856,
+        "heapTotal": 122122240,
+        "external": 9911393,
+        "rss": 141389824
+      }
+    },
+    "duration": 0.4231,
+    "userId": "user123",
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753051966141_vx3ojkn1v",
+    "timestamp": "2025-07-20T22:52:46.141Z"
+  },
+  {
+    "eventType": "error",
+    "category": "system",
+    "action": "GET /test/user123",
+    "userId": "user123",
+    "metadata": {
+      "statusCode": 429,
+      "method": "GET",
+      "path": "/test/user123",
+      "query": {},
+      "responseTime": 0,
+      "error": "Rate limit exceeded",
+      "errorMessage": "Test rate limit exceeded"
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 0,
+    "id": "evt_1753051966141_d6d4tachw",
+    "timestamp": "2025-07-20T22:52:46.141Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /health",
+      "responseTime": 7.2373,
+      "memoryDelta": 153416,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 175684136,
+        "heapTotal": 182870016,
+        "external": 29135678,
+        "rss": 272764928
+      }
+    },
+    "duration": 7.2373,
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753064072853_u9l4ztjr2",
+    "timestamp": "2025-07-21T02:14:32.853Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "GET /health",
+    "metadata": {
+      "statusCode": 200,
+      "method": "GET",
+      "path": "/health",
+      "query": {},
+      "responseTime": 7
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 7,
+    "id": "evt_1753064072853_wpt2p69lw",
+    "timestamp": "2025-07-21T02:14:32.853Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /capabilities",
+      "responseTime": 1.3695,
+      "memoryDelta": 101928,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 175984072,
+        "heapTotal": 182870016,
+        "external": 29135678,
+        "rss": 273117184
+      }
+    },
+    "duration": 1.3695,
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753064101925_83ms8lljp",
+    "timestamp": "2025-07-21T02:15:01.925Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "GET /capabilities",
+    "metadata": {
+      "statusCode": 200,
+      "method": "GET",
+      "path": "/capabilities",
+      "query": {},
+      "responseTime": 1
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 1,
+    "id": "evt_1753064101925_9t7te49wf",
+    "timestamp": "2025-07-21T02:15:01.925Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /templates",
+      "responseTime": 0.9211,
+      "memoryDelta": 55736,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 176152648,
+        "heapTotal": 182870016,
+        "external": 29135678,
+        "rss": 273567744
+      }
+    },
+    "duration": 0.9211,
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753064135367_yr4mclb6w",
+    "timestamp": "2025-07-21T02:15:35.367Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "GET /templates",
+    "metadata": {
+      "statusCode": 200,
+      "method": "GET",
+      "path": "/templates",
+      "query": {},
+      "responseTime": 1
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 1,
+    "id": "evt_1753064135367_ka7jncggx",
+    "timestamp": "2025-07-21T02:15:35.367Z"
+  },
+  {
+    "eventType": "collaboration",
+    "category": "system",
+    "action": "webhook_registered",
+    "webhookId": "0a399e22-b595-469a-90cb-a12607bb1e89",
+    "metadata": {
+      "url": "https://httpbin.org/post",
+      "events": [
+        "document.processed",
+        "document.shared"
+      ],
+      "hasSecret": true,
+      "hasFilters": false
+    },
+    "id": "evt_1753064164018_74qq8olto",
+    "timestamp": "2025-07-21T02:16:04.018Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "POST /webhooks",
+      "responseTime": 29.0453,
+      "memoryDelta": -22264,
+      "statusCode": 201,
+      "memoryUsage": {
+        "heapUsed": 176231392,
+        "heapTotal": 183132160,
+        "external": 29147118,
+        "rss": 221888512
+      }
+    },
+    "duration": 29.0453,
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753064164019_rbrpbk3r5",
+    "timestamp": "2025-07-21T02:16:04.019Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "POST /webhooks",
+    "metadata": {
+      "statusCode": 201,
+      "method": "POST",
+      "path": "/webhooks",
+      "query": {},
+      "responseTime": 30
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 30,
+    "id": "evt_1753064164019_ltecbn1o0",
+    "timestamp": "2025-07-21T02:16:04.019Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "POST /events",
+      "responseTime": 77.5224,
+      "memoryDelta": 655080,
+      "statusCode": 202,
+      "memoryUsage": {
+        "heapUsed": 177090384,
+        "heapTotal": 183132160,
+        "external": 29147493,
+        "rss": 75001856
+      }
+    },
+    "duration": 77.5224,
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753064295528_bp2voxvs7",
+    "timestamp": "2025-07-21T02:18:15.528Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "POST /events",
+    "metadata": {
+      "statusCode": 202,
+      "method": "POST",
+      "path": "/events",
+      "query": {},
+      "responseTime": 78
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 78,
+    "id": "evt_1753064295528_c4z1du5n3",
+    "timestamp": "2025-07-21T02:18:15.528Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /deliveries",
+      "responseTime": 0.9077,
+      "memoryDelta": 53240,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 176998160,
+        "heapTotal": 183394304,
+        "external": 29188473,
+        "rss": 78176256
+      }
+    },
+    "duration": 0.9077,
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753064329299_xbmp0l06s",
+    "timestamp": "2025-07-21T02:18:49.299Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "GET /deliveries",
+    "metadata": {
+      "statusCode": 200,
+      "method": "GET",
+      "path": "/deliveries",
+      "query": {},
+      "responseTime": 1
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 1,
+    "id": "evt_1753064329299_6zkr5bo2x",
+    "timestamp": "2025-07-21T02:18:49.299Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /stats",
+      "responseTime": 0.6791,
+      "memoryDelta": 49848,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 177175224,
+        "heapTotal": 183394304,
+        "external": 29188473,
+        "rss": 78467072
+      }
+    },
+    "duration": 0.6791,
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753064366901_izb0s8u0b",
+    "timestamp": "2025-07-21T02:19:26.901Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "GET /stats",
+    "metadata": {
+      "statusCode": 200,
+      "method": "GET",
+      "path": "/stats",
+      "query": {},
+      "responseTime": 0
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 0,
+    "id": "evt_1753064366901_zs4qc0xmx",
+    "timestamp": "2025-07-21T02:19:26.901Z"
+  },
+  {
+    "eventType": "error",
+    "category": "system",
+    "action": "unhandled_error",
+    "metadata": {
+      "error": "Error",
+      "message": "Text content is required and must be a string",
+      "stack": "Error: Text content is required and must be a string\n    at <anonymous> (C:\\Users\\admin\\OneDrive\\Desktop\\Docuslicerv2\\apps\\api\\src\\routes\\documentIntelligenceRoutes.ts:588:11)\n    at <anonymous> (C:\\Users\\admin\\OneDrive\\Desktop\\Docuslicerv2\\apps\\api\\src\\middleware\\errorHandler.ts:81:21)\n    at Layer.handle [as handle_request] (C:\\Users\\admin\\OneDrive\\Desktop\\Docuslicerv2\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\admin\\OneDrive\\Desktop\\Docuslicerv2\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at Route.dispatch (C:\\Users\\admin\\OneDrive\\Desktop\\Docuslicerv2\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at Layer.handle [as handle_request] (C:\\Users\\admin\\OneDrive\\Desktop\\Docuslicerv2\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at C:\\Users\\admin\\OneDrive\\Desktop\\Docuslicerv2\\node_modules\\express\\lib\\router\\index.js:284:15\n    at Function.process_params (C:\\Users\\admin\\OneDrive\\Desktop\\Docuslicerv2\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\admin\\OneDrive\\Desktop\\Docuslicerv2\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at Function.handle (C:\\Users\\admin\\OneDrive\\Desktop\\Docuslicerv2\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\admin\\OneDrive\\Desktop\\Docuslicerv2\\node_modules\\express\\lib\\router\\index.js:47:12)\n    at Layer.handle [as handle_request] (C:\\Users\\admin\\OneDrive\\Desktop\\Docuslicerv2\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\admin\\OneDrive\\Desktop\\Docuslicerv2\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\admin\\OneDrive\\Desktop\\Docuslicerv2\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\admin\\OneDrive\\Desktop\\Docuslicerv2\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\admin\\OneDrive\\Desktop\\Docuslicerv2\\node_modules\\express\\lib\\router\\index.js:280:10)",
+      "endpoint": "POST /api/intelligence/test",
+      "statusCode": 400,
+      "timestamp": "2025-07-21T02:35:14.631Z"
+    },
+    "userId": "test-user-123",
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753065314634_ftd4eeapv",
+    "timestamp": "2025-07-21T02:35:14.634Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "POST /api/intelligence/test",
+      "responseTime": 35.6246,
+      "memoryDelta": 1162816,
+      "statusCode": 400,
+      "memoryUsage": {
+        "heapUsed": 182564504,
+        "heapTotal": 216829952,
+        "external": 29232150,
+        "rss": 286031872
+      }
+    },
+    "duration": 35.6246,
+    "userId": "test-user-123",
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753065314638_qqao540gi",
+    "timestamp": "2025-07-21T02:35:14.638Z"
+  },
+  {
+    "eventType": "error",
+    "category": "system",
+    "action": "POST /api/intelligence/test",
+    "userId": "test-user-123",
+    "metadata": {
+      "statusCode": 400,
+      "method": "POST",
+      "path": "/api/intelligence/test",
+      "query": {},
+      "responseTime": 36,
+      "error": {
+        "code": "VALIDATION_ERROR",
+        "message": "Text content is required and must be a string",
+        "timestamp": "2025-07-21T02:35:14.637Z",
+        "requestId": "req_1753065314602_fmswnd8oa",
+        "suggestion": "Please check the request data format and required fields"
+      }
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 36,
+    "id": "evt_1753065314638_ktgsdxdxg",
+    "timestamp": "2025-07-21T02:35:14.638Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "POST /test",
+      "responseTime": 107.2446,
+      "memoryDelta": 3481760,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 184237088,
+        "heapTotal": 189829120,
+        "external": 29231651,
+        "rss": 271179776
+      }
+    },
+    "duration": 107.2446,
+    "userId": "test-user-123",
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753065341912_hc9mc3xi5",
+    "timestamp": "2025-07-21T02:35:41.912Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "POST /test",
+    "userId": "test-user-123",
+    "metadata": {
+      "statusCode": 200,
+      "method": "POST",
+      "path": "/test",
+      "query": {},
+      "responseTime": 107
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 107,
+    "id": "evt_1753065341912_51tpz74ya",
+    "timestamp": "2025-07-21T02:35:41.912Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "POST /test",
+      "responseTime": 14.7094,
+      "memoryDelta": -51712,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 184303736,
+        "heapTotal": 190353408,
+        "external": 29231651,
+        "rss": 271892480
+      }
+    },
+    "duration": 14.7094,
+    "userId": "test-user-123",
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753065391725_z2ty2a8vq",
+    "timestamp": "2025-07-21T02:36:31.725Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "POST /test",
+    "userId": "test-user-123",
+    "metadata": {
+      "statusCode": 200,
+      "method": "POST",
+      "path": "/test",
+      "query": {},
+      "responseTime": 15
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 15,
+    "id": "evt_1753065391725_j7sw6j1fe",
+    "timestamp": "2025-07-21T02:36:31.725Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /analytics",
+      "responseTime": 1.9507,
+      "memoryDelta": 99520,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 184500560,
+        "heapTotal": 190353408,
+        "external": 29247647,
+        "rss": 272056320
+      }
+    },
+    "duration": 1.9507,
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753065422333_dx55exheu",
+    "timestamp": "2025-07-21T02:37:02.333Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "GET /analytics",
+    "metadata": {
+      "statusCode": 200,
+      "method": "GET",
+      "path": "/analytics",
+      "query": {},
+      "responseTime": 2
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 2,
+    "id": "evt_1753065422333_g5259xr4s",
+    "timestamp": "2025-07-21T02:37:02.333Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "POST /test/legal",
+      "responseTime": 96.3614,
+      "memoryDelta": 5125488,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 185273008,
+        "heapTotal": 192712704,
+        "external": 29234302,
+        "rss": 272347136
+      }
+    },
+    "duration": 96.3614,
+    "userId": "test-user-legal",
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753066852299_xcodc328w",
+    "timestamp": "2025-07-21T03:00:52.299Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "POST /test/legal",
+    "userId": "test-user-legal",
+    "metadata": {
+      "statusCode": 200,
+      "method": "POST",
+      "path": "/test/legal",
+      "query": {},
+      "responseTime": 97
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 97,
+    "id": "evt_1753066852299_s0pv6f1k4",
+    "timestamp": "2025-07-21T03:00:52.299Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "POST /test/healthcare",
+      "responseTime": 19.4436,
+      "memoryDelta": -1009120,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 184540160,
+        "heapTotal": 190615552,
+        "external": 29242421,
+        "rss": 273391616
+      }
+    },
+    "duration": 19.4436,
+    "userId": "test-user-healthcare",
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753066918255_aoyuxf9ku",
+    "timestamp": "2025-07-21T03:01:58.255Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "POST /test/healthcare",
+    "userId": "test-user-healthcare",
+    "metadata": {
+      "statusCode": 200,
+      "method": "POST",
+      "path": "/test/healthcare",
+      "query": {},
+      "responseTime": 20
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 20,
+    "id": "evt_1753066918255_tvbzw756a",
+    "timestamp": "2025-07-21T03:01:58.255Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /analytics",
+      "responseTime": 3.155,
+      "memoryDelta": 139824,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 184797576,
+        "heapTotal": 190615552,
+        "external": 29248673,
+        "rss": 263933952
+      }
+    },
+    "duration": 3.155,
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753066974441_aoyhk2b7c",
+    "timestamp": "2025-07-21T03:02:54.441Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "GET /analytics",
+    "metadata": {
+      "statusCode": 200,
+      "method": "GET",
+      "path": "/analytics",
+      "query": {},
+      "responseTime": 3
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 3,
+    "id": "evt_1753066974441_yjo2sizp0",
+    "timestamp": "2025-07-21T03:02:54.441Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /health",
+      "responseTime": 6.649,
+      "memoryDelta": 233744,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 182579184,
+        "heapTotal": 222072832,
+        "external": 29226823,
+        "rss": 297668608
+      }
+    },
+    "duration": 6.649,
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753067511417_qaop91s5q",
+    "timestamp": "2025-07-21T03:11:51.417Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "GET /health",
+    "metadata": {
+      "statusCode": 200,
+      "method": "GET",
+      "path": "/health",
+      "query": {},
+      "responseTime": 7
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 7,
+    "id": "evt_1753067511417_g217b24mu",
+    "timestamp": "2025-07-21T03:11:51.417Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /organizations",
+      "responseTime": 3.2898,
+      "memoryDelta": 172640,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 180862112,
+        "heapTotal": 188256256,
+        "external": 29222552,
+        "rss": 278618112
+      }
+    },
+    "duration": 3.2898,
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753067536100_xhgklb3oe",
+    "timestamp": "2025-07-21T03:12:16.100Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "GET /organizations",
+    "metadata": {
+      "statusCode": 200,
+      "method": "GET",
+      "path": "/organizations",
+      "query": {},
+      "responseTime": 3
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 3,
+    "id": "evt_1753067536100_8jgo7bfai",
+    "timestamp": "2025-07-21T03:12:16.100Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /dashboard",
+      "responseTime": 3.3277,
+      "memoryDelta": 138624,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 181137000,
+        "heapTotal": 188256256,
+        "external": 29230437,
+        "rss": 279130112
+      }
+    },
+    "duration": 3.3277,
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753067586146_ogh4ybrrv",
+    "timestamp": "2025-07-21T03:13:06.146Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "GET /dashboard",
+    "metadata": {
+      "statusCode": 200,
+      "method": "GET",
+      "path": "/dashboard",
+      "query": {},
+      "responseTime": 3
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 3,
+    "id": "evt_1753067586146_bkojmitwb",
+    "timestamp": "2025-07-21T03:13:06.146Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /capabilities",
+      "responseTime": 0.8043,
+      "memoryDelta": 63320,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 181303080,
+        "heapTotal": 188256256,
+        "external": 29230437,
+        "rss": 279683072
+      }
+    },
+    "duration": 0.8043,
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753067618015_3fm418yxw",
+    "timestamp": "2025-07-21T03:13:38.015Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "GET /capabilities",
+    "metadata": {
+      "statusCode": 200,
+      "method": "GET",
+      "path": "/capabilities",
+      "query": {},
+      "responseTime": 1
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 1,
+    "id": "evt_1753067618015_6axbghya5",
+    "timestamp": "2025-07-21T03:13:38.015Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /health",
+      "responseTime": 41.0933,
+      "memoryDelta": 68288,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 180938848,
+        "heapTotal": 188256256,
+        "external": 29361861,
+        "rss": 33476608
+      }
+    },
+    "duration": 41.0933,
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753068239373_qoldlv6zj",
+    "timestamp": "2025-07-21T03:23:59.373Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "GET /health",
+    "metadata": {
+      "statusCode": 200,
+      "method": "GET",
+      "path": "/health",
+      "query": {},
+      "responseTime": 42
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 42,
+    "id": "evt_1753068239374_f46ra3k7l",
+    "timestamp": "2025-07-21T03:23:59.374Z"
+  },
+  {
+    "eventType": "error",
+    "category": "system",
+    "action": "unhandled_error",
+    "metadata": {
+      "error": "BadRequestError",
+      "message": "request aborted",
+      "stack": "BadRequestError: request aborted\n    at IncomingMessage.onAborted (C:\\Users\\admin\\OneDrive\\Desktop\\Docuslicerv2\\node_modules\\raw-body\\index.js:245:10)\n    at IncomingMessage.emit (node:events:518:28)\n    at IncomingMessage.emit (node:domain:489:12)\n    at IncomingMessage._destroy (node:_http_incoming:221:10)\n    at _destroy (node:internal/streams/destroy:122:10)\n    at IncomingMessage.destroy (node:internal/streams/destroy:84:5)\n    at abortIncoming (node:_http_server:809:9)\n    at socketOnClose (node:_http_server:803:3)\n    at Socket.emit (node:events:530:35)\n    at Socket.emit (node:domain:489:12)\n    at TCP.<anonymous> (node:net:351:12)",
+      "endpoint": "POST /api/pdf/ai-classify",
+      "statusCode": 400,
+      "timestamp": "2025-07-21T03:24:30.234Z"
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753068270234_sd4opmya8",
+    "timestamp": "2025-07-21T03:24:30.234Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "POST /api/pdf/ai-classify",
+      "responseTime": 513.046,
+      "memoryDelta": 453688,
+      "statusCode": 500,
+      "memoryUsage": {
+        "heapUsed": 181495312,
+        "heapTotal": 188256256,
+        "external": 29222859,
+        "rss": 47726592
+      }
+    },
+    "duration": 513.046,
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753068270269_h7txplc8e",
+    "timestamp": "2025-07-21T03:24:30.269Z"
+  },
+  {
+    "eventType": "error",
+    "category": "system",
+    "action": "POST /api/pdf/ai-classify",
+    "metadata": {
+      "statusCode": 500,
+      "method": "POST",
+      "path": "/api/pdf/ai-classify",
+      "query": {},
+      "responseTime": 513,
+      "error": {
+        "code": "INTERNAL_ERROR",
+        "message": "Internal server error",
+        "timestamp": "2025-07-21T03:24:30.269Z",
+        "requestId": "req_1753068269756_vb7gh6k4d"
+      }
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 513,
+    "id": "evt_1753068270271_s2vai9d51",
+    "timestamp": "2025-07-21T03:24:30.271Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /health",
+      "responseTime": 5.3833,
+      "memoryDelta": 51896,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 181443416,
+        "heapTotal": 188256256,
+        "external": 29300088,
+        "rss": 32100352
+      }
+    },
+    "duration": 5.3833,
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753068518010_joexbjeei",
+    "timestamp": "2025-07-21T03:28:38.010Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "GET /health",
+    "metadata": {
+      "statusCode": 200,
+      "method": "GET",
+      "path": "/health",
+      "query": {},
+      "responseTime": 6
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 6,
+    "id": "evt_1753068518010_j3k3hfel6",
+    "timestamp": "2025-07-21T03:28:38.010Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "POST /ai-classify",
+      "responseTime": 398.0171,
+      "memoryDelta": 3156432,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 184653088,
+        "heapTotal": 191401984,
+        "external": 29222859,
+        "rss": 57090048
+      }
+    },
+    "duration": 398.0171,
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753068518572_pihqbz3kp",
+    "timestamp": "2025-07-21T03:28:38.572Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "POST /ai-classify",
+    "metadata": {
+      "statusCode": 200,
+      "method": "POST",
+      "path": "/ai-classify",
+      "query": {},
+      "responseTime": 398
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 398,
+    "id": "evt_1753068518572_kupfq0pb0",
+    "timestamp": "2025-07-21T03:28:38.572Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /health",
+      "responseTime": 11.1485,
+      "memoryDelta": 131992,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 181528680,
+        "heapTotal": 189149184,
+        "external": 29235322,
+        "rss": 107732992
+      }
+    },
+    "duration": 11.1485,
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753071002959_qw8icw5xj",
+    "timestamp": "2025-07-21T04:10:02.959Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "GET /health",
+    "metadata": {
+      "statusCode": 200,
+      "method": "GET",
+      "path": "/health",
+      "query": {},
+      "responseTime": 12
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 12,
+    "id": "evt_1753071002959_cul3am2vw",
+    "timestamp": "2025-07-21T04:10:02.959Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "POST /ai-classify",
+      "responseTime": 105.6797,
+      "memoryDelta": 3408224,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 185115304,
+        "heapTotal": 192032768,
+        "external": 29235322,
+        "rss": 128020480
+      }
+    },
+    "duration": 105.6797,
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753071003260_ntnbrr3s1",
+    "timestamp": "2025-07-21T04:10:03.260Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "POST /ai-classify",
+    "metadata": {
+      "statusCode": 200,
+      "method": "POST",
+      "path": "/ai-classify",
+      "query": {},
+      "responseTime": 106
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 106,
+    "id": "evt_1753071003260_x2qfa8qp1",
+    "timestamp": "2025-07-21T04:10:03.260Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /health",
+      "responseTime": 3.3341,
+      "memoryDelta": 112744,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 184827704,
+        "heapTotal": 191508480,
+        "external": 29235322,
+        "rss": 128888832
+      }
+    },
+    "duration": 3.3341,
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753071003406_9244j9rf3",
+    "timestamp": "2025-07-21T04:10:03.406Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "GET /health",
+    "metadata": {
+      "statusCode": 200,
+      "method": "GET",
+      "path": "/health",
+      "query": {},
+      "responseTime": 4
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 4,
+    "id": "evt_1753071003406_j9r25asox",
+    "timestamp": "2025-07-21T04:10:03.406Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /health",
+      "responseTime": 7.5528,
+      "memoryDelta": 210672,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 185096288,
+        "heapTotal": 191508480,
+        "external": 29247826,
+        "rss": 129298432
+      }
+    },
+    "duration": 7.5528,
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753071003650_vhyzudzly",
+    "timestamp": "2025-07-21T04:10:03.650Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "GET /health",
+    "metadata": {
+      "statusCode": 200,
+      "method": "GET",
+      "path": "/health",
+      "query": {},
+      "responseTime": 8
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 8,
+    "id": "evt_1753071003650_jx81gxgx9",
+    "timestamp": "2025-07-21T04:10:03.650Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /health",
+      "responseTime": 4.1993,
+      "memoryDelta": 150304,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 185307464,
+        "heapTotal": 191508480,
+        "external": 29255711,
+        "rss": 129564672
+      }
+    },
+    "duration": 4.1993,
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753071003797_dk5tzw6lc",
+    "timestamp": "2025-07-21T04:10:03.797Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "GET /health",
+    "metadata": {
+      "statusCode": 200,
+      "method": "GET",
+      "path": "/health",
+      "query": {},
+      "responseTime": 4
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 4,
+    "id": "evt_1753071003797_a79u8ivxa",
+    "timestamp": "2025-07-21T04:10:03.797Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "POST /split",
+      "responseTime": 118.4958,
+      "memoryDelta": 147040,
+      "statusCode": 400,
+      "memoryUsage": {
+        "heapUsed": 186162192,
+        "heapTotal": 192294912,
+        "external": 29666669,
+        "rss": 19800064
+      }
+    },
+    "duration": 118.4958,
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753154187467_x3equ924i",
+    "timestamp": "2025-07-22T03:16:27.467Z"
+  },
+  {
+    "eventType": "error",
+    "category": "system",
+    "action": "POST /split",
+    "metadata": {
+      "statusCode": 400,
+      "method": "POST",
+      "path": "/split",
+      "query": {},
+      "responseTime": 123,
+      "error": "File path is required"
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 123,
+    "id": "evt_1753154187468_fro3bzsex",
+    "timestamp": "2025-07-22T03:16:27.469Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /health",
+      "responseTime": 4.7245,
+      "memoryDelta": 142248,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 181805840,
+        "heapTotal": 188887040,
+        "external": 29235322,
+        "rss": 278282240
+      }
+    },
+    "duration": 4.7245,
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753154938248_507oygthx",
+    "timestamp": "2025-07-22T03:28:58.248Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "GET /health",
+    "metadata": {
+      "statusCode": 200,
+      "method": "GET",
+      "path": "/health",
+      "query": {},
+      "responseTime": 5
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 5,
+    "id": "evt_1753154938248_s0tu9dmly",
+    "timestamp": "2025-07-22T03:28:58.248Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /workflows",
+      "responseTime": 1.4034,
+      "memoryDelta": 88200,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 182058528,
+        "heapTotal": 188887040,
+        "external": 29235322,
+        "rss": 278470656
+      }
+    },
+    "duration": 1.4034,
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753154938433_zg43fzoly",
+    "timestamp": "2025-07-22T03:28:58.433Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "GET /workflows",
+    "metadata": {
+      "statusCode": 200,
+      "method": "GET",
+      "path": "/workflows",
+      "query": {},
+      "responseTime": 2
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 2,
+    "id": "evt_1753154938433_5n0s1d97a",
+    "timestamp": "2025-07-22T03:28:58.433Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /health",
+      "responseTime": 36.211,
+      "memoryDelta": 63000,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 182456520,
+        "heapTotal": 188887040,
+        "external": 29340412,
+        "rss": 20996096
+      }
+    },
+    "duration": 36.211,
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753155301968_yd7tyc9sr",
+    "timestamp": "2025-07-22T03:35:01.968Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "GET /health",
+    "metadata": {
+      "statusCode": 200,
+      "method": "GET",
+      "path": "/health",
+      "query": {},
+      "responseTime": 38
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 38,
+    "id": "evt_1753155301968_pn0lsqjd3",
+    "timestamp": "2025-07-22T03:35:01.968Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "performance",
+    "action": "api_request",
+    "metadata": {
+      "endpoint": "GET /capabilities",
+      "responseTime": 25.6098,
+      "memoryDelta": 66096,
+      "statusCode": 200,
+      "memoryUsage": {
+        "heapUsed": 182586400,
+        "heapTotal": 188887040,
+        "external": 29340412,
+        "rss": 23904256
+      }
+    },
+    "duration": 25.6098,
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "id": "evt_1753155302224_cjqdkw6gp",
+    "timestamp": "2025-07-22T03:35:02.224Z"
+  },
+  {
+    "eventType": "page_view",
+    "category": "system",
+    "action": "GET /capabilities",
+    "metadata": {
+      "statusCode": 200,
+      "method": "GET",
+      "path": "/capabilities",
+      "query": {},
+      "responseTime": 26
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.4652",
+    "ipAddress": "::1",
+    "duration": 26,
+    "id": "evt_1753155302224_o6di3t12i",
+    "timestamp": "2025-07-22T03:35:02.224Z"
+  }
+]

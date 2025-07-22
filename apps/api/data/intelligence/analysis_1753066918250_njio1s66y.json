@@ -1,0 +1,154 @@
+{
+  "id": "analysis_1753066918250_njio1s66y",
+  "fileName": "patient-record.txt",
+  "fileType": ".txt",
+  "fileSize": 250,
+  "pageCount": 1,
+  "wordCount": 35,
+  "language": "unknown",
+  "confidence": 0,
+  "processingTime": 12,
+  "extractedData": {
+    "text": "PATIENT MEDICAL RECORD - Patient: John Smith, DOB: 01/15/1980. Diagnosis: Hypertension. Treatment: Prescribed Lisinopril 10mg daily. PHI: SSN 123-45-6789. Insurance: Blue Cross Blue Shield. Next appointment: March 15, 2024. HIPAA compliance required.",
+    "entities": [
+      {
+        "text": "John Smith,",
+        "type": "PERSON",
+        "confidence": 0.8,
+        "startIndex": 34,
+        "endIndex": 45,
+        "context": "PATIENT MEDICAL RECORD - Patient: John Smith, DOB: 01/15/1980. Diagnosis: Hypertensi"
+      },
+      {
+        "text": "Blue Cross",
+        "type": "ORGANIZATION",
+        "confidence": 0.7,
+        "startIndex": 166,
+        "endIndex": 176,
+        "context": "pril 10mg daily. PHI: SSN 123-45-6789. Insurance: Blue Cross Blue Shield. Next appointment: March 15"
+      }
+    ],
+    "keyTerms": [
+      {
+        "term": "patient",
+        "frequency": 2,
+        "importance": 0.19730379672781054,
+        "category": "other",
+        "context": [
+          "PATIENT MEDICAL RECORD - Patie",
+          "PATIENT MEDICAL RECORD - Patient: John Smith, DOB: 01/1"
+        ]
+      },
+      {
+        "term": "blue",
+        "frequency": 2,
+        "importance": 0.19730379672781054,
+        "category": "other",
+        "context": [
+          ": SSN 123-45-6789. Insurance: Blue Cross Blue Shield. Next a",
+          "5-6789. Insurance: Blue Cross Blue Shield. Next appointment:"
+        ]
+      }
+    ],
+    "dates": [
+      {
+        "text": "01/15/1980",
+        "parsedDate": "1980-01-15T08:00:00.000Z",
+        "type": "other",
+        "confidence": 0.8,
+        "context": "D - Patient: John Smith, DOB: 01/15/1980. Diagnosis: Hyperte"
+      },
+      {
+        "text": "March 15, 2024",
+        "parsedDate": "2024-03-15T07:00:00.000Z",
+        "type": "other",
+        "confidence": 0.8,
+        "context": "lue Shield. Next appointment: March 15, 2024. HIPAA complian"
+      }
+    ],
+    "amounts": [],
+    "contacts": [],
+    "addresses": [],
+    "tables": [],
+    "metadata": {}
+  },
+  "classification": {
+    "primaryType": "contract",
+    "confidence": 0,
+    "indicators": [],
+    "suggestedActions": [
+      "Review terms and conditions",
+      "Verify party information",
+      "Check compliance requirements",
+      "Set up renewal reminders"
+    ]
+  },
+  "riskAssessment": {
+    "overallRisk": "medium",
+    "riskScore": 40,
+    "riskFactors": [
+      {
+        "factor": "Missing standard contract clauses",
+        "severity": "medium",
+        "description": "Missing: governing law, dispute resolution, force majeure, confidentiality",
+        "recommendation": "Consider adding standard protective clauses"
+      }
+    ],
+    "complianceIssues": [],
+    "securityConcerns": []
+  },
+  "complianceCheck": {
+    "regulations": [],
+    "dataPrivacy": {
+      "piiDetected": true,
+      "phiDetected": true,
+      "sensitiveData": [
+        "Social Security Numbers",
+        "Health Information"
+      ],
+      "recommendations": [
+        "Implement data encryption",
+        "Restrict access controls",
+        "Consider data anonymization"
+      ]
+    },
+    "retention": {
+      "suggestedPeriod": "7 years after expiration",
+      "legalRequirements": [],
+      "businessRequirements": []
+    }
+  },
+  "insights": {
+    "summary": "PATIENT MEDICAL RECORD - Patient: John Smith, DOB: 01/15/1980.  Diagnosis: Hypertension.  Treatment: Prescribed Lisinopril 10mg daily.",
+    "keyPoints": [
+      "Key term: patient (mentioned 2 times)",
+      "Key term: blue (mentioned 2 times)"
+    ],
+    "actionItems": [
+      {
+        "action": "Review contract terms",
+        "priority": "high"
+      },
+      {
+        "action": "Verify party signatures",
+        "priority": "medium"
+      },
+      {
+        "action": "Set up renewal calendar",
+        "priority": "low"
+      }
+    ],
+    "relatedDocuments": [],
+    "suggestedWorkflows": [
+      "Contract Review Workflow",
+      "Legal Approval Process",
+      "Signature Collection",
+      "Contract Management"
+    ],
+    "businessImpact": {
+      "operational": "Document processing completed in 1753066918250ms",
+      "strategic": "contract analysis provides insights for business decision-making"
+    }
+  },
+  "createdAt": "2025-07-21T03:01:58.250Z"
+}

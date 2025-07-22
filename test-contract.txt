@@ -1,0 +1,67 @@
+SERVICE AGREEMENT
+
+This Service Agreement ("Agreement") is entered into on January 15, 2024, between DocuSlicer Inc., a Delaware corporation ("Company"), and ABC Consulting LLC, a California limited liability company ("Client").
+
+PARTIES:
+Company: DocuSlicer Inc.
+Address: 123 Tech Street, San Francisco, CA 94105
+Email: contracts@docuslicer.com
+Phone: (555) 123-4567
+
+Client: ABC Consulting LLC
+Address: 456 Business Ave, Los Angeles, CA 90210
+Email: legal@abcconsulting.com
+Phone: (555) 987-6543
+
+TERMS AND CONDITIONS:
+
+1. SERVICES
+Company agrees to provide document processing and intelligence services to Client, including but not limited to PDF processing, document analysis, and workflow automation.
+
+2. TERM
+This Agreement shall commence on February 1, 2024, and shall continue for a period of twelve (12) months, unless terminated earlier in accordance with the terms herein. The Agreement will automatically renew for successive one-year periods unless either party provides sixty (60) days written notice of non-renewal.
+
+3. COMPENSATION
+Client agrees to pay Company a monthly fee of $5,000.00 (Five Thousand Dollars) for the services provided. Payment is due within thirty (30) days of invoice date. Late payments will incur a penalty of 1.5% per month.
+
+4. CONFIDENTIALITY
+Both parties acknowledge that they may have access to confidential information. Each party agrees to maintain the confidentiality of such information and not disclose it to third parties without written consent.
+
+5. LIMITATION OF LIABILITY
+Company's total liability under this Agreement shall not exceed the total amount paid by Client in the twelve (12) months preceding the claim. Company shall not be liable for any indirect, incidental, or consequential damages.
+
+6. TERMINATION
+Either party may terminate this Agreement with thirty (30) days written notice. Upon termination, all unpaid fees become immediately due and payable.
+
+7. GOVERNING LAW
+This Agreement shall be governed by the laws of the State of California. Any disputes shall be resolved through binding arbitration in San Francisco, California.
+
+8. FORCE MAJEURE
+Neither party shall be liable for any failure to perform due to circumstances beyond their reasonable control, including but not limited to acts of God, war, terrorism, or government regulations.
+
+IN WITNESS WHEREOF, the parties have executed this Agreement as of the date first written above.
+
+DOCUSLICER INC.                    ABC CONSULTING LLC
+
+_________________________          _________________________
+John Smith, CEO                     Jane Doe, Managing Partner
+Date: January 15, 2024             Date: January 15, 2024
+
+Key Dates:
+- Agreement Date: January 15, 2024
+- Effective Date: February 1, 2024
+- Renewal Notice Required: 60 days before expiration
+- Payment Terms: Net 30 days
+- Termination Notice: 30 days
+
+Financial Terms:
+- Monthly Fee: $5,000.00
+- Annual Value: $60,000.00
+- Late Payment Penalty: 1.5% per month
+- Liability Cap: 12 months of fees ($60,000.00)
+
+Risk Factors:
+- Automatic renewal clause
+- Binding arbitration requirement
+- Limited liability provisions
+- Force majeure clause present

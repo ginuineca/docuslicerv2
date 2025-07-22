@@ -1,0 +1,19 @@
+[
+  {
+    "url": "https://httpbin.org/post",
+    "events": [
+      "document.processed",
+      "document.shared"
+    ],
+    "secret": "test-secret-123",
+    "active": true,
+    "id": "0a399e22-b595-469a-90cb-a12607bb1e89",
+    "createdAt": "2025-07-21T02:16:04.015Z",
+    "updatedAt": "2025-07-21T02:16:04.015Z",
+    "retryConfig": {
+      "maxRetries": 3,
+      "retryDelay": 1000,
+      "backoffMultiplier": 2
+    }
+  }
+]

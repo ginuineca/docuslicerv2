@@ -1,0 +1,39 @@
+{
+  "name": "Invoice Processing",
+  "description": "Extract text from invoice PDFs and organize data",
+  "category": "document-processing",
+  "tags": [
+    "invoice",
+    "ocr",
+    "business"
+  ],
+  "isPublic": true,
+  "steps": [
+    {
+      "id": "step1",
+      "type": "ocr",
+      "name": "Extract Text",
+      "config": {
+        "density": 300,
+        "pages": "all"
+      },
+      "order": 1
+    },
+    {
+      "id": "step2",
+      "type": "extract",
+      "name": "Extract First Page",
+      "config": {
+        "pages": [
+          1
+        ]
+      },
+      "order": 2
+    }
+  ],
+  "id": "mdc2seuk5uzqv6npnag",
+  "createdAt": "2025-07-20T19:34:19.436Z",
+  "updatedAt": "2025-07-20T19:34:19.436Z",
+  "usageCount": 0,
+  "version": "1.0.0"
+}
