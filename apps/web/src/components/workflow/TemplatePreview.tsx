@@ -44,6 +44,8 @@ export function TemplatePreview({
       case 'document-processing': return '📄'
       case 'page-management': return '📋'
       case 'batch-operations': return '⚡'
+      case 'business': return '💼'
+      case 'education': return '🎓'
       case 'advanced': return '🔧'
     }
   }
