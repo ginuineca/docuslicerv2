@@ -6,6 +6,9 @@ import { TutorialManager } from '../components/tutorial/TutorialManager'
 import { WelcomeTutorial } from '../components/tutorial/WelcomeTutorial'
 import { HelpProvider } from '../components/tutorial/ContextualHelp'
 import { TutorialRecommendations, useTutorialRecommendations } from '../components/tutorial/TutorialRecommendations'
+import { TemplateBrowser } from '../components/workflow/TemplateBrowser'
+import { TemplatePreview } from '../components/workflow/TemplatePreview'
+import { WorkflowTemplate } from '../data/workflowTemplates'
 import { Link } from 'react-router-dom'
 import { ArrowLeft, Workflow, Save, Play, Share, Layout, Upload, AlertCircle, CheckCircle, Clock, BookOpen } from 'lucide-react'
 import { Node, Edge } from 'reactflow'
@@ -47,6 +50,8 @@ export function WorkflowsPage() {
   const [error, setError] = useState<string | null>(null)
   const [showTutorials, setShowTutorials] = useState(false)
   const [showWelcome, setShowWelcome] = useState(false)
+  const [showTemplates, setShowTemplates] = useState(false)
+  const [previewTemplate, setPreviewTemplate] = useState<WorkflowTemplate | null>(null)
   const tutorialRecommendations = useTutorialRecommendations()
 
   // Load workflows from backend on component mount
@@ -291,6 +296,33 @@ export function WorkflowsPage() {
   const loadWorkflow = (workflow: SavedWorkflow) => {
     setCurrentWorkflow(workflow)
     // The workflow builder would need to be updated to accept initial nodes/edges
+  }
+
+  const handleSelectTemplate = (template: WorkflowTemplate) => {
+    // Create a new workflow from template
+    const newWorkflow: SavedWorkflow = {
+      id: `template-${Date.now()}`,
+      name: `${template.name} (from template)`,
+      description: template.description,
+      nodes: template.nodes,
+      edges: template.edges,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      isTemplate: false
+    }
+
+    setCurrentWorkflow(newWorkflow)
+    setShowTemplates(false)
+    setPreviewTemplate(null)
+  }
+
+  const handlePreviewTemplate = (template: WorkflowTemplate) => {
+    setPreviewTemplate(template)
+  }
+
+  const handleUseTemplate = (template: WorkflowTemplate) => {
+    handleSelectTemplate(template)
+    setPreviewTemplate(null)
   }
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -543,6 +575,7 @@ export function WorkflowsPage() {
             <WorkflowBuilderWrapper
               onSave={handleSaveWorkflow}
               onRun={handleRunWorkflow}
+              onShowTemplates={() => setShowTemplates(true)}
               initialNodes={currentWorkflow?.nodes}
               initialEdges={currentWorkflow?.edges}
               className="h-full"
@@ -628,6 +661,22 @@ export function WorkflowsPage() {
         onDismiss={() => {
           // Handle recommendation dismissal
         }}
+      />
+
+      {/* Template Browser */}
+      <TemplateBrowser
+        isOpen={showTemplates}
+        onClose={() => setShowTemplates(false)}
+        onSelectTemplate={handleSelectTemplate}
+        onPreviewTemplate={handlePreviewTemplate}
+      />
+
+      {/* Template Preview */}
+      <TemplatePreview
+        template={previewTemplate}
+        isOpen={!!previewTemplate}
+        onClose={() => setPreviewTemplate(null)}
+        onUseTemplate={handleUseTemplate}
       />
       </div>
     </HelpProvider>

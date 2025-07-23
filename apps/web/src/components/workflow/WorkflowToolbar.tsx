@@ -1,35 +1,46 @@
-import { 
-  Play, 
-  Save, 
-  Trash2, 
-  Download, 
-  Upload, 
+import {
+  Play,
+  Save,
+  Trash2,
+  Download,
+  Upload,
   Settings,
   Zap,
   Pause,
-  RotateCcw
+  RotateCcw,
+  RefreshCw,
+  X,
+  Layout
 } from 'lucide-react'
 
 interface WorkflowToolbarProps {
   onSave: () => void
   onRun: () => void
   onClear: () => void
+  onReset?: () => void
+  onDeleteSelected?: () => void
+  onShowTemplates?: () => void
   onImport?: () => void
   onExport?: () => void
   isRunning: boolean
   nodeCount: number
   edgeCount: number
+  selectedNode?: any
 }
 
 export function WorkflowToolbar({
   onSave,
   onRun,
   onClear,
+  onReset,
+  onDeleteSelected,
+  onShowTemplates,
   onImport,
   onExport,
   isRunning,
   nodeCount,
-  edgeCount
+  edgeCount,
+  selectedNode
 }: WorkflowToolbarProps) {
   return (
     <div className="bg-white border-b border-gray-200 px-4 py-3">
@@ -71,16 +82,50 @@ export function WorkflowToolbar({
             <span>Save</span>
           </button>
 
+          {onShowTemplates && (
+            <button
+              onClick={onShowTemplates}
+              className="flex items-center space-x-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+              title="Browse workflow templates"
+            >
+              <Layout className="h-4 w-4" />
+              <span>Templates</span>
+            </button>
+          )}
+
           <div className="h-6 w-px bg-gray-300" />
 
           <button
             onClick={onClear}
             disabled={nodeCount <= 1}
             className="flex items-center space-x-2 px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg disabled:text-gray-400 disabled:cursor-not-allowed transition-colors"
+            title="Clear all nodes (Ctrl+Shift+C)"
           >
             <Trash2 className="h-4 w-4" />
             <span>Clear</span>
           </button>
+
+          {onReset && (
+            <button
+              onClick={onReset}
+              className="flex items-center space-x-2 px-3 py-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+              title="Reset to default workflow (Ctrl+R)"
+            >
+              <RefreshCw className="h-4 w-4" />
+              <span>Reset</span>
+            </button>
+          )}
+
+          {selectedNode && onDeleteSelected && (
+            <button
+              onClick={onDeleteSelected}
+              className="flex items-center space-x-2 px-3 py-2 text-orange-600 hover:bg-orange-50 rounded-lg transition-colors"
+              title="Delete selected node (Delete/Backspace)"
+            >
+              <X className="h-4 w-4" />
+              <span>Delete Node</span>
+            </button>
+          )}
         </div>
 
         {/* Center Section - Workflow Stats */}

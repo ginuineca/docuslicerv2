@@ -78,6 +78,7 @@ const initialEdges: Edge[] = []
 interface WorkflowBuilderProps {
   onSave?: (workflow: { nodes: Node[]; edges: Edge[] }) => void
   onRun?: (workflow: { nodes: Node[]; edges: Edge[] }) => void
+  onShowTemplates?: () => void
   initialNodes?: Node<WorkflowNodeData>[]
   initialEdges?: Edge[]
   className?: string
@@ -86,6 +87,7 @@ interface WorkflowBuilderProps {
 export function WorkflowBuilder({
   onSave,
   onRun,
+  onShowTemplates,
   initialNodes: propInitialNodes,
   initialEdges: propInitialEdges,
   className = ''
@@ -253,10 +255,42 @@ export function WorkflowBuilder({
   }, [nodes, edges, onSave])
 
   const clearWorkflow = useCallback(() => {
+    setNodes([])
+    setEdges([])
+    setSelectedNode(null)
+  }, [setNodes, setEdges])
+
+  const resetToDefault = useCallback(() => {
     setNodes(initialNodes)
     setEdges(initialEdges)
     setSelectedNode(null)
   }, [setNodes, setEdges])
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Delete selected node with Delete or Backspace
+      if ((event.key === 'Delete' || event.key === 'Backspace') && selectedNode) {
+        event.preventDefault()
+        deleteNode(selectedNode.id)
+      }
+
+      // Clear workflow with Ctrl+Shift+C
+      if (event.ctrlKey && event.shiftKey && event.key === 'C') {
+        event.preventDefault()
+        clearWorkflow()
+      }
+
+      // Reset to default with Ctrl+R
+      if (event.ctrlKey && event.key === 'r') {
+        event.preventDefault()
+        resetToDefault()
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [selectedNode, deleteNode, clearWorkflow, resetToDefault])
 
   const nodeColors = useMemo(() => {
     return {
@@ -286,9 +320,13 @@ export function WorkflowBuilder({
           onSave={saveWorkflow}
           onRun={runWorkflow}
           onClear={clearWorkflow}
+          onReset={resetToDefault}
+          onShowTemplates={onShowTemplates}
           isRunning={isRunning}
           nodeCount={nodes.length}
           edgeCount={edges.length}
+          selectedNode={selectedNode}
+          onDeleteSelected={() => selectedNode && deleteNode(selectedNode.id)}
         />
 
         {/* ReactFlow Canvas */}
