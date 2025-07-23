@@ -2,7 +2,7 @@
 
 A modern PDF workflow automation platform built with React, Node.js, and TypeScript.
 
-🚀 **Now deploying to DigitalOcean App Platform!**
+🚀 **Now with automatic deployment to Interserver!** Changes pushed to master are automatically deployed to production.
 
 ## 🚀 Features
 
