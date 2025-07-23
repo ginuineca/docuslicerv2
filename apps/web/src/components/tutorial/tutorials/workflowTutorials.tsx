@@ -1,6 +1,6 @@
 import React from 'react'
 import { Tutorial } from '../TutorialOverlay'
-import { Upload, Scissors, Download, ArrowRight, MousePointer, FileText } from 'lucide-react'
+import { Upload, Scissors, Download, ArrowRight, MousePointer, FileText, Zap, Target, Award } from 'lucide-react'
 
 export const workflowTutorials: Tutorial[] = [
   {
@@ -363,6 +363,164 @@ export const workflowTutorials: Tutorial[] = [
                 <li>• File Merging</li>
                 <li>• Batch Processing</li>
               </ul>
+            </div>
+          </div>
+        )
+      }
+    ]
+  },
+  {
+    id: 'interactive-mastery',
+    title: 'Interactive Workflow Mastery',
+    description: 'Master advanced workflow techniques with hands-on interactive challenges and real-time feedback.',
+    difficulty: 'advanced',
+    duration: '15 minutes',
+    category: 'advanced',
+    steps: [
+      {
+        id: 'mastery-intro',
+        title: 'Welcome to Workflow Mastery!',
+        description: 'This advanced tutorial will challenge you with real workflow scenarios and interactive tasks.',
+        content: (
+          <div className="space-y-4">
+            <div className="text-center">
+              <div className="text-4xl mb-3">🏆</div>
+              <h4 className="text-lg font-semibold text-gray-900 mb-2">Ready for the Challenge?</h4>
+            </div>
+            <div className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg p-4">
+              <h5 className="font-medium text-purple-900 mb-2">What makes this special:</h5>
+              <ul className="text-purple-800 text-sm space-y-1">
+                <li>• Interactive challenges with real-time validation</li>
+                <li>• Performance tracking and scoring</li>
+                <li>• Advanced workflow patterns and techniques</li>
+                <li>• Unlock achievements and earn XP points</li>
+              </ul>
+            </div>
+            <div className="flex items-center justify-center space-x-6 text-sm">
+              <div className="flex items-center space-x-2">
+                <Target className="h-4 w-4 text-blue-500" />
+                <span>5 Challenges</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Zap className="h-4 w-4 text-yellow-500" />
+                <span>500 XP</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Award className="h-4 w-4 text-purple-500" />
+                <span>3 Achievements</span>
+              </div>
+            </div>
+          </div>
+        )
+      },
+      {
+        id: 'challenge-1',
+        title: 'Challenge 1: Speed Building',
+        description: 'Create a complete workflow in under 60 seconds. Ready, set, go!',
+        content: (
+          <div className="space-y-3">
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+              <div className="flex items-center space-x-2 mb-2">
+                <Zap className="h-4 w-4 text-yellow-600" />
+                <span className="font-medium text-yellow-800">Speed Challenge</span>
+              </div>
+              <p className="text-sm text-yellow-700">
+                Build a workflow with Input → Split → Output nodes and connect them all within 60 seconds!
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-mono font-bold text-red-600">01:00</div>
+              <div className="text-sm text-gray-600">Time remaining</div>
+            </div>
+          </div>
+        )
+      },
+      {
+        id: 'challenge-2',
+        title: 'Challenge 2: Complex Routing',
+        description: 'Create a workflow with parallel processing paths and conditional logic.',
+        content: (
+          <div className="space-y-3">
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+              <div className="flex items-center space-x-2 mb-2">
+                <Target className="h-4 w-4 text-blue-600" />
+                <span className="font-medium text-blue-800">Complexity Challenge</span>
+              </div>
+              <p className="text-sm text-blue-700">
+                Build a workflow that splits input into two parallel paths: one for page extraction, one for merging.
+              </p>
+            </div>
+            <div className="grid grid-cols-3 gap-2 text-xs">
+              <div className="text-center p-2 bg-gray-100 rounded">
+                <div className="font-medium">Input</div>
+                <div className="text-gray-600">PDF Files</div>
+              </div>
+              <div className="text-center p-2 bg-gray-100 rounded">
+                <div className="font-medium">Process</div>
+                <div className="text-gray-600">Split & Route</div>
+              </div>
+              <div className="text-center p-2 bg-gray-100 rounded">
+                <div className="font-medium">Output</div>
+                <div className="text-gray-600">Results</div>
+              </div>
+            </div>
+          </div>
+        )
+      },
+      {
+        id: 'challenge-3',
+        title: 'Challenge 3: Configuration Master',
+        description: 'Configure advanced node properties with precision and efficiency.',
+        content: (
+          <div className="space-y-3">
+            <div className="bg-purple-50 border border-purple-200 rounded-lg p-3">
+              <div className="flex items-center space-x-2 mb-2">
+                <Award className="h-4 w-4 text-purple-600" />
+                <span className="font-medium text-purple-800">Configuration Challenge</span>
+              </div>
+              <p className="text-sm text-purple-700">
+                Configure a Split node to extract pages 1-5, 10-15, and 20-25 from uploaded PDFs.
+              </p>
+            </div>
+            <div className="bg-gray-50 rounded p-2 text-xs font-mono">
+              Target: pages=[1-5, 10-15, 20-25], format=separate-files
+            </div>
+          </div>
+        )
+      },
+      {
+        id: 'mastery-complete',
+        title: 'Mastery Achieved!',
+        description: 'Congratulations! You\'ve completed all challenges and earned mastery status.',
+        content: (
+          <div className="text-center space-y-4">
+            <div className="text-6xl">🎉</div>
+            <h4 className="text-xl font-bold text-gray-900">Workflow Master!</h4>
+            <p className="text-gray-600">
+              You've demonstrated advanced workflow skills and earned the title of Workflow Master!
+            </p>
+            <div className="bg-gradient-to-r from-purple-100 to-blue-100 rounded-lg p-4">
+              <h5 className="font-medium text-purple-900 mb-2">Achievements Unlocked:</h5>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-purple-800">⚡ Speed Builder</span>
+                  <span className="text-purple-600">+100 XP</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-purple-800">🎯 Complexity Master</span>
+                  <span className="text-purple-600">+200 XP</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-purple-800">🏆 Configuration Expert</span>
+                  <span className="text-purple-600">+200 XP</span>
+                </div>
+              </div>
+              <div className="border-t border-purple-200 mt-3 pt-3">
+                <div className="flex items-center justify-between font-medium">
+                  <span className="text-purple-900">Total XP Earned</span>
+                  <span className="text-purple-700">+500 XP</span>
+                </div>
+              </div>
             </div>
           </div>
         )

@@ -4,6 +4,8 @@ import { Logo } from '../components'
 import { WorkflowBuilderWrapper } from '../components/workflow/WorkflowBuilder'
 import { TutorialManager } from '../components/tutorial/TutorialManager'
 import { WelcomeTutorial } from '../components/tutorial/WelcomeTutorial'
+import { HelpProvider } from '../components/tutorial/ContextualHelp'
+import { TutorialRecommendations, useTutorialRecommendations } from '../components/tutorial/TutorialRecommendations'
 import { Link } from 'react-router-dom'
 import { ArrowLeft, Workflow, Save, Play, Share, Layout, Upload, AlertCircle, CheckCircle, Clock, BookOpen } from 'lucide-react'
 import { Node, Edge } from 'reactflow'
@@ -45,6 +47,7 @@ export function WorkflowsPage() {
   const [error, setError] = useState<string | null>(null)
   const [showTutorials, setShowTutorials] = useState(false)
   const [showWelcome, setShowWelcome] = useState(false)
+  const tutorialRecommendations = useTutorialRecommendations()
 
   // Load workflows from backend on component mount
   useEffect(() => {
@@ -321,7 +324,8 @@ export function WorkflowsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <HelpProvider>
+      <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Header */}
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -613,6 +617,19 @@ export function WorkflowsPage() {
         }}
         onDismiss={() => setShowWelcome(false)}
       />
-    </div>
+
+      {/* Tutorial Recommendations */}
+      <TutorialRecommendations
+        userActivity={tutorialRecommendations.userActivity}
+        onSelectTutorial={(tutorial) => {
+          setShowTutorials(true)
+          // Could set selected tutorial here
+        }}
+        onDismiss={() => {
+          // Handle recommendation dismissal
+        }}
+      />
+      </div>
+    </HelpProvider>
   )
 }

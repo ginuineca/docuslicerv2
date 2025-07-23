@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
-import { BookOpen, Play, Clock, Star, ChevronRight, X } from 'lucide-react'
+import { BookOpen, Play, Clock, Star, ChevronRight, X, Trophy, Target, Zap, Award } from 'lucide-react'
 import { TutorialOverlay, Tutorial } from './TutorialOverlay'
+import { TutorialGamification, UserProgress } from './TutorialGamification'
+import { InteractiveTour } from './InteractiveTour'
 import { workflowTutorials } from './tutorials/workflowTutorials'
 
 interface TutorialManagerProps {
@@ -11,10 +13,36 @@ interface TutorialManagerProps {
 export function TutorialManager({ isOpen, onClose }: TutorialManagerProps) {
   const [selectedTutorial, setSelectedTutorial] = useState<Tutorial | null>(null)
   const [completedTutorials, setCompletedTutorials] = useState<string[]>([])
+  const [showGamification, setShowGamification] = useState(false)
+  const [userProgress, setUserProgress] = useState<UserProgress>({
+    level: 1,
+    totalPoints: 0,
+    currentLevelPoints: 0,
+    nextLevelPoints: 1000,
+    achievements: [],
+    streakDays: 0,
+    tutorialsCompleted: 0,
+    workflowsCreated: 0,
+    filesProcessed: 0
+  })
 
   const handleTutorialComplete = (tutorialId: string) => {
     setCompletedTutorials(prev => [...prev, tutorialId])
     setSelectedTutorial(null)
+
+    // Update user progress
+    const tutorial = workflowTutorials.find(t => t.id === tutorialId)
+    if (tutorial) {
+      const points = tutorial.difficulty === 'beginner' ? 100 :
+                   tutorial.difficulty === 'intermediate' ? 200 : 300
+
+      setUserProgress(prev => ({
+        ...prev,
+        totalPoints: prev.totalPoints + points,
+        currentLevelPoints: prev.currentLevelPoints + points,
+        tutorialsCompleted: prev.tutorialsCompleted + 1
+      }))
+    }
   }
 
   const categories = {
@@ -45,6 +73,15 @@ export function TutorialManager({ isOpen, onClose }: TutorialManagerProps) {
                 <h2 className="text-2xl font-bold text-gray-900">Workflow Tutorials</h2>
                 <p className="text-gray-600">Learn how to create powerful PDF workflows</p>
               </div>
+            </div>
+            <div className="flex items-center space-x-3">
+              <button
+                onClick={() => setShowGamification(true)}
+                className="flex items-center space-x-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+              >
+                <Trophy className="h-4 w-4" />
+                <span>Progress</span>
+              </button>
             </div>
             <button
               onClick={onClose}
@@ -168,6 +205,18 @@ export function TutorialManager({ isOpen, onClose }: TutorialManagerProps) {
           isOpen={!!selectedTutorial}
           onClose={() => setSelectedTutorial(null)}
           onComplete={() => handleTutorialComplete(selectedTutorial.id)}
+        />
+      )}
+
+      {/* Gamification Panel */}
+      {showGamification && (
+        <TutorialGamification
+          isOpen={showGamification}
+          onClose={() => setShowGamification(false)}
+          userProgress={userProgress}
+          onAchievementUnlock={(achievement) => {
+            console.log('Achievement unlocked:', achievement)
+          }}
         />
       )}
     </>
