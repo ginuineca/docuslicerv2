@@ -27,6 +27,7 @@ export function TemplateBrowser({
 
   const categories = [
     { id: 'all', name: 'All Templates', count: workflowTemplates.length },
+    { id: 'compliance', name: 'Compliance & Security', count: workflowTemplates.filter(t => t.category === 'compliance').length },
     { id: 'mixed-format', name: 'Mixed Format', count: workflowTemplates.filter(t => t.category === 'mixed-format').length },
     { id: 'document-processing', name: 'Document Processing', count: workflowTemplates.filter(t => t.category === 'document-processing').length },
     { id: 'page-management', name: 'Page Management', count: workflowTemplates.filter(t => t.category === 'page-management').length },
@@ -74,6 +75,7 @@ export function TemplateBrowser({
 
   const getCategoryIcon = (category: WorkflowTemplate['category']) => {
     switch (category) {
+      case 'compliance': return '🛡️'
       case 'mixed-format': return '🔀'
       case 'document-processing': return '📄'
       case 'page-management': return '📋'

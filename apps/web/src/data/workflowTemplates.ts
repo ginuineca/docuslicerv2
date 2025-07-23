@@ -1,11 +1,12 @@
 import { Node, Edge } from 'reactflow'
 import { SubscriptionTier } from '../utils/templateTiers'
+import { complianceTemplates } from './complianceTemplates'
 
 export interface WorkflowTemplate {
   id: string
   name: string
   description: string
-  category: 'document-processing' | 'page-management' | 'batch-operations' | 'advanced' | 'business' | 'education' | 'conversion' | 'image-processing' | 'mixed-format'
+  category: 'document-processing' | 'page-management' | 'batch-operations' | 'advanced' | 'business' | 'education' | 'conversion' | 'image-processing' | 'mixed-format' | 'compliance'
   difficulty: 'beginner' | 'intermediate' | 'advanced'
   tier: SubscriptionTier
   tags: string[]
@@ -17,6 +18,23 @@ export interface WorkflowTemplate {
   businessValue?: string
   industryFocus?: string[]
 }
+
+// Convert compliance templates to workflow templates
+const complianceWorkflowTemplates: WorkflowTemplate[] = complianceTemplates.map(template => ({
+  id: template.id,
+  name: template.name,
+  description: template.description,
+  category: 'compliance' as const,
+  difficulty: 'advanced' as const,
+  tier: template.tier,
+  tags: template.tags,
+  nodes: template.nodes,
+  edges: template.edges,
+  estimatedTime: template.estimatedTime,
+  useCase: template.useCase,
+  businessValue: template.businessValue,
+  industryFocus: template.industry
+}))
 
 export const workflowTemplates: WorkflowTemplate[] = [
   // BEGINNER TEMPLATES
@@ -3297,5 +3315,7 @@ export const workflowTemplates: WorkflowTemplate[] = [
         type: 'smoothstep'
       }
     ]
-  }
+  },
+  // Add compliance templates
+  ...complianceWorkflowTemplates
 ]
