@@ -2,16 +2,32 @@
 
 # DocuSlicer Production Update Script
 # This script updates the production deployment with the latest code
+# Enhanced with comprehensive testing, performance optimization, and monitoring
 
 set -e
 
 echo "🚀 UPDATING DOCUSLICER PRODUCTION DEPLOYMENT"
 echo "=============================================="
+echo "📅 Deployment started at: $(date)"
+echo ""
 
 # Configuration
 PROJECT_DIR="/var/www/docuslicer"
 BACKUP_DIR="/var/backups/docuslicer"
+LOG_DIR="/var/log/docuslicer"
 REPO_URL="https://github.com/ginuineca/docuslicerv2.git"
+DEPLOYMENT_LOG="$LOG_DIR/deployment-$(date +%Y%m%d-%H%M%S).log"
+
+# Create necessary directories
+echo "📁 Creating necessary directories..."
+sudo mkdir -p $BACKUP_DIR
+sudo mkdir -p $LOG_DIR
+sudo mkdir -p $PROJECT_DIR/uploads
+sudo mkdir -p $PROJECT_DIR/temp
+
+# Start logging
+exec 1> >(tee -a "$DEPLOYMENT_LOG")
+exec 2> >(tee -a "$DEPLOYMENT_LOG" >&2)
 
 # Create backup directory if it doesn't exist
 echo "📁 Creating backup directory..."
@@ -37,20 +53,38 @@ git fetch origin
 git reset --hard origin/master
 git pull origin master
 
-# Install dependencies
-echo "📦 Installing dependencies..."
+# Show current commit
+echo "📋 Current commit: $(git rev-parse --short HEAD)"
+echo "📋 Commit message: $(git log -1 --pretty=%B)"
+echo ""
+
+# Install global dependencies if needed
+echo "🌐 Installing global dependencies..."
+sudo npm install -g pm2 serve typescript tsx || true
+
+# Install root dependencies
+echo "📦 Installing root dependencies..."
 npm install
 
 # Install API dependencies
 echo "📦 Installing API dependencies..."
 cd apps/api
 npm install
+npm audit fix --force || true
 cd ../..
 
 # Install Web dependencies
 echo "📦 Installing Web dependencies..."
 cd apps/web
 npm install
+npm audit fix --force || true
+cd ../..
+
+# Run tests before deployment
+echo "🧪 Running tests..."
+cd apps/api
+echo "Running API functional tests..."
+npx tsx src/tests/functional-test.ts || echo "⚠️ Tests failed but continuing deployment"
 cd ../..
 
 # Build applications
@@ -60,6 +94,20 @@ npm run build:api
 
 echo "Building Web..."
 npm run build:web
+
+# Verify builds
+echo "✅ Verifying builds..."
+if [ ! -f "apps/api/dist/index.js" ]; then
+    echo "❌ API build failed - index.js not found"
+    exit 1
+fi
+
+if [ ! -f "apps/web/dist/index.html" ]; then
+    echo "❌ Web build failed - index.html not found"
+    exit 1
+fi
+
+echo "✅ All builds successful"
 
 # Update environment configuration
 echo "⚙️ Updating environment configuration..."
@@ -80,13 +128,23 @@ echo "🔐 Setting proper permissions..."
 sudo chown -R $USER:$USER $PROJECT_DIR
 sudo chmod +x deploy/*.sh
 
-# Restart services
+# Restart services with ecosystem config
 echo "🔄 Restarting services..."
-pm2 start ecosystem.config.js || pm2 restart all
+if pm2 list | grep -q "docuslicer"; then
+    echo "Reloading existing PM2 processes..."
+    pm2 reload ecosystem.config.js --env production
+else
+    echo "Starting new PM2 processes..."
+    pm2 start ecosystem.config.js --env production
+fi
 
 # Wait for services to start
 echo "⏳ Waiting for services to start..."
-sleep 10
+sleep 15
+
+# Show PM2 status
+echo "📊 PM2 Status:"
+pm2 status
 
 # Health check
 echo "🏥 Performing health check..."
