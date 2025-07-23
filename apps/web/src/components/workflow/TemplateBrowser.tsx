@@ -21,6 +21,7 @@ export function TemplateBrowser({
 
   const categories = [
     { id: 'all', name: 'All Templates', count: workflowTemplates.length },
+    { id: 'mixed-format', name: 'Mixed Format', count: workflowTemplates.filter(t => t.category === 'mixed-format').length },
     { id: 'document-processing', name: 'Document Processing', count: workflowTemplates.filter(t => t.category === 'document-processing').length },
     { id: 'page-management', name: 'Page Management', count: workflowTemplates.filter(t => t.category === 'page-management').length },
     { id: 'conversion', name: 'Format Conversion', count: workflowTemplates.filter(t => t.category === 'conversion').length },
@@ -59,6 +60,7 @@ export function TemplateBrowser({
 
   const getCategoryIcon = (category: WorkflowTemplate['category']) => {
     switch (category) {
+      case 'mixed-format': return '🔀'
       case 'document-processing': return '📄'
       case 'page-management': return '📋'
       case 'conversion': return '🔄'

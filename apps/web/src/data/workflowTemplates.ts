@@ -4,7 +4,7 @@ export interface WorkflowTemplate {
   id: string
   name: string
   description: string
-  category: 'document-processing' | 'page-management' | 'batch-operations' | 'advanced' | 'business' | 'education' | 'conversion' | 'image-processing'
+  category: 'document-processing' | 'page-management' | 'batch-operations' | 'advanced' | 'business' | 'education' | 'conversion' | 'image-processing' | 'mixed-format'
   difficulty: 'beginner' | 'intermediate' | 'advanced'
   tags: string[]
   nodes: Node[]
@@ -2470,6 +2470,513 @@ export const workflowTemplates: WorkflowTemplate[] = [
       {
         id: 'e7-8',
         source: 'merge-1',
+        target: 'output-1',
+        type: 'smoothstep'
+      }
+    ]
+  },
+  // MIXED-FORMAT TEMPLATES
+  {
+    id: 'mixed-document-processor',
+    name: 'Mixed Document Processor',
+    description: 'Process multiple document types and standardize to PDF',
+    category: 'mixed-format',
+    difficulty: 'intermediate',
+    tags: ['mixed', 'standardize', 'pdf', 'office', 'images'],
+    estimatedTime: '4 minutes',
+    useCase: 'Handle mixed document submissions and create standardized PDF output',
+    nodes: [
+      {
+        id: 'input-1',
+        type: 'workflowNode',
+        position: { x: 100, y: 250 },
+        data: {
+          label: 'Upload Mixed Docs',
+          type: 'input',
+          status: 'idle',
+          supportedFormats: ['pdf', 'docx', 'xlsx', 'pptx', 'jpg', 'png'],
+          config: {
+            acceptedTypes: 'mixed'
+          }
+        }
+      },
+      {
+        id: 'detect-1',
+        type: 'workflowNode',
+        position: { x: 300, y: 250 },
+        data: {
+          label: 'Detect Format',
+          type: 'condition',
+          status: 'idle',
+          inputFormats: ['pdf', 'docx', 'xlsx', 'pptx', 'jpg', 'png'],
+          config: {
+            condition: 'detectDocumentType'
+          }
+        }
+      },
+      {
+        id: 'convert-office',
+        type: 'workflowNode',
+        position: { x: 500, y: 150 },
+        data: {
+          label: 'Convert Office to PDF',
+          type: 'convert',
+          status: 'idle',
+          inputFormats: ['docx', 'xlsx', 'pptx'],
+          outputFormat: 'pdf',
+          config: {
+            outputFormat: 'pdf',
+            preserveFormatting: true
+          }
+        }
+      },
+      {
+        id: 'convert-images',
+        type: 'workflowNode',
+        position: { x: 500, y: 350 },
+        data: {
+          label: 'Images to PDF',
+          type: 'convert',
+          status: 'idle',
+          inputFormats: ['jpg', 'png', 'tiff'],
+          outputFormat: 'pdf',
+          config: {
+            outputFormat: 'pdf',
+            pageSize: 'A4',
+            fitToPage: true
+          }
+        }
+      },
+      {
+        id: 'merge-all',
+        type: 'workflowNode',
+        position: { x: 700, y: 250 },
+        data: {
+          label: 'Merge All PDFs',
+          type: 'merge',
+          status: 'idle',
+          inputFormats: ['pdf'],
+          outputFormat: 'pdf',
+          config: {
+            preserveBookmarks: true,
+            addPageNumbers: true
+          }
+        }
+      },
+      {
+        id: 'output-1',
+        type: 'workflowNode',
+        position: { x: 900, y: 250 },
+        data: {
+          label: 'Download Unified PDF',
+          type: 'output',
+          status: 'idle',
+          inputFormats: ['pdf']
+        }
+      }
+    ],
+    edges: [
+      {
+        id: 'e1-2',
+        source: 'input-1',
+        target: 'detect-1',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e2-3',
+        source: 'detect-1',
+        target: 'convert-office',
+        type: 'smoothstep',
+        label: 'Office Docs'
+      },
+      {
+        id: 'e2-4',
+        source: 'detect-1',
+        target: 'convert-images',
+        type: 'smoothstep',
+        label: 'Images'
+      },
+      {
+        id: 'e2-5',
+        source: 'detect-1',
+        target: 'merge-all',
+        type: 'smoothstep',
+        label: 'PDFs'
+      },
+      {
+        id: 'e3-5',
+        source: 'convert-office',
+        target: 'merge-all',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e4-5',
+        source: 'convert-images',
+        target: 'merge-all',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e5-6',
+        source: 'merge-all',
+        target: 'output-1',
+        type: 'smoothstep'
+      }
+    ]
+  },
+  {
+    id: 'smart-archive-processor',
+    name: 'Smart Archive Processor',
+    description: 'Extract and process mixed documents from archives',
+    category: 'mixed-format',
+    difficulty: 'advanced',
+    tags: ['archive', 'extract', 'mixed', 'smart', 'batch'],
+    estimatedTime: '8 minutes',
+    useCase: 'Process ZIP archives containing mixed document types with intelligent routing',
+    nodes: [
+      {
+        id: 'input-1',
+        type: 'workflowNode',
+        position: { x: 100, y: 300 },
+        data: {
+          label: 'Upload Archives',
+          type: 'input',
+          status: 'idle',
+          supportedFormats: ['zip', 'rar'],
+          config: {
+            acceptedTypes: ['zip', 'rar']
+          }
+        }
+      },
+      {
+        id: 'extract-1',
+        type: 'workflowNode',
+        position: { x: 300, y: 300 },
+        data: {
+          label: 'Extract Archive',
+          type: 'extract',
+          status: 'idle',
+          inputFormats: ['zip', 'rar'],
+          outputFormat: 'mixed',
+          config: {
+            preserveStructure: true,
+            filterByType: true
+          }
+        }
+      },
+      {
+        id: 'classify-1',
+        type: 'workflowNode',
+        position: { x: 500, y: 300 },
+        data: {
+          label: 'Classify Documents',
+          type: 'condition',
+          status: 'idle',
+          inputFormats: ['pdf', 'docx', 'xlsx', 'jpg', 'png'],
+          config: {
+            condition: 'classifyByType'
+          }
+        }
+      },
+      {
+        id: 'process-docs',
+        type: 'workflowNode',
+        position: { x: 700, y: 200 },
+        data: {
+          label: 'Process Documents',
+          type: 'convert',
+          status: 'idle',
+          inputFormats: ['pdf', 'docx'],
+          outputFormat: 'pdf',
+          config: {
+            outputFormat: 'pdf',
+            addMetadata: true
+          }
+        }
+      },
+      {
+        id: 'process-sheets',
+        type: 'workflowNode',
+        position: { x: 700, y: 300 },
+        data: {
+          label: 'Process Spreadsheets',
+          type: 'convert',
+          status: 'idle',
+          inputFormats: ['xlsx', 'xls'],
+          outputFormat: 'pdf',
+          config: {
+            outputFormat: 'pdf',
+            includeCharts: true
+          }
+        }
+      },
+      {
+        id: 'process-images',
+        type: 'workflowNode',
+        position: { x: 700, y: 400 },
+        data: {
+          label: 'OCR Images',
+          type: 'ocr',
+          status: 'idle',
+          inputFormats: ['jpg', 'png', 'tiff'],
+          outputFormat: 'pdf',
+          config: {
+            language: 'eng',
+            outputFormat: 'pdf'
+          }
+        }
+      },
+      {
+        id: 'organize-1',
+        type: 'workflowNode',
+        position: { x: 900, y: 300 },
+        data: {
+          label: 'Organize by Type',
+          type: 'merge',
+          status: 'idle',
+          inputFormats: ['pdf'],
+          outputFormat: 'archive',
+          config: {
+            groupByType: true,
+            createFolders: true,
+            addIndex: true
+          }
+        }
+      },
+      {
+        id: 'output-1',
+        type: 'workflowNode',
+        position: { x: 1100, y: 300 },
+        data: {
+          label: 'Download Organized',
+          type: 'output',
+          status: 'idle',
+          inputFormats: ['archive']
+        }
+      }
+    ],
+    edges: [
+      {
+        id: 'e1-2',
+        source: 'input-1',
+        target: 'extract-1',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e2-3',
+        source: 'extract-1',
+        target: 'classify-1',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e3-4',
+        source: 'classify-1',
+        target: 'process-docs',
+        type: 'smoothstep',
+        label: 'Documents'
+      },
+      {
+        id: 'e3-5',
+        source: 'classify-1',
+        target: 'process-sheets',
+        type: 'smoothstep',
+        label: 'Spreadsheets'
+      },
+      {
+        id: 'e3-6',
+        source: 'classify-1',
+        target: 'process-images',
+        type: 'smoothstep',
+        label: 'Images'
+      },
+      {
+        id: 'e4-7',
+        source: 'process-docs',
+        target: 'organize-1',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e5-7',
+        source: 'process-sheets',
+        target: 'organize-1',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e6-7',
+        source: 'process-images',
+        target: 'organize-1',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e7-8',
+        source: 'organize-1',
+        target: 'output-1',
+        type: 'smoothstep'
+      }
+    ]
+  },
+  {
+    id: 'content-migration',
+    name: 'Content Migration Pipeline',
+    description: 'Migrate content between different document formats with validation',
+    category: 'mixed-format',
+    difficulty: 'advanced',
+    tags: ['migration', 'validation', 'format', 'quality'],
+    estimatedTime: '10 minutes',
+    useCase: 'Migrate document libraries between different systems with format validation',
+    nodes: [
+      {
+        id: 'input-1',
+        type: 'workflowNode',
+        position: { x: 100, y: 300 },
+        data: {
+          label: 'Upload Source Docs',
+          type: 'input',
+          status: 'idle',
+          supportedFormats: ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx'],
+          config: {
+            acceptedTypes: 'office-legacy'
+          }
+        }
+      },
+      {
+        id: 'validate-1',
+        type: 'workflowNode',
+        position: { x: 300, y: 300 },
+        data: {
+          label: 'Validate Documents',
+          type: 'condition',
+          status: 'idle',
+          inputFormats: ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx'],
+          config: {
+            condition: 'validateIntegrity',
+            checkCorruption: true,
+            checkReadability: true
+          }
+        }
+      },
+      {
+        id: 'convert-modern',
+        type: 'workflowNode',
+        position: { x: 500, y: 200 },
+        data: {
+          label: 'Modernize Formats',
+          type: 'convert',
+          status: 'idle',
+          inputFormats: ['doc', 'xls', 'ppt'],
+          outputFormat: 'modern',
+          config: {
+            doc: 'docx',
+            xls: 'xlsx',
+            ppt: 'pptx',
+            preserveCompatibility: true
+          }
+        }
+      },
+      {
+        id: 'standardize-1',
+        type: 'workflowNode',
+        position: { x: 500, y: 400 },
+        data: {
+          label: 'Standardize to PDF',
+          type: 'convert',
+          status: 'idle',
+          inputFormats: ['docx', 'xlsx', 'pptx'],
+          outputFormat: 'pdf',
+          config: {
+            outputFormat: 'pdf',
+            embedFonts: true,
+            preserveHyperlinks: true
+          }
+        }
+      },
+      {
+        id: 'quality-check',
+        type: 'workflowNode',
+        position: { x: 700, y: 300 },
+        data: {
+          label: 'Quality Check',
+          type: 'condition',
+          status: 'idle',
+          inputFormats: ['pdf', 'docx', 'xlsx', 'pptx'],
+          config: {
+            condition: 'checkQuality',
+            validateText: true,
+            checkImages: true,
+            verifyLayout: true
+          }
+        }
+      },
+      {
+        id: 'organize-output',
+        type: 'workflowNode',
+        position: { x: 900, y: 300 },
+        data: {
+          label: 'Organize Output',
+          type: 'merge',
+          status: 'idle',
+          inputFormats: ['pdf', 'docx', 'xlsx', 'pptx'],
+          outputFormat: 'archive',
+          config: {
+            createFolders: true,
+            groupByFormat: true,
+            addMigrationReport: true
+          }
+        }
+      },
+      {
+        id: 'output-1',
+        type: 'workflowNode',
+        position: { x: 1100, y: 300 },
+        data: {
+          label: 'Download Migrated',
+          type: 'output',
+          status: 'idle',
+          inputFormats: ['archive']
+        }
+      }
+    ],
+    edges: [
+      {
+        id: 'e1-2',
+        source: 'input-1',
+        target: 'validate-1',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e2-3',
+        source: 'validate-1',
+        target: 'convert-modern',
+        type: 'smoothstep',
+        label: 'Legacy Formats'
+      },
+      {
+        id: 'e2-4',
+        source: 'validate-1',
+        target: 'standardize-1',
+        type: 'smoothstep',
+        label: 'Modern Formats'
+      },
+      {
+        id: 'e3-5',
+        source: 'convert-modern',
+        target: 'quality-check',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e4-5',
+        source: 'standardize-1',
+        target: 'quality-check',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e5-6',
+        source: 'quality-check',
+        target: 'organize-output',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e6-7',
+        source: 'organize-output',
         target: 'output-1',
         type: 'smoothstep'
       }

@@ -41,6 +41,7 @@ export function TemplatePreview({
 
   const getCategoryIcon = (category: WorkflowTemplate['category']) => {
     switch (category) {
+      case 'mixed-format': return '🔀'
       case 'document-processing': return '📄'
       case 'page-management': return '📋'
       case 'conversion': return '🔄'
