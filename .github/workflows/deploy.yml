@@ -8,41 +8,39 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
     - name: Deploy to server
       uses: appleboy/ssh-action@v1.0.3
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
+        port: 22
         script: |
-          cd /var/www/docuslicer
-          
-          # Pull latest changes
+          echo "🚀 Starting deployment..."
+          cd /var/www/docuslicer || exit 1
+
+          echo "📥 Pulling latest changes..."
           git fetch origin
           git reset --hard origin/master
           git pull origin master
-          
-          # Install dependencies if package.json changed
-          npm install
-          cd apps/api && npm install && cd ../..
-          cd apps/web && npm install && cd ../..
-          
-          # Build web application
+
+          echo "📦 Installing dependencies..."
+          npm install --production
+
+          echo "🔨 Building web application..."
           npm run build:web
-          
-          # Restart services
-          pm2 restart docuslicer-api
-          pm2 restart docuslicer-web
-          
-          # Wait for services to start
-          sleep 5
-          
-          # Health check
-          curl -f http://localhost:3001/health || pm2 restart docuslicer-api
-          
-          echo "✅ Deployment completed successfully!"
+
+          echo "🔄 Restarting services..."
+          pm2 restart docuslicer-api || echo "API restart failed"
+          pm2 restart docuslicer-web || echo "Web restart failed"
+
+          echo "⏳ Waiting for services..."
+          sleep 10
+
+          echo "🏥 Health check..."
+          curl -f http://localhost:3001/health && echo "✅ API healthy" || echo "❌ API unhealthy"
+          curl -f http://localhost:3000 && echo "✅ Web healthy" || echo "❌ Web unhealthy"
+
+          echo "✅ Deployment completed!"
