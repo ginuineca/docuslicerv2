@@ -151,3 +151,5 @@ MIT License - see LICENSE file for details.
 ## 🆘 Support
 
 For support, please open an issue on GitHub or contact the development team.
+
+?? DocuSlicer is now live at http://162.216.113.89!
