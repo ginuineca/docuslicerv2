@@ -75,7 +75,8 @@ export const WorkflowNode = memo(({ data, selected }: NodeProps<WorkflowNodeData
         <Handle
           type="target"
           position={Position.Left}
-          className="w-3 h-3 bg-gray-400 border-2 border-white"
+          className="w-4 h-4 bg-blue-500 border-2 border-white hover:bg-blue-600 transition-colors"
+          style={{ left: -8 }}
         />
       )}
 
@@ -126,7 +127,8 @@ export const WorkflowNode = memo(({ data, selected }: NodeProps<WorkflowNodeData
         <Handle
           type="source"
           position={Position.Right}
-          className="w-3 h-3 bg-gray-400 border-2 border-white"
+          className="w-4 h-4 bg-green-500 border-2 border-white hover:bg-green-600 transition-colors"
+          style={{ right: -8 }}
         />
       )}
     </div>

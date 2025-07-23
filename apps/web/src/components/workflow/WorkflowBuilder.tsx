@@ -10,9 +10,12 @@ import ReactFlow, {
   Background,
   BackgroundVariant,
   MiniMap,
-  ReactFlowProvider
+  ReactFlowProvider,
+  ConnectionLineType,
+  MarkerType
 } from 'reactflow'
 import 'reactflow/dist/style.css'
+import './WorkflowBuilder.css'
 
 import { WorkflowNode, WorkflowNodeData } from './WorkflowNode'
 import { WorkflowToolbar } from './WorkflowToolbar'
@@ -20,6 +23,21 @@ import { WorkflowSidebar } from './WorkflowSidebar'
 
 const nodeTypes = {
   workflowNode: WorkflowNode
+}
+
+const defaultEdgeOptions = {
+  animated: true,
+  type: 'smoothstep',
+  markerEnd: {
+    type: MarkerType.ArrowClosed,
+    width: 20,
+    height: 20,
+    color: '#374151'
+  },
+  style: {
+    strokeWidth: 2,
+    stroke: '#374151'
+  }
 }
 
 const initialNodes: Node<WorkflowNodeData>[] = [
@@ -30,6 +48,26 @@ const initialNodes: Node<WorkflowNodeData>[] = [
     data: {
       label: 'Upload PDF',
       type: 'input',
+      status: 'idle'
+    }
+  },
+  {
+    id: '2',
+    type: 'workflowNode',
+    position: { x: 400, y: 100 },
+    data: {
+      label: 'Split PDF',
+      type: 'split',
+      status: 'idle'
+    }
+  },
+  {
+    id: '3',
+    type: 'workflowNode',
+    position: { x: 700, y: 100 },
+    data: {
+      label: 'Output Files',
+      type: 'output',
       status: 'idle'
     }
   }
@@ -71,8 +109,49 @@ export function WorkflowBuilder({
   }, [propInitialEdges, setEdges])
 
   const onConnect = useCallback(
-    (params: Connection) => setEdges((eds) => addEdge(params, eds)),
+    (params: Connection) => {
+      console.log('🔗 Attempting to connect:', params)
+      setEdges((eds) => addEdge(params, eds))
+    },
     [setEdges]
+  )
+
+  const isValidConnection = useCallback(
+    (connection: Connection) => {
+      // Prevent self-connections
+      if (connection.source === connection.target) {
+        return false
+      }
+
+      // Get source and target nodes
+      const sourceNode = nodes.find(node => node.id === connection.source)
+      const targetNode = nodes.find(node => node.id === connection.target)
+
+      if (!sourceNode || !targetNode) {
+        return false
+      }
+
+      const sourceType = (sourceNode.data as WorkflowNodeData).type
+      const targetType = (targetNode.data as WorkflowNodeData).type
+
+      // Input nodes can only be sources
+      if (sourceType === 'input' && connection.sourceHandle === 'target') {
+        return false
+      }
+
+      // Output nodes can only be targets
+      if (targetType === 'output' && connection.targetHandle === 'source') {
+        return false
+      }
+
+      // Check for existing connections to prevent duplicates
+      const existingConnection = edges.find(
+        edge => edge.source === connection.source && edge.target === connection.target
+      )
+
+      return !existingConnection
+    },
+    [nodes, edges]
   )
 
   const onNodeClick = useCallback(
@@ -222,6 +301,10 @@ export function WorkflowBuilder({
             onConnect={onConnect}
             onNodeClick={onNodeClick}
             nodeTypes={nodeTypes}
+            isValidConnection={isValidConnection}
+            defaultEdgeOptions={defaultEdgeOptions}
+            connectionLineType={ConnectionLineType.SmoothStep}
+            connectionMode="loose"
             fitView
             attributionPosition="bottom-left"
           >
