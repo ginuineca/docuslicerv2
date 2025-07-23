@@ -4,7 +4,7 @@ export interface WorkflowTemplate {
   id: string
   name: string
   description: string
-  category: 'document-processing' | 'page-management' | 'batch-operations' | 'advanced' | 'business' | 'education'
+  category: 'document-processing' | 'page-management' | 'batch-operations' | 'advanced' | 'business' | 'education' | 'conversion' | 'image-processing'
   difficulty: 'beginner' | 'intermediate' | 'advanced'
   tags: string[]
   nodes: Node[]
@@ -1883,6 +1883,593 @@ export const workflowTemplates: WorkflowTemplate[] = [
       {
         id: 'e4-5',
         source: 'merge-grading',
+        target: 'output-1',
+        type: 'smoothstep'
+      }
+    ]
+  },
+  // CONVERSION TEMPLATES
+  {
+    id: 'office-to-pdf',
+    name: 'Office Documents to PDF',
+    description: 'Convert Word, Excel, and PowerPoint files to PDF format',
+    category: 'conversion',
+    difficulty: 'beginner',
+    tags: ['convert', 'office', 'pdf', 'word', 'excel', 'powerpoint'],
+    estimatedTime: '2 minutes',
+    useCase: 'Convert Microsoft Office documents to PDF for sharing and archiving',
+    nodes: [
+      {
+        id: 'input-1',
+        type: 'workflowNode',
+        position: { x: 100, y: 200 },
+        data: {
+          label: 'Upload Office Docs',
+          type: 'input',
+          status: 'idle',
+          config: {
+            acceptedTypes: ['docx', 'doc', 'xlsx', 'xls', 'pptx', 'ppt']
+          }
+        }
+      },
+      {
+        id: 'convert-1',
+        type: 'workflowNode',
+        position: { x: 400, y: 200 },
+        data: {
+          label: 'Convert to PDF',
+          type: 'convert',
+          status: 'idle',
+          config: {
+            outputFormat: 'pdf',
+            preserveFormatting: true,
+            embedFonts: true
+          }
+        }
+      },
+      {
+        id: 'output-1',
+        type: 'workflowNode',
+        position: { x: 700, y: 200 },
+        data: {
+          label: 'Download PDFs',
+          type: 'output',
+          status: 'idle'
+        }
+      }
+    ],
+    edges: [
+      {
+        id: 'e1-2',
+        source: 'input-1',
+        target: 'convert-1',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e2-3',
+        source: 'convert-1',
+        target: 'output-1',
+        type: 'smoothstep'
+      }
+    ]
+  },
+  {
+    id: 'pdf-to-office',
+    name: 'PDF to Office Converter',
+    description: 'Convert PDF files to editable Word, Excel, or PowerPoint formats',
+    category: 'conversion',
+    difficulty: 'intermediate',
+    tags: ['convert', 'pdf', 'word', 'excel', 'editable'],
+    estimatedTime: '3 minutes',
+    useCase: 'Convert PDFs back to editable Office formats for modification',
+    nodes: [
+      {
+        id: 'input-1',
+        type: 'workflowNode',
+        position: { x: 100, y: 250 },
+        data: {
+          label: 'Upload PDFs',
+          type: 'input',
+          status: 'idle',
+          config: {
+            acceptedTypes: ['pdf']
+          }
+        }
+      },
+      {
+        id: 'condition-1',
+        type: 'workflowNode',
+        position: { x: 300, y: 250 },
+        data: {
+          label: 'Detect Content Type',
+          type: 'condition',
+          status: 'idle',
+          config: {
+            condition: 'detectDocumentType'
+          }
+        }
+      },
+      {
+        id: 'convert-word',
+        type: 'workflowNode',
+        position: { x: 500, y: 150 },
+        data: {
+          label: 'Convert to Word',
+          type: 'convert',
+          status: 'idle',
+          config: {
+            outputFormat: 'docx',
+            preserveLayout: true
+          }
+        }
+      },
+      {
+        id: 'convert-excel',
+        type: 'workflowNode',
+        position: { x: 500, y: 250 },
+        data: {
+          label: 'Convert to Excel',
+          type: 'convert',
+          status: 'idle',
+          config: {
+            outputFormat: 'xlsx',
+            detectTables: true
+          }
+        }
+      },
+      {
+        id: 'convert-ppt',
+        type: 'workflowNode',
+        position: { x: 500, y: 350 },
+        data: {
+          label: 'Convert to PowerPoint',
+          type: 'convert',
+          status: 'idle',
+          config: {
+            outputFormat: 'pptx',
+            preserveSlides: true
+          }
+        }
+      },
+      {
+        id: 'output-1',
+        type: 'workflowNode',
+        position: { x: 750, y: 250 },
+        data: {
+          label: 'Download Converted',
+          type: 'output',
+          status: 'idle'
+        }
+      }
+    ],
+    edges: [
+      {
+        id: 'e1-2',
+        source: 'input-1',
+        target: 'condition-1',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e2-3',
+        source: 'condition-1',
+        target: 'convert-word',
+        type: 'smoothstep',
+        label: 'Text Document'
+      },
+      {
+        id: 'e2-4',
+        source: 'condition-1',
+        target: 'convert-excel',
+        type: 'smoothstep',
+        label: 'Spreadsheet'
+      },
+      {
+        id: 'e2-5',
+        source: 'condition-1',
+        target: 'convert-ppt',
+        type: 'smoothstep',
+        label: 'Presentation'
+      },
+      {
+        id: 'e3-6',
+        source: 'convert-word',
+        target: 'output-1',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e4-6',
+        source: 'convert-excel',
+        target: 'output-1',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e5-6',
+        source: 'convert-ppt',
+        target: 'output-1',
+        type: 'smoothstep'
+      }
+    ]
+  },
+  // IMAGE PROCESSING TEMPLATES
+  {
+    id: 'image-to-pdf',
+    name: 'Images to PDF Compiler',
+    description: 'Convert multiple images into a single PDF document',
+    category: 'image-processing',
+    difficulty: 'beginner',
+    tags: ['image', 'pdf', 'compile', 'jpg', 'png'],
+    estimatedTime: '2 minutes',
+    useCase: 'Create PDF documents from scanned images or photo collections',
+    nodes: [
+      {
+        id: 'input-1',
+        type: 'workflowNode',
+        position: { x: 100, y: 200 },
+        data: {
+          label: 'Upload Images',
+          type: 'input',
+          status: 'idle',
+          config: {
+            acceptedTypes: ['jpg', 'jpeg', 'png', 'tiff', 'bmp']
+          }
+        }
+      },
+      {
+        id: 'process-1',
+        type: 'workflowNode',
+        position: { x: 350, y: 100 },
+        data: {
+          label: 'Optimize Images',
+          type: 'compress',
+          status: 'idle',
+          config: {
+            quality: 85,
+            maxWidth: 1920,
+            maxHeight: 1080
+          }
+        }
+      },
+      {
+        id: 'merge-1',
+        type: 'workflowNode',
+        position: { x: 350, y: 300 },
+        data: {
+          label: 'Compile to PDF',
+          type: 'merge',
+          status: 'idle',
+          config: {
+            outputFormat: 'pdf',
+            pageSize: 'A4',
+            fitToPage: true
+          }
+        }
+      },
+      {
+        id: 'output-1',
+        type: 'workflowNode',
+        position: { x: 600, y: 200 },
+        data: {
+          label: 'Download PDF',
+          type: 'output',
+          status: 'idle'
+        }
+      }
+    ],
+    edges: [
+      {
+        id: 'e1-2',
+        source: 'input-1',
+        target: 'process-1',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e1-3',
+        source: 'input-1',
+        target: 'merge-1',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e2-4',
+        source: 'process-1',
+        target: 'output-1',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e3-4',
+        source: 'merge-1',
+        target: 'output-1',
+        type: 'smoothstep'
+      }
+    ]
+  },
+  {
+    id: 'ocr-processor',
+    name: 'OCR Text Extractor',
+    description: 'Extract text from images and scanned documents using OCR',
+    category: 'image-processing',
+    difficulty: 'intermediate',
+    tags: ['ocr', 'text', 'extract', 'scan', 'image'],
+    estimatedTime: '4 minutes',
+    useCase: 'Convert scanned documents and images to searchable, editable text',
+    nodes: [
+      {
+        id: 'input-1',
+        type: 'workflowNode',
+        position: { x: 100, y: 200 },
+        data: {
+          label: 'Upload Images/Scans',
+          type: 'input',
+          status: 'idle',
+          config: {
+            acceptedTypes: ['jpg', 'jpeg', 'png', 'tiff', 'pdf']
+          }
+        }
+      },
+      {
+        id: 'preprocess-1',
+        type: 'workflowNode',
+        position: { x: 300, y: 100 },
+        data: {
+          label: 'Enhance Image',
+          type: 'process',
+          status: 'idle',
+          config: {
+            deskew: true,
+            denoise: true,
+            sharpen: true
+          }
+        }
+      },
+      {
+        id: 'ocr-1',
+        type: 'workflowNode',
+        position: { x: 300, y: 300 },
+        data: {
+          label: 'Extract Text (OCR)',
+          type: 'ocr',
+          status: 'idle',
+          config: {
+            language: 'eng',
+            confidence: 80,
+            preserveLayout: true
+          }
+        }
+      },
+      {
+        id: 'convert-1',
+        type: 'workflowNode',
+        position: { x: 500, y: 200 },
+        data: {
+          label: 'Convert to Document',
+          type: 'convert',
+          status: 'idle',
+          config: {
+            outputFormat: 'docx',
+            preserveFormatting: true
+          }
+        }
+      },
+      {
+        id: 'output-1',
+        type: 'workflowNode',
+        position: { x: 700, y: 200 },
+        data: {
+          label: 'Download Text',
+          type: 'output',
+          status: 'idle'
+        }
+      }
+    ],
+    edges: [
+      {
+        id: 'e1-2',
+        source: 'input-1',
+        target: 'preprocess-1',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e1-3',
+        source: 'input-1',
+        target: 'ocr-1',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e2-4',
+        source: 'preprocess-1',
+        target: 'convert-1',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e3-4',
+        source: 'ocr-1',
+        target: 'convert-1',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e4-5',
+        source: 'convert-1',
+        target: 'output-1',
+        type: 'smoothstep'
+      }
+    ]
+  },
+  {
+    id: 'universal-converter',
+    name: 'Universal Document Converter',
+    description: 'Convert between any supported document formats',
+    category: 'conversion',
+    difficulty: 'advanced',
+    tags: ['convert', 'universal', 'any-format', 'batch'],
+    estimatedTime: '5 minutes',
+    useCase: 'Convert any document type to any other supported format with batch processing',
+    nodes: [
+      {
+        id: 'input-1',
+        type: 'workflowNode',
+        position: { x: 100, y: 300 },
+        data: {
+          label: 'Upload Any Documents',
+          type: 'input',
+          status: 'idle',
+          config: {
+            acceptedTypes: 'all'
+          }
+        }
+      },
+      {
+        id: 'detect-1',
+        type: 'workflowNode',
+        position: { x: 300, y: 300 },
+        data: {
+          label: 'Detect Format',
+          type: 'condition',
+          status: 'idle',
+          config: {
+            condition: 'detectFileType'
+          }
+        }
+      },
+      {
+        id: 'convert-pdf',
+        type: 'workflowNode',
+        position: { x: 500, y: 100 },
+        data: {
+          label: 'Convert to PDF',
+          type: 'convert',
+          status: 'idle',
+          config: {
+            outputFormat: 'pdf'
+          }
+        }
+      },
+      {
+        id: 'convert-office',
+        type: 'workflowNode',
+        position: { x: 500, y: 200 },
+        data: {
+          label: 'Convert to Office',
+          type: 'convert',
+          status: 'idle',
+          config: {
+            outputFormat: 'auto-office'
+          }
+        }
+      },
+      {
+        id: 'convert-image',
+        type: 'workflowNode',
+        position: { x: 500, y: 300 },
+        data: {
+          label: 'Convert to Image',
+          type: 'convert',
+          status: 'idle',
+          config: {
+            outputFormat: 'jpg',
+            quality: 90
+          }
+        }
+      },
+      {
+        id: 'convert-text',
+        type: 'workflowNode',
+        position: { x: 500, y: 400 },
+        data: {
+          label: 'Convert to Text',
+          type: 'convert',
+          status: 'idle',
+          config: {
+            outputFormat: 'txt',
+            preserveLayout: false
+          }
+        }
+      },
+      {
+        id: 'merge-1',
+        type: 'workflowNode',
+        position: { x: 700, y: 300 },
+        data: {
+          label: 'Organize Results',
+          type: 'merge',
+          status: 'idle',
+          config: {
+            groupByFormat: true,
+            createFolders: true
+          }
+        }
+      },
+      {
+        id: 'output-1',
+        type: 'workflowNode',
+        position: { x: 900, y: 300 },
+        data: {
+          label: 'Download Converted',
+          type: 'output',
+          status: 'idle'
+        }
+      }
+    ],
+    edges: [
+      {
+        id: 'e1-2',
+        source: 'input-1',
+        target: 'detect-1',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e2-3',
+        source: 'detect-1',
+        target: 'convert-pdf',
+        type: 'smoothstep',
+        label: 'To PDF'
+      },
+      {
+        id: 'e2-4',
+        source: 'detect-1',
+        target: 'convert-office',
+        type: 'smoothstep',
+        label: 'To Office'
+      },
+      {
+        id: 'e2-5',
+        source: 'detect-1',
+        target: 'convert-image',
+        type: 'smoothstep',
+        label: 'To Image'
+      },
+      {
+        id: 'e2-6',
+        source: 'detect-1',
+        target: 'convert-text',
+        type: 'smoothstep',
+        label: 'To Text'
+      },
+      {
+        id: 'e3-7',
+        source: 'convert-pdf',
+        target: 'merge-1',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e4-7',
+        source: 'convert-office',
+        target: 'merge-1',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e5-7',
+        source: 'convert-image',
+        target: 'merge-1',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e6-7',
+        source: 'convert-text',
+        target: 'merge-1',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e7-8',
+        source: 'merge-1',
         target: 'output-1',
         type: 'smoothstep'
       }

@@ -23,6 +23,8 @@ export function TemplateBrowser({
     { id: 'all', name: 'All Templates', count: workflowTemplates.length },
     { id: 'document-processing', name: 'Document Processing', count: workflowTemplates.filter(t => t.category === 'document-processing').length },
     { id: 'page-management', name: 'Page Management', count: workflowTemplates.filter(t => t.category === 'page-management').length },
+    { id: 'conversion', name: 'Format Conversion', count: workflowTemplates.filter(t => t.category === 'conversion').length },
+    { id: 'image-processing', name: 'Image Processing', count: workflowTemplates.filter(t => t.category === 'image-processing').length },
     { id: 'batch-operations', name: 'Batch Operations', count: workflowTemplates.filter(t => t.category === 'batch-operations').length },
     { id: 'business', name: 'Business', count: workflowTemplates.filter(t => t.category === 'business').length },
     { id: 'education', name: 'Education', count: workflowTemplates.filter(t => t.category === 'education').length },
@@ -59,6 +61,8 @@ export function TemplateBrowser({
     switch (category) {
       case 'document-processing': return '📄'
       case 'page-management': return '📋'
+      case 'conversion': return '🔄'
+      case 'image-processing': return '🖼️'
       case 'batch-operations': return '⚡'
       case 'business': return '💼'
       case 'education': return '🎓'

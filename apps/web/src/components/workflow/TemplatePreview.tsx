@@ -43,6 +43,8 @@ export function TemplatePreview({
     switch (category) {
       case 'document-processing': return '📄'
       case 'page-management': return '📋'
+      case 'conversion': return '🔄'
+      case 'image-processing': return '🖼️'
       case 'batch-operations': return '⚡'
       case 'business': return '💼'
       case 'education': return '🎓'

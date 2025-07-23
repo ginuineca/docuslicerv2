@@ -8,7 +8,9 @@ import { HelpProvider } from '../components/tutorial/ContextualHelp'
 import { TutorialRecommendations, useTutorialRecommendations } from '../components/tutorial/TutorialRecommendations'
 import { TemplateBrowser } from '../components/workflow/TemplateBrowser'
 import { TemplatePreview } from '../components/workflow/TemplatePreview'
+import { MultiFormatUpload } from '../components/upload/MultiFormatUpload'
 import { WorkflowTemplate } from '../data/workflowTemplates'
+import { getDocumentType } from '../utils/documentTypes'
 import { Link } from 'react-router-dom'
 import { ArrowLeft, Workflow, Save, Play, Share, Layout, Upload, AlertCircle, CheckCircle, Clock, BookOpen } from 'lucide-react'
 import { Node, Edge } from 'reactflow'
@@ -325,22 +327,13 @@ export function WorkflowsPage() {
     setPreviewTemplate(null)
   }
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(event.target.files || [])
-    const pdfFiles = files.filter(file => file.type === 'application/pdf')
-
-    if (pdfFiles.length !== files.length) {
-      setError('Only PDF files are supported')
-      return
-    }
-
-    setUploadedFiles(pdfFiles)
+  const handleFileUpload = (uploadedFiles: any[]) => {
+    const files = uploadedFiles.map(uf => uf.file)
+    setUploadedFiles(files)
     setError(null)
   }
 
-  const removeFile = (index: number) => {
-    setUploadedFiles(prev => prev.filter((_, i) => i !== index))
-  }
+
 
   const deleteWorkflow = async (workflowId: string) => {
     try {
@@ -371,7 +364,7 @@ export function WorkflowsPage() {
               </Link>
               <Logo />
               <div>
-                <h1 className="text-xl font-semibold text-gray-900">Workflow Builder</h1>
+                <h1 className="text-xl font-semibold text-gray-900">Document Workflow Builder</h1>
                 {currentWorkflow && (
                   <p className="text-sm text-gray-600">{currentWorkflow.name}</p>
                 )}
@@ -496,52 +489,14 @@ export function WorkflowsPage() {
               )}
             </div>
 
-            {/* File Upload Area */}
-            <div className="flex items-center space-x-4">
-              <div className="flex-1">
-                <label
-                  data-tutorial="file-upload"
-                  className="flex items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
-                >
-                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                    <Upload className="h-8 w-8 text-gray-400 mb-2" />
-                    <p className="text-sm text-gray-600">
-                      <span className="font-medium">Click to upload</span> or drag and drop
-                    </p>
-                    <p className="text-xs text-gray-500">PDF files only</p>
-                  </div>
-                  <input
-                    type="file"
-                    multiple
-                    accept=".pdf"
-                    onChange={handleFileUpload}
-                    className="hidden"
-                  />
-                </label>
-              </div>
+            {/* Multi-Format File Upload */}
+            <MultiFormatUpload
+              onFilesChange={handleFileUpload}
+              maxFiles={20}
+              className="mb-4"
+            />
 
-              {/* Uploaded Files List */}
-              {uploadedFiles.length > 0 && (
-                <div className="w-64">
-                  <h4 className="text-sm font-medium text-gray-700 mb-2">
-                    Uploaded Files ({uploadedFiles.length})
-                  </h4>
-                  <div className="space-y-1 max-h-24 overflow-y-auto">
-                    {uploadedFiles.map((file, index) => (
-                      <div key={index} className="flex items-center justify-between bg-gray-100 px-2 py-1 rounded text-xs">
-                        <span className="truncate flex-1">{file.name}</span>
-                        <button
-                          onClick={() => removeFile(index)}
-                          className="text-red-500 hover:text-red-700 ml-2"
-                        >
-                          ×
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
+
 
             {/* Error Display */}
             {error && (
