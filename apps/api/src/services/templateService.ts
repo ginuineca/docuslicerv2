@@ -97,6 +97,55 @@ export class TemplateService {
   }
 
   /**
+   * Get all templates
+   */
+  async getTemplates(filters?: {
+    category?: string
+    tags?: string[]
+    isPublic?: boolean
+    createdBy?: string
+  }): Promise<ProcessingTemplate[]> {
+    try {
+      await this.initialize()
+
+      const templateFiles = await fs.readdir(this.templatesDir)
+      const templates: ProcessingTemplate[] = []
+
+      for (const file of templateFiles) {
+        if (file.endsWith('.json')) {
+          try {
+            const templatePath = path.join(this.templatesDir, file)
+            const templateData = await fs.readFile(templatePath, 'utf-8')
+            const template = JSON.parse(templateData)
+
+            // Apply filters
+            if (filters) {
+              if (filters.category && template.category !== filters.category) continue
+              if (filters.isPublic !== undefined && template.isPublic !== filters.isPublic) continue
+              if (filters.createdBy && template.createdBy !== filters.createdBy) continue
+              if (filters.tags && !filters.tags.some(tag => template.tags.includes(tag))) continue
+            }
+
+            templates.push(template)
+          } catch (error) {
+            console.warn(`Failed to load template ${file}:`, error.message)
+          }
+        }
+      }
+
+      // Sort by usage count and rating
+      return templates.sort((a, b) => {
+        const scoreA = (a.usageCount || 0) + (a.rating || 0) * 10
+        const scoreB = (b.usageCount || 0) + (b.rating || 0) * 10
+        return scoreB - scoreA
+      })
+    } catch (error) {
+      console.error('Failed to get templates:', error)
+      return []
+    }
+  }
+
+  /**
    * Update template
    */
   async updateTemplate(templateId: string, updates: Partial<ProcessingTemplate>): Promise<ProcessingTemplate | null> {

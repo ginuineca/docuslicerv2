@@ -143,13 +143,13 @@ export interface PresenceInfo {
 }
 
 export class CollaborationService {
-  private io: SocketIOServer
+  private io?: SocketIOServer
   private sessions: Map<string, CollaborationSession>
   private userSockets: Map<string, Socket>
   private documentSessions: Map<string, string[]> // documentId -> sessionIds
   private tempDir: string
 
-  constructor(io: SocketIOServer) {
+  constructor(io?: SocketIOServer) {
     this.io = io
     this.sessions = new Map()
     this.userSockets = new Map()
@@ -171,6 +171,11 @@ export class CollaborationService {
    * Setup Socket.IO event handlers
    */
   private setupSocketHandlers(): void {
+    if (!this.io) {
+      console.warn('Socket.IO not available - real-time features disabled')
+      return
+    }
+
     this.io.on('connection', (socket: Socket) => {
       console.log(`User connected: ${socket.id}`)
 
@@ -394,6 +399,72 @@ export class CollaborationService {
   }
 
   /**
+   * Join a collaboration session
+   */
+  async joinSession(sessionId: string, user: Omit<User, 'status' | 'lastSeen'>): Promise<void> {
+    const session = this.sessions.get(sessionId)
+    if (!session) {
+      throw new Error(`Session ${sessionId} not found`)
+    }
+
+    // Add user to session
+    const fullUser: User = {
+      ...user,
+      status: 'online',
+      lastSeen: new Date()
+    }
+
+    session.participants.set(user.id, fullUser)
+    session.updatedAt = new Date()
+
+    // Add activity
+    session.activities.push({
+      id: `activity-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      type: 'user-joined',
+      userId: user.id,
+      userName: user.name,
+      timestamp: new Date(),
+      data: { userName: user.name }
+    })
+
+    console.log(`User ${user.name} joined session ${sessionId}`)
+  }
+
+  /**
+   * Leave a collaboration session
+   */
+  async leaveSession(sessionId: string, userId: string): Promise<void> {
+    const session = this.sessions.get(sessionId)
+    if (!session) {
+      throw new Error(`Session ${sessionId} not found`)
+    }
+
+    const user = session.participants.get(userId)
+    if (!user) {
+      throw new Error(`User ${userId} not found in session ${sessionId}`)
+    }
+
+    // Remove user from session
+    session.participants.delete(userId)
+    session.updatedAt = new Date()
+
+    // Add activity
+    session.activities.push({
+      id: `activity-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      type: 'user-left',
+      userId,
+      userName: user.name,
+      timestamp: new Date(),
+      data: { userName: user.name }
+    })
+
+    // Remove user socket mapping
+    this.userSockets.delete(userId)
+
+    console.log(`User ${user.name} left session ${sessionId}`)
+  }
+
+  /**
    * Handle user joining a session
    */
   private async handleUserJoin(
@@ -613,10 +684,12 @@ export class CollaborationService {
     session.updatedAt = new Date()
 
     // Broadcast comment to all users in session
-    this.io.to(sessionId).emit('comment-added', {
-      comment,
-      activity
-    })
+    if (this.io) {
+      this.io.to(sessionId).emit('comment-added', {
+        comment,
+        activity
+      })
+    }
   }
 
   /**
@@ -654,11 +727,13 @@ export class CollaborationService {
     session.updatedAt = new Date()
 
     // Broadcast reply to all users in session
-    this.io.to(sessionId).emit('comment-replied', {
-      commentId,
-      reply,
-      activity
-    })
+    if (this.io) {
+      this.io.to(sessionId).emit('comment-replied', {
+        commentId,
+        reply,
+        activity
+      })
+    }
   }
 
   /**
@@ -689,10 +764,12 @@ export class CollaborationService {
     session.updatedAt = new Date()
 
     // Broadcast resolution to all users in session
-    this.io.to(sessionId).emit('comment-resolved', {
-      commentId,
-      activity
-    })
+    if (this.io) {
+      this.io.to(sessionId).emit('comment-resolved', {
+        commentId,
+        activity
+      })
+    }
   }
 
   /**
@@ -729,10 +806,12 @@ export class CollaborationService {
     session.updatedAt = new Date()
 
     // Broadcast annotation to all users in session
-    this.io.to(sessionId).emit('annotation-added', {
-      annotation,
-      activity
-    })
+    if (this.io) {
+      this.io.to(sessionId).emit('annotation-added', {
+        annotation,
+        activity
+      })
+    }
   }
 
   /**
@@ -764,11 +843,13 @@ export class CollaborationService {
     session.updatedAt = new Date()
 
     // Broadcast update to all users in session
-    this.io.to(sessionId).emit('annotation-updated', {
-      annotationId,
-      updates,
-      activity
-    })
+    if (this.io) {
+      this.io.to(sessionId).emit('annotation-updated', {
+        annotationId,
+        updates,
+        activity
+      })
+    }
   }
 
   /**
@@ -799,10 +880,12 @@ export class CollaborationService {
     session.updatedAt = new Date()
 
     // Broadcast deletion to all users in session
-    this.io.to(sessionId).emit('annotation-deleted', {
-      annotationId,
-      activity
-    })
+    if (this.io) {
+      this.io.to(sessionId).emit('annotation-deleted', {
+        annotationId,
+        activity
+      })
+    }
   }
 
   /**

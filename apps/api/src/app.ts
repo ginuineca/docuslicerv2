@@ -127,7 +127,7 @@ app.use('/api/industry', industrySolutionsRoutes);
 app.use('/api/enterprise', enterpriseRoutes);
 app.use('/api/workflows', workflowRoutes);
 
-// Initialize collaboration service
+// Initialize collaboration service (without socket.io for testing)
 const collaborationService = new CollaborationService();
 setCollaborationService(collaborationService);
 

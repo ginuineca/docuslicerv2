@@ -488,6 +488,67 @@ export class PDFService {
   }
 
   /**
+   * Compress PDF file to reduce size
+   */
+  async compressPDF(
+    inputPath: string,
+    outputPath: string,
+    options: {
+      quality?: 'low' | 'medium' | 'high'
+      removeMetadata?: boolean
+      optimizeImages?: boolean
+      removeUnusedObjects?: boolean
+    } = {}
+  ): Promise<string> {
+    try {
+      const {
+        quality = 'medium',
+        removeMetadata = true,
+        optimizeImages = true,
+        removeUnusedObjects = true
+      } = options
+
+      // Read the input PDF
+      const existingPdfBytes = await fs.readFile(inputPath)
+      const pdfDoc = await PDFDocument.load(existingPdfBytes)
+
+      // Remove metadata if requested
+      if (removeMetadata) {
+        pdfDoc.setTitle('')
+        pdfDoc.setAuthor('')
+        pdfDoc.setSubject('')
+        pdfDoc.setKeywords([])
+        pdfDoc.setProducer('')
+        pdfDoc.setCreator('')
+      }
+
+      // Note: pdf-lib has limited compression capabilities
+      // In a production environment, you might want to use a more specialized library
+      // like pdf2pic + sharp for image optimization, or integrate with external services
+
+      // Save the optimized PDF
+      const pdfBytes = await pdfDoc.save({
+        useObjectStreams: removeUnusedObjects,
+        addDefaultPage: false
+      })
+
+      await fs.writeFile(outputPath, pdfBytes)
+
+      // Calculate compression ratio
+      const originalSize = existingPdfBytes.length
+      const compressedSize = pdfBytes.length
+      const compressionRatio = ((originalSize - compressedSize) / originalSize * 100).toFixed(1)
+
+      console.log(`PDF compressed: ${originalSize} bytes -> ${compressedSize} bytes (${compressionRatio}% reduction)`)
+
+      return outputPath
+    } catch (error) {
+      console.error('Error compressing PDF:', error)
+      throw new Error(`Failed to compress PDF: ${error.message}`)
+    }
+  }
+
+  /**
    * Clean up temporary files
    */
   async cleanupFiles(filePaths: string[]): Promise<void> {
