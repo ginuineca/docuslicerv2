@@ -355,7 +355,6 @@ export function TemplateBrowser({
                 </div>
               )
             })}
-              ))}
             </div>
 
             {filteredTemplates.length === 0 && (
