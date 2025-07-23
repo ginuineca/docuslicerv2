@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import { Logo } from '../components'
 import { WorkflowBuilderWrapper } from '../components/workflow/WorkflowBuilder'
+import { TutorialManager } from '../components/tutorial/TutorialManager'
+import { WelcomeTutorial } from '../components/tutorial/WelcomeTutorial'
 import { Link } from 'react-router-dom'
-import { ArrowLeft, Workflow, Save, Play, Share, Layout, Upload, AlertCircle, CheckCircle, Clock } from 'lucide-react'
+import { ArrowLeft, Workflow, Save, Play, Share, Layout, Upload, AlertCircle, CheckCircle, Clock, BookOpen } from 'lucide-react'
 import { Node, Edge } from 'reactflow'
 import { workflowService, type Workflow as BackendWorkflow } from '../services/workflowService'
 
@@ -41,6 +43,8 @@ export function WorkflowsPage() {
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [showTutorials, setShowTutorials] = useState(false)
+  const [showWelcome, setShowWelcome] = useState(false)
 
   // Load workflows from backend on component mount
   useEffect(() => {
@@ -338,6 +342,13 @@ export function WorkflowsPage() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
+              <button
+                onClick={() => setShowTutorials(true)}
+                className="inline-flex items-center px-3 py-2 text-sm font-medium text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-colors"
+              >
+                <BookOpen className="h-4 w-4 mr-2" />
+                Tutorials
+              </button>
               <span className="text-sm text-gray-600">Welcome, {user?.email}</span>
             </div>
           </div>
@@ -452,7 +463,10 @@ export function WorkflowsPage() {
             {/* File Upload Area */}
             <div className="flex items-center space-x-4">
               <div className="flex-1">
-                <label className="flex items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+                <label
+                  data-tutorial="file-upload"
+                  className="flex items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
+                >
                   <div className="flex flex-col items-center justify-center pt-5 pb-6">
                     <Upload className="h-8 w-8 text-gray-400 mb-2" />
                     <p className="text-sm text-gray-600">
@@ -584,6 +598,21 @@ export function WorkflowsPage() {
           </div>
         </div>
       )}
+
+      {/* Tutorial Manager */}
+      <TutorialManager
+        isOpen={showTutorials}
+        onClose={() => setShowTutorials(false)}
+      />
+
+      {/* Welcome Tutorial */}
+      <WelcomeTutorial
+        onStartTutorial={() => {
+          setShowWelcome(false)
+          setShowTutorials(true)
+        }}
+        onDismiss={() => setShowWelcome(false)}
+      />
     </div>
   )
 }

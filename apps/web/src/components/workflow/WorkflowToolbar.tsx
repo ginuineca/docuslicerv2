@@ -37,6 +37,7 @@ export function WorkflowToolbar({
         {/* Left Section - Main Actions */}
         <div className="flex items-center space-x-3">
           <button
+            data-tutorial="run-workflow"
             onClick={onRun}
             disabled={isRunning || nodeCount === 0}
             className={`
@@ -61,6 +62,7 @@ export function WorkflowToolbar({
           </button>
 
           <button
+            data-tutorial="save-workflow"
             onClick={onSave}
             disabled={nodeCount === 0}
             className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed transition-colors"

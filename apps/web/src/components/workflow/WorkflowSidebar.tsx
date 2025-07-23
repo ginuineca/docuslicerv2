@@ -124,6 +124,7 @@ export function WorkflowSidebar({
                 return (
                   <button
                     key={template.type}
+                    data-tutorial={`add-${template.type}`}
                     onClick={() => onAddNode(template.type, template.label)}
                     className="w-full flex items-start space-x-3 p-3 text-left bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors group"
                   >
