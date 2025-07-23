@@ -1,5 +1,7 @@
-const CACHE_NAME = 'docuslicer-v1.0.0'
+const CACHE_NAME = 'docuslicer-v1.1.0'
 const OFFLINE_URL = '/offline.html'
+const API_CACHE_NAME = 'docuslicer-api-v1.1.0'
+const IMAGE_CACHE_NAME = 'docuslicer-images-v1.1.0'
 
 // Resources to cache for offline functionality
 const STATIC_CACHE_URLS = [
@@ -7,8 +9,18 @@ const STATIC_CACHE_URLS = [
   '/offline.html',
   '/manifest.json',
   '/icons/icon-192x192.png',
-  '/icons/icon-512x512.png'
+  '/icons/icon-512x512.png',
+  // Critical CSS and JS will be added by webpack
 ]
+
+// Cache strategies
+const CACHE_STRATEGIES = {
+  CACHE_FIRST: 'cache-first',
+  NETWORK_FIRST: 'network-first',
+  STALE_WHILE_REVALIDATE: 'stale-while-revalidate',
+  NETWORK_ONLY: 'network-only',
+  CACHE_ONLY: 'cache-only'
+}
 
 // API endpoints that should work offline
 const OFFLINE_FALLBACK_PAGES = [
@@ -61,49 +73,151 @@ self.addEventListener('activate', event => {
   )
 })
 
-// Fetch event - handle network requests
+// Advanced fetch event handler with intelligent caching strategies
 self.addEventListener('fetch', event => {
   const { request } = event
   const url = new URL(request.url)
 
-  // Handle navigation requests
-  if (request.mode === 'navigate') {
-    event.respondWith(
-      fetch(request)
-        .then(response => {
-          // If online, cache the response and return it
-          if (response.status === 200) {
-            const responseClone = response.clone()
-            caches.open(CACHE_NAME)
-              .then(cache => {
-                cache.put(request, responseClone)
-              })
-          }
-          return response
-        })
-        .catch(() => {
-          // If offline, try to serve from cache
-          return caches.match(request)
-            .then(cachedResponse => {
-              if (cachedResponse) {
-                return cachedResponse
-              }
-              
-              // If no cached version, serve offline page
-              return caches.match(OFFLINE_URL)
-            })
-        })
-    )
+  // Skip non-GET requests for caching
+  if (request.method !== 'GET') {
     return
   }
 
-  // Handle API requests
-  if (url.pathname.startsWith('/api/')) {
-    event.respondWith(
-      handleApiRequest(request)
-    )
-    return
+  // Handle different types of requests with appropriate strategies
+  if (request.mode === 'navigate') {
+    event.respondWith(handleNavigationRequest(request))
+  } else if (url.pathname.startsWith('/api/')) {
+    event.respondWith(handleApiRequest(request))
+  } else if (isImageRequest(request)) {
+    event.respondWith(handleImageRequest(request))
+  } else if (isStaticAsset(request)) {
+    event.respondWith(handleStaticAssetRequest(request))
+  } else {
+    event.respondWith(handleGenericRequest(request))
   }
+})
+
+// Handle navigation requests with network-first strategy
+async function handleNavigationRequest(request) {
+  try {
+    const response = await fetch(request)
+    if (response.status === 200) {
+      const cache = await caches.open(CACHE_NAME)
+      cache.put(request, response.clone())
+    }
+    return response
+  } catch (error) {
+    const cachedResponse = await caches.match(request)
+    if (cachedResponse) {
+      return cachedResponse
+    }
+    return caches.match(OFFLINE_URL)
+  }
+}
+
+// Handle API requests with stale-while-revalidate strategy
+async function handleApiRequest(request) {
+  const cache = await caches.open(API_CACHE_NAME)
+  const cachedResponse = await cache.match(request)
+
+  const fetchPromise = fetch(request).then(response => {
+    if (response.status === 200) {
+      cache.put(request, response.clone())
+    }
+    return response
+  }).catch(() => {
+    // Return cached version if network fails
+    return cachedResponse
+  })
+
+  // Return cached version immediately if available, then update in background
+  if (cachedResponse) {
+    fetchPromise.catch(() => {}) // Prevent unhandled promise rejection
+    return cachedResponse
+  }
+
+  return fetchPromise
+}
+
+// Handle image requests with cache-first strategy
+async function handleImageRequest(request) {
+  const cache = await caches.open(IMAGE_CACHE_NAME)
+  const cachedResponse = await cache.match(request)
+
+  if (cachedResponse) {
+    return cachedResponse
+  }
+
+  try {
+    const response = await fetch(request)
+    if (response.status === 200) {
+      // Only cache successful image responses
+      cache.put(request, response.clone())
+    }
+    return response
+  } catch (error) {
+    // Return a placeholder image for failed requests
+    return new Response(
+      '<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" fill="#f3f4f6"/><text x="100" y="100" text-anchor="middle" fill="#9ca3af">Image unavailable</text></svg>',
+      {
+        headers: {
+          'Content-Type': 'image/svg+xml',
+          'Cache-Control': 'no-cache'
+        }
+      }
+    )
+  }
+}
+
+// Handle static assets with cache-first strategy
+async function handleStaticAssetRequest(request) {
+  const cache = await caches.open(CACHE_NAME)
+  const cachedResponse = await cache.match(request)
+
+  if (cachedResponse) {
+    return cachedResponse
+  }
+
+  try {
+    const response = await fetch(request)
+    if (response.status === 200) {
+      cache.put(request, response.clone())
+    }
+    return response
+  } catch (error) {
+    return new Response('Asset unavailable offline', {
+      status: 503,
+      statusText: 'Service Unavailable'
+    })
+  }
+}
+
+// Handle generic requests
+async function handleGenericRequest(request) {
+  try {
+    const response = await fetch(request)
+    return response
+  } catch (error) {
+    const cachedResponse = await caches.match(request)
+    return cachedResponse || new Response('Resource unavailable offline', {
+      status: 503,
+      statusText: 'Service Unavailable'
+    })
+  }
+}
+
+// Utility functions
+function isImageRequest(request) {
+  return request.destination === 'image' ||
+         /\.(jpg|jpeg|png|gif|webp|svg|ico)$/i.test(new URL(request.url).pathname)
+}
+
+function isStaticAsset(request) {
+  return request.destination === 'script' ||
+         request.destination === 'style' ||
+         request.destination === 'font' ||
+         /\.(js|css|woff|woff2|ttf|eot)$/i.test(new URL(request.url).pathname)
+}
 
   // Handle static assets
   if (request.destination === 'script' || 
