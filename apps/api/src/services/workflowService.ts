@@ -267,28 +267,43 @@ export class WorkflowService {
    */
   private async loadWorkflows(): Promise<void> {
     try {
+      // Check if data directory exists
+      try {
+        await fs.access(this.dataDir)
+      } catch {
+        console.log('📁 Data directory does not exist, creating...')
+        await fs.mkdir(this.dataDir, { recursive: true })
+        console.log('✅ Data directory created')
+        return // No workflows to load
+      }
+
       const files = await fs.readdir(this.dataDir)
       const workflowFiles = files.filter(file => file.endsWith('.json'))
+
+      if (workflowFiles.length === 0) {
+        console.log('📋 No workflow files found, starting with empty collection')
+        return
+      }
 
       for (const file of workflowFiles) {
         try {
           const filePath = path.join(this.dataDir, file)
           const content = await fs.readFile(filePath, 'utf-8')
           const workflow = JSON.parse(content) as Workflow
-          
+
           // Convert date strings back to Date objects
           workflow.createdAt = new Date(workflow.createdAt)
           workflow.updatedAt = new Date(workflow.updatedAt)
-          
+
           this.workflows.set(workflow.id, workflow)
         } catch (error) {
-          console.warn(`Failed to load workflow file: ${file}`, error)
+          console.warn(`⚠️ Failed to load workflow file: ${file}`, error)
         }
       }
 
-      console.log(`📋 Loaded ${this.workflows.size} workflows`)
+      console.log(`✅ Loaded ${this.workflows.size} workflows`)
     } catch (error) {
-      console.warn('No existing workflows found, starting with empty collection')
+      console.warn('⚠️ Error loading workflows, starting with empty collection:', error)
     }
   }
 

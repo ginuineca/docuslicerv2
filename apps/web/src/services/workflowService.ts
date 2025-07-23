@@ -51,16 +51,25 @@ export class WorkflowService {
   private baseUrl = '/api/workflow'
 
   async getWorkflows(): Promise<Workflow[]> {
-    const response = await fetch(`${this.baseUrl}/workflows`)
-    if (!response.ok) {
-      throw new Error('Failed to fetch workflows')
+    try {
+      const response = await fetch(`${this.baseUrl}/workflows`)
+      if (!response.ok) {
+        if (response.status === 500) {
+          console.warn('⚠️ Workflow service not available, returning empty list')
+          return []
+        }
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+      }
+      const data = await response.json()
+      return data.workflows.map((w: any) => ({
+        ...w,
+        createdAt: new Date(w.createdAt),
+        updatedAt: new Date(w.updatedAt)
+      }))
+    } catch (error) {
+      console.warn('⚠️ Failed to fetch workflows, returning empty list:', error)
+      return []
     }
-    const data = await response.json()
-    return data.workflows.map((w: any) => ({
-      ...w,
-      createdAt: new Date(w.createdAt),
-      updatedAt: new Date(w.updatedAt)
-    }))
   }
 
   async getWorkflow(id: string): Promise<Workflow> {

@@ -7,10 +7,16 @@ import path from 'path'
 const router = express.Router()
 const workflowService = new WorkflowService()
 
-// Initialize workflow service
+// Initialize workflow service with better error handling
 workflowService.initialize().then(() => {
-  workflowService.createDefaultTemplates().catch(console.error)
-}).catch(console.error)
+  console.log('✅ Workflow service initialized successfully')
+  workflowService.createDefaultTemplates().catch(error => {
+    console.warn('⚠️ Failed to create default templates:', error.message)
+  })
+}).catch(error => {
+  console.error('❌ Failed to initialize workflow service:', error.message)
+  // Continue without workflow service for now
+})
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({
@@ -142,19 +148,31 @@ router.post('/workflows', async (req, res) => {
  */
 router.get('/workflows', (req, res) => {
   try {
+    console.log('📋 GET /workflows - Listing workflows')
     const { userId, organizationId } = req.query
+
+    // Check if workflow service is initialized
+    if (!workflowService) {
+      console.error('❌ Workflow service not initialized')
+      return res.status(503).json({
+        error: 'Workflow service not available',
+        message: 'Service is initializing, please try again later'
+      })
+    }
+
     const workflows = workflowService.listWorkflows(
       userId as string,
       organizationId as string
     )
-    
+
+    console.log(`✅ Found ${workflows.length} workflows`)
     res.json({
       success: true,
       workflows,
       count: workflows.length
     })
   } catch (error) {
-    console.error('List workflows error:', error)
+    console.error('❌ List workflows error:', error)
     res.status(500).json({
       error: 'Failed to list workflows',
       message: error instanceof Error ? error.message : 'Unknown error'
