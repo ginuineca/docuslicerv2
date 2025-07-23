@@ -9,8 +9,10 @@ import { TutorialRecommendations, useTutorialRecommendations } from '../componen
 import { TemplateBrowser } from '../components/workflow/TemplateBrowser'
 import { TemplatePreview } from '../components/workflow/TemplatePreview'
 import { MultiFormatUpload } from '../components/upload/MultiFormatUpload'
+import { UpgradeModal } from '../components/subscription/UpgradeModal'
 import { WorkflowTemplate } from '../data/workflowTemplates'
 import { getDocumentType } from '../utils/documentTypes'
+import { SubscriptionTier, canAccessTemplate } from '../utils/templateTiers'
 import { Link } from 'react-router-dom'
 import { ArrowLeft, Workflow, Save, Play, Share, Layout, Upload, AlertCircle, CheckCircle, Clock, BookOpen } from 'lucide-react'
 import { Node, Edge } from 'reactflow'
@@ -54,6 +56,9 @@ export function WorkflowsPage() {
   const [showWelcome, setShowWelcome] = useState(false)
   const [showTemplates, setShowTemplates] = useState(false)
   const [previewTemplate, setPreviewTemplate] = useState<WorkflowTemplate | null>(null)
+  const [showUpgrade, setShowUpgrade] = useState(false)
+  const [requiredTier, setRequiredTier] = useState<SubscriptionTier>('pro')
+  const [userTier, setUserTier] = useState<SubscriptionTier>('free') // This would come from user context
   const tutorialRecommendations = useTutorialRecommendations()
 
   // Load workflows from backend on component mount
@@ -301,6 +306,13 @@ export function WorkflowsPage() {
   }
 
   const handleSelectTemplate = (template: WorkflowTemplate) => {
+    // Check if user can access this template
+    if (!canAccessTemplate(template.id, userTier)) {
+      setRequiredTier(template.tier)
+      setShowUpgrade(true)
+      return
+    }
+
     // Create a new workflow from template
     const newWorkflow: SavedWorkflow = {
       id: `template-${Date.now()}`,
@@ -325,6 +337,19 @@ export function WorkflowsPage() {
   const handleUseTemplate = (template: WorkflowTemplate) => {
     handleSelectTemplate(template)
     setPreviewTemplate(null)
+  }
+
+  const handleUpgradeRequest = (tier: SubscriptionTier) => {
+    setRequiredTier(tier)
+    setShowUpgrade(true)
+  }
+
+  const handleUpgrade = (tier: SubscriptionTier) => {
+    // In a real app, this would integrate with a payment system
+    console.log(`Upgrading to ${tier} tier`)
+    setUserTier(tier)
+    setShowUpgrade(false)
+    // Show success message or redirect to payment
   }
 
   const handleFileUpload = (uploadedFiles: any[]) => {
@@ -624,6 +649,8 @@ export function WorkflowsPage() {
         onClose={() => setShowTemplates(false)}
         onSelectTemplate={handleSelectTemplate}
         onPreviewTemplate={handlePreviewTemplate}
+        userTier={userTier}
+        onUpgrade={handleUpgradeRequest}
       />
 
       {/* Template Preview */}
@@ -632,6 +659,15 @@ export function WorkflowsPage() {
         isOpen={!!previewTemplate}
         onClose={() => setPreviewTemplate(null)}
         onUseTemplate={handleUseTemplate}
+      />
+
+      {/* Upgrade Modal */}
+      <UpgradeModal
+        isOpen={showUpgrade}
+        onClose={() => setShowUpgrade(false)}
+        requiredTier={requiredTier}
+        currentTier={userTier}
+        onUpgrade={handleUpgrade}
       />
       </div>
     </HelpProvider>

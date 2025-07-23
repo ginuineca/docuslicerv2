@@ -1,4 +1,5 @@
 import { Node, Edge } from 'reactflow'
+import { SubscriptionTier } from '../utils/templateTiers'
 
 export interface WorkflowTemplate {
   id: string
@@ -6,12 +7,15 @@ export interface WorkflowTemplate {
   description: string
   category: 'document-processing' | 'page-management' | 'batch-operations' | 'advanced' | 'business' | 'education' | 'conversion' | 'image-processing' | 'mixed-format'
   difficulty: 'beginner' | 'intermediate' | 'advanced'
+  tier: SubscriptionTier
   tags: string[]
   nodes: Node[]
   edges: Edge[]
   thumbnail?: string
   estimatedTime: string
   useCase: string
+  businessValue?: string
+  industryFocus?: string[]
 }
 
 export const workflowTemplates: WorkflowTemplate[] = [
@@ -22,6 +26,7 @@ export const workflowTemplates: WorkflowTemplate[] = [
     description: 'Extract just the first page from PDF documents',
     category: 'page-management',
     difficulty: 'beginner',
+    tier: 'free',
     tags: ['extract', 'first-page', 'cover'],
     estimatedTime: '1 minute',
     useCase: 'Perfect for extracting cover pages or first pages from documents',
@@ -361,6 +366,7 @@ export const workflowTemplates: WorkflowTemplate[] = [
     description: 'Split a PDF document into individual pages',
     category: 'document-processing',
     difficulty: 'beginner',
+    tier: 'free',
     tags: ['split', 'pages', 'basic'],
     estimatedTime: '2 minutes',
     useCase: 'Perfect for separating multi-page documents into individual files',
@@ -761,9 +767,12 @@ export const workflowTemplates: WorkflowTemplate[] = [
     description: 'Process multiple invoices with extraction and organization',
     category: 'batch-operations',
     difficulty: 'advanced',
+    tier: 'enterprise',
     tags: ['invoice', 'batch', 'business', 'extract'],
     estimatedTime: '6 minutes',
     useCase: 'Process batches of invoices, extract first pages, and organize by date',
+    businessValue: 'Reduce invoice processing time by 75% and improve accuracy',
+    industryFocus: ['Accounting', 'Finance', 'Retail'],
     nodes: [
       {
         id: 'input-1',
@@ -2977,6 +2986,313 @@ export const workflowTemplates: WorkflowTemplate[] = [
       {
         id: 'e6-7',
         source: 'organize-output',
+        target: 'output-1',
+        type: 'smoothstep'
+      }
+    ]
+  },
+  // PREMIUM BUSINESS TEMPLATES (PRO TIER)
+  {
+    id: 'contract-review-workflow',
+    name: 'Contract Review & Redaction',
+    description: 'Professional contract processing with automated redaction and approval workflow',
+    category: 'business',
+    difficulty: 'advanced',
+    tier: 'pro',
+    tags: ['contract', 'legal', 'redaction', 'approval', 'business'],
+    estimatedTime: '8 minutes',
+    useCase: 'Process legal contracts with automated redaction and multi-stage approval',
+    businessValue: 'Reduce legal review time by 60% and ensure consistent redaction standards',
+    industryFocus: ['Legal', 'Real Estate', 'Corporate'],
+    nodes: [
+      {
+        id: 'input-1',
+        type: 'workflowNode',
+        position: { x: 100, y: 300 },
+        data: {
+          label: 'Upload Contracts',
+          type: 'input',
+          status: 'idle',
+          supportedFormats: ['pdf', 'docx'],
+          config: {
+            acceptedTypes: ['pdf', 'docx'],
+            requiresEncryption: true
+          }
+        }
+      },
+      {
+        id: 'ocr-1',
+        type: 'workflowNode',
+        position: { x: 300, y: 300 },
+        data: {
+          label: 'OCR Text Extraction',
+          type: 'ocr',
+          status: 'idle',
+          inputFormats: ['pdf', 'docx'],
+          outputFormat: 'searchable-pdf',
+          config: {
+            language: 'eng',
+            confidence: 95,
+            preserveLayout: true,
+            extractTables: true
+          }
+        }
+      },
+      {
+        id: 'redact-1',
+        type: 'workflowNode',
+        position: { x: 500, y: 200 },
+        data: {
+          label: 'Auto-Redact PII',
+          type: 'redact',
+          status: 'idle',
+          inputFormats: ['searchable-pdf'],
+          outputFormat: 'pdf',
+          config: {
+            redactSSN: true,
+            redactPhoneNumbers: true,
+            redactEmails: true,
+            redactAddresses: true,
+            customPatterns: ['salary', 'compensation']
+          }
+        }
+      },
+      {
+        id: 'extract-1',
+        type: 'workflowNode',
+        position: { x: 500, y: 400 },
+        data: {
+          label: 'Extract Key Terms',
+          type: 'extract',
+          status: 'idle',
+          inputFormats: ['searchable-pdf'],
+          outputFormat: 'json',
+          config: {
+            extractDates: true,
+            extractAmounts: true,
+            extractParties: true,
+            extractTerms: true
+          }
+        }
+      },
+      {
+        id: 'watermark-1',
+        type: 'workflowNode',
+        position: { x: 700, y: 300 },
+        data: {
+          label: 'Add Review Stamp',
+          type: 'watermark',
+          status: 'idle',
+          inputFormats: ['pdf'],
+          outputFormat: 'pdf',
+          config: {
+            watermarkText: 'REVIEWED - CONFIDENTIAL',
+            position: 'bottom-right',
+            opacity: 0.7,
+            addTimestamp: true
+          }
+        }
+      },
+      {
+        id: 'output-1',
+        type: 'workflowNode',
+        position: { x: 900, y: 300 },
+        data: {
+          label: 'Secure Download',
+          type: 'output',
+          status: 'idle',
+          inputFormats: ['pdf'],
+          config: {
+            passwordProtect: true,
+            auditTrail: true
+          }
+        }
+      }
+    ],
+    edges: [
+      {
+        id: 'e1-2',
+        source: 'input-1',
+        target: 'ocr-1',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e2-3',
+        source: 'ocr-1',
+        target: 'redact-1',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e2-4',
+        source: 'ocr-1',
+        target: 'extract-1',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e3-5',
+        source: 'redact-1',
+        target: 'watermark-1',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e5-6',
+        source: 'watermark-1',
+        target: 'output-1',
+        type: 'smoothstep'
+      }
+    ]
+  },
+  {
+    id: 'invoice-automation-pro',
+    name: 'Invoice Processing Automation',
+    description: 'Advanced invoice processing with data extraction and ERP integration',
+    category: 'business',
+    difficulty: 'advanced',
+    tier: 'pro',
+    tags: ['invoice', 'automation', 'data-extraction', 'erp', 'accounting'],
+    estimatedTime: '6 minutes',
+    useCase: 'Automate invoice processing from receipt to ERP system integration',
+    businessValue: 'Reduce invoice processing time by 80% and eliminate manual data entry errors',
+    industryFocus: ['Accounting', 'Finance', 'Retail', 'Manufacturing'],
+    nodes: [
+      {
+        id: 'input-1',
+        type: 'workflowNode',
+        position: { x: 100, y: 250 },
+        data: {
+          label: 'Upload Invoices',
+          type: 'input',
+          status: 'idle',
+          supportedFormats: ['pdf', 'jpg', 'png', 'tiff'],
+          config: {
+            acceptedTypes: ['pdf', 'jpg', 'png', 'tiff'],
+            batchProcessing: true
+          }
+        }
+      },
+      {
+        id: 'enhance-1',
+        type: 'workflowNode',
+        position: { x: 300, y: 250 },
+        data: {
+          label: 'Enhance Images',
+          type: 'process',
+          status: 'idle',
+          inputFormats: ['jpg', 'png', 'tiff'],
+          outputFormat: 'enhanced-image',
+          config: {
+            deskew: true,
+            denoise: true,
+            sharpen: true,
+            contrastEnhancement: true
+          }
+        }
+      },
+      {
+        id: 'ocr-1',
+        type: 'workflowNode',
+        position: { x: 500, y: 250 },
+        data: {
+          label: 'Advanced OCR',
+          type: 'ocr',
+          status: 'idle',
+          inputFormats: ['pdf', 'enhanced-image'],
+          outputFormat: 'structured-data',
+          config: {
+            language: 'eng',
+            confidence: 90,
+            extractTables: true,
+            recognizeHandwriting: true,
+            invoiceTemplate: true
+          }
+        }
+      },
+      {
+        id: 'validate-1',
+        type: 'workflowNode',
+        position: { x: 700, y: 150 },
+        data: {
+          label: 'Validate Data',
+          type: 'condition',
+          status: 'idle',
+          inputFormats: ['structured-data'],
+          config: {
+            condition: 'validateInvoiceData',
+            checkAmounts: true,
+            verifyVendor: true,
+            validateDates: true,
+            flagDuplicates: true
+          }
+        }
+      },
+      {
+        id: 'export-1',
+        type: 'workflowNode',
+        position: { x: 700, y: 350 },
+        data: {
+          label: 'Export to Excel',
+          type: 'convert',
+          status: 'idle',
+          inputFormats: ['structured-data'],
+          outputFormat: 'xlsx',
+          config: {
+            outputFormat: 'xlsx',
+            includeMetadata: true,
+            createPivotTables: true,
+            addFormulas: true
+          }
+        }
+      },
+      {
+        id: 'output-1',
+        type: 'workflowNode',
+        position: { x: 900, y: 250 },
+        data: {
+          label: 'Download Results',
+          type: 'output',
+          status: 'idle',
+          inputFormats: ['xlsx', 'structured-data'],
+          config: {
+            includeOriginals: true,
+            createReport: true
+          }
+        }
+      }
+    ],
+    edges: [
+      {
+        id: 'e1-2',
+        source: 'input-1',
+        target: 'enhance-1',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e2-3',
+        source: 'enhance-1',
+        target: 'ocr-1',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e3-4',
+        source: 'ocr-1',
+        target: 'validate-1',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e3-5',
+        source: 'ocr-1',
+        target: 'export-1',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e4-6',
+        source: 'validate-1',
+        target: 'output-1',
+        type: 'smoothstep'
+      },
+      {
+        id: 'e5-6',
+        source: 'export-1',
         target: 'output-1',
         type: 'smoothstep'
       }
