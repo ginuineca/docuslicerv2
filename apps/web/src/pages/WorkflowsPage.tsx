@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import { Logo } from '../components'
 import { WorkflowBuilderWrapper } from '../components/workflow/WorkflowBuilder'
 import { Link } from 'react-router-dom'
-import { ArrowLeft, Workflow, Save, Play, Share, Layout } from 'lucide-react'
+import { ArrowLeft, Workflow, Save, Play, Share, Layout, Upload, AlertCircle, CheckCircle, Clock } from 'lucide-react'
 import { Node, Edge } from 'reactflow'
+import { workflowService, type Workflow as BackendWorkflow } from '../services/workflowService'
 
 interface SavedWorkflow {
   id: string
@@ -17,6 +18,18 @@ interface SavedWorkflow {
   isTemplate: boolean
 }
 
+interface WorkflowExecution {
+  id: string
+  workflowId: string
+  status: 'pending' | 'running' | 'completed' | 'failed'
+  progress: number
+  startedAt: Date
+  completedAt?: Date
+  error?: string
+  inputFiles: string[]
+  outputFiles: string[]
+}
+
 export function WorkflowsPage() {
   const { user } = useAuth()
   const [currentWorkflow, setCurrentWorkflow] = useState<SavedWorkflow | null>(null)
@@ -24,33 +37,173 @@ export function WorkflowsPage() {
   const [showSaveDialog, setShowSaveDialog] = useState(false)
   const [workflowName, setWorkflowName] = useState('')
   const [workflowDescription, setWorkflowDescription] = useState('')
+  const [currentExecution, setCurrentExecution] = useState<WorkflowExecution | null>(null)
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  // Load workflows from backend on component mount
+  useEffect(() => {
+    loadWorkflows()
+  }, [])
+
+  const loadWorkflows = async () => {
+    try {
+      setIsLoading(true)
+      const workflows = await workflowService.getWorkflows()
+      const savedWorkflows = workflows.map(w => ({
+        id: w.id,
+        name: w.name,
+        description: w.description,
+        nodes: w.nodes.map(node => ({
+          id: node.id,
+          type: 'workflowNode',
+          position: node.position,
+          data: {
+            label: node.label,
+            type: node.type,
+            status: node.status,
+            config: node.config,
+            progress: node.progress
+          }
+        })) as Node[],
+        edges: w.edges.map(edge => ({
+          id: edge.id,
+          source: edge.source,
+          target: edge.target
+        })) as Edge[],
+        createdAt: w.createdAt,
+        updatedAt: w.updatedAt,
+        isTemplate: false
+      }))
+      setSavedWorkflows(savedWorkflows)
+    } catch (error) {
+      console.error('Failed to load workflows:', error)
+      setError('Failed to load workflows')
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   const handleSaveWorkflow = (workflow: { nodes: Node[]; edges: Edge[] }) => {
     setShowSaveDialog(true)
   }
 
-  const confirmSaveWorkflow = (workflow: { nodes: Node[]; edges: Edge[] }) => {
-    const newWorkflow: SavedWorkflow = {
-      id: Date.now().toString(),
-      name: workflowName || 'Untitled Workflow',
-      description: workflowDescription || '',
-      nodes: workflow.nodes,
-      edges: workflow.edges,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      isTemplate: false
-    }
+  const confirmSaveWorkflow = async (workflow: { nodes: Node[]; edges: Edge[] }) => {
+    try {
+      setIsLoading(true)
+      setError(null)
 
-    setSavedWorkflows(prev => [...prev, newWorkflow])
-    setCurrentWorkflow(newWorkflow)
-    setShowSaveDialog(false)
-    setWorkflowName('')
-    setWorkflowDescription('')
+      const savedWorkflow = await workflowService.createWorkflow({
+        name: workflowName || 'Untitled Workflow',
+        description: workflowDescription || '',
+        nodes: workflow.nodes,
+        edges: workflow.edges
+      })
+
+      const newWorkflow: SavedWorkflow = {
+        id: savedWorkflow.id,
+        name: savedWorkflow.name,
+        description: savedWorkflow.description,
+        nodes: savedWorkflow.nodes.map(node => ({
+          id: node.id,
+          type: 'workflowNode',
+          position: node.position,
+          data: {
+            label: node.label,
+            type: node.type,
+            status: node.status,
+            config: node.config,
+            progress: node.progress
+          }
+        })) as Node[],
+        edges: savedWorkflow.edges.map(edge => ({
+          id: edge.id,
+          source: edge.source,
+          target: edge.target
+        })) as Edge[],
+        createdAt: savedWorkflow.createdAt,
+        updatedAt: savedWorkflow.updatedAt,
+        isTemplate: false
+      }
+
+      setSavedWorkflows(prev => [...prev, newWorkflow])
+      setCurrentWorkflow(newWorkflow)
+      setShowSaveDialog(false)
+      setWorkflowName('')
+      setWorkflowDescription('')
+    } catch (error) {
+      console.error('Save workflow error:', error)
+      setError('Failed to save workflow')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
-  const handleRunWorkflow = (workflow: { nodes: Node[]; edges: Edge[] }) => {
-    console.log('Running workflow:', workflow)
-    // In a real app, this would trigger the actual workflow execution
+  const getOperationFromNodeType = (type: string): string => {
+    const operationMap: Record<string, string> = {
+      'input': 'file-input',
+      'split': 'pdf-split',
+      'merge': 'pdf-merge',
+      'extract': 'pdf-extract-pages',
+      'output': 'file-output',
+      'condition': 'condition'
+    }
+    return operationMap[type] || type
+  }
+
+  const handleRunWorkflow = async (workflow: { nodes: Node[]; edges: Edge[] }) => {
+    if (uploadedFiles.length === 0) {
+      setError('Please upload files before running the workflow')
+      return
+    }
+
+    try {
+      setIsLoading(true)
+      setError(null)
+
+      // First save the workflow if it's not saved yet
+      let workflowId = currentWorkflow?.id
+      if (!workflowId) {
+        const tempName = `Temp Workflow ${Date.now()}`
+        const savedWorkflow = await workflowService.createWorkflow({
+          name: tempName,
+          description: 'Temporary workflow for execution',
+          nodes: workflow.nodes,
+          edges: workflow.edges
+        })
+        workflowId = savedWorkflow.id
+      }
+
+      // Execute workflow with uploaded files
+      const execution = await workflowService.executeWorkflow(workflowId, uploadedFiles)
+      setCurrentExecution(execution)
+
+      // Poll for execution status
+      pollExecutionStatus(execution.id)
+    } catch (error) {
+      console.error('Run workflow error:', error)
+      setError('Failed to run workflow')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const pollExecutionStatus = async (executionId: string) => {
+    const poll = async () => {
+      try {
+        const execution = await workflowService.getExecution(executionId)
+        setCurrentExecution(execution)
+
+        if (execution.status === 'running') {
+          setTimeout(poll, 2000) // Poll every 2 seconds
+        }
+      } catch (error) {
+        console.error('Failed to poll execution status:', error)
+      }
+    }
+
+    poll()
   }
 
   const loadWorkflow = (workflow: SavedWorkflow) => {
@@ -58,10 +211,33 @@ export function WorkflowsPage() {
     // The workflow builder would need to be updated to accept initial nodes/edges
   }
 
-  const deleteWorkflow = (workflowId: string) => {
-    setSavedWorkflows(prev => prev.filter(w => w.id !== workflowId))
-    if (currentWorkflow?.id === workflowId) {
-      setCurrentWorkflow(null)
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || [])
+    const pdfFiles = files.filter(file => file.type === 'application/pdf')
+
+    if (pdfFiles.length !== files.length) {
+      setError('Only PDF files are supported')
+      return
+    }
+
+    setUploadedFiles(pdfFiles)
+    setError(null)
+  }
+
+  const removeFile = (index: number) => {
+    setUploadedFiles(prev => prev.filter((_, i) => i !== index))
+  }
+
+  const deleteWorkflow = async (workflowId: string) => {
+    try {
+      await workflowService.deleteWorkflow(workflowId)
+      setSavedWorkflows(prev => prev.filter(w => w.id !== workflowId))
+      if (currentWorkflow?.id === workflowId) {
+        setCurrentWorkflow(null)
+      }
+    } catch (error) {
+      console.error('Delete workflow error:', error)
+      setError('Failed to delete workflow')
     }
   }
 
@@ -168,13 +344,117 @@ export function WorkflowsPage() {
           )}
         </div>
 
-        {/* Workflow Builder */}
-        <div className="flex-1">
-          <WorkflowBuilderWrapper
-            onSave={handleSaveWorkflow}
-            onRun={handleRunWorkflow}
-            className="h-full"
-          />
+        {/* Main Workflow Area */}
+        <div className="flex-1 flex flex-col">
+          {/* File Upload and Status Panel */}
+          <div className="bg-white border-b border-gray-200 p-4">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-medium text-gray-900">Input Files</h3>
+              {currentExecution && (
+                <div className="flex items-center space-x-2">
+                  {currentExecution.status === 'running' && (
+                    <Clock className="h-4 w-4 text-blue-500 animate-spin" />
+                  )}
+                  {currentExecution.status === 'completed' && (
+                    <CheckCircle className="h-4 w-4 text-green-500" />
+                  )}
+                  {currentExecution.status === 'failed' && (
+                    <AlertCircle className="h-4 w-4 text-red-500" />
+                  )}
+                  <span className={`text-sm font-medium ${
+                    currentExecution.status === 'running' ? 'text-blue-600' :
+                    currentExecution.status === 'completed' ? 'text-green-600' :
+                    currentExecution.status === 'failed' ? 'text-red-600' :
+                    'text-gray-600'
+                  }`}>
+                    {currentExecution.status.charAt(0).toUpperCase() + currentExecution.status.slice(1)}
+                    {currentExecution.status === 'running' && ` (${currentExecution.progress}%)`}
+                  </span>
+                </div>
+              )}
+            </div>
+
+            {/* File Upload Area */}
+            <div className="flex items-center space-x-4">
+              <div className="flex-1">
+                <label className="flex items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                    <Upload className="h-8 w-8 text-gray-400 mb-2" />
+                    <p className="text-sm text-gray-600">
+                      <span className="font-medium">Click to upload</span> or drag and drop
+                    </p>
+                    <p className="text-xs text-gray-500">PDF files only</p>
+                  </div>
+                  <input
+                    type="file"
+                    multiple
+                    accept=".pdf"
+                    onChange={handleFileUpload}
+                    className="hidden"
+                  />
+                </label>
+              </div>
+
+              {/* Uploaded Files List */}
+              {uploadedFiles.length > 0 && (
+                <div className="w-64">
+                  <h4 className="text-sm font-medium text-gray-700 mb-2">
+                    Uploaded Files ({uploadedFiles.length})
+                  </h4>
+                  <div className="space-y-1 max-h-24 overflow-y-auto">
+                    {uploadedFiles.map((file, index) => (
+                      <div key={index} className="flex items-center justify-between bg-gray-100 px-2 py-1 rounded text-xs">
+                        <span className="truncate flex-1">{file.name}</span>
+                        <button
+                          onClick={() => removeFile(index)}
+                          className="text-red-500 hover:text-red-700 ml-2"
+                        >
+                          ×
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Error Display */}
+            {error && (
+              <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-md">
+                <div className="flex items-center">
+                  <AlertCircle className="h-4 w-4 text-red-500 mr-2" />
+                  <span className="text-sm text-red-700">{error}</span>
+                </div>
+              </div>
+            )}
+
+            {/* Execution Progress */}
+            {currentExecution && currentExecution.status === 'running' && (
+              <div className="mt-4">
+                <div className="flex items-center justify-between text-sm text-gray-600 mb-1">
+                  <span>Processing workflow...</span>
+                  <span>{currentExecution.progress}%</span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div
+                    className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                    style={{ width: `${currentExecution.progress}%` }}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Workflow Builder */}
+          <div className="flex-1">
+            <WorkflowBuilderWrapper
+              onSave={handleSaveWorkflow}
+              onRun={handleRunWorkflow}
+              initialNodes={currentWorkflow?.nodes}
+              initialEdges={currentWorkflow?.edges}
+              className="h-full"
+            />
+          </div>
         </div>
       </div>
 

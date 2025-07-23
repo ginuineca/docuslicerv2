@@ -1,4 +1,4 @@
-import { useCallback, useState, useMemo } from 'react'
+import { useCallback, useState, useMemo, useEffect } from 'react'
 import ReactFlow, {
   Node,
   Edge,
@@ -40,14 +40,35 @@ const initialEdges: Edge[] = []
 interface WorkflowBuilderProps {
   onSave?: (workflow: { nodes: Node[]; edges: Edge[] }) => void
   onRun?: (workflow: { nodes: Node[]; edges: Edge[] }) => void
+  initialNodes?: Node<WorkflowNodeData>[]
+  initialEdges?: Edge[]
   className?: string
 }
 
-export function WorkflowBuilder({ onSave, onRun, className = '' }: WorkflowBuilderProps) {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
+export function WorkflowBuilder({
+  onSave,
+  onRun,
+  initialNodes: propInitialNodes,
+  initialEdges: propInitialEdges,
+  className = ''
+}: WorkflowBuilderProps) {
+  const [nodes, setNodes, onNodesChange] = useNodesState(propInitialNodes || initialNodes)
+  const [edges, setEdges, onEdgesChange] = useEdgesState(propInitialEdges || initialEdges)
   const [selectedNode, setSelectedNode] = useState<Node<WorkflowNodeData> | null>(null)
   const [isRunning, setIsRunning] = useState(false)
+
+  // Update nodes and edges when props change
+  useEffect(() => {
+    if (propInitialNodes) {
+      setNodes(propInitialNodes)
+    }
+  }, [propInitialNodes, setNodes])
+
+  useEffect(() => {
+    if (propInitialEdges) {
+      setEdges(propInitialEdges)
+    }
+  }, [propInitialEdges, setEdges])
 
   const onConnect = useCallback(
     (params: Connection) => setEdges((eds) => addEdge(params, eds)),

@@ -1,14 +1,14 @@
 import { useState, useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
-import { 
-  Upload, 
-  FileText, 
-  Shield, 
+import {
+  Upload,
+  FileText,
+  Shield,
   Lock,
   Key,
   Eye,
   EyeOff,
-  Signature,
+  PenTool,
   Droplets,
   CheckCircle,
   AlertTriangle,
@@ -90,7 +90,7 @@ export function PDFSecurityCenter({ onSecurityComplete, className = '' }: PDFSec
       id: 'digital-signature',
       name: 'Digital Signature',
       description: 'Add digital signatures for authenticity',
-      icon: Signature,
+      icon: PenTool,
       color: 'green',
       category: 'protection'
     },
