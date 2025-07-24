@@ -29,18 +29,36 @@ jobs:
           echo "📦 Installing dependencies..."
           npm install --production
 
+          echo "🔨 Building API..."
+          npm run build:api
+
           echo "🔨 Building web application..."
           npm run build:web
 
-          echo "🔄 Restarting services..."
-          pm2 restart docuslicer-api || echo "API restart failed"
-          pm2 restart docuslicer-web || echo "Web restart failed"
+          echo "🔄 Stopping services..."
+          pm2 stop docuslicer-api || echo "API not running"
+          pm2 stop docuslicer-web || echo "Web not running"
 
-          echo "⏳ Waiting for services..."
-          sleep 10
+          echo "🚀 Starting services..."
+          pm2 start ecosystem.config.js --env production || echo "PM2 start failed"
 
-          echo "🏥 Health check..."
+          echo "⏳ Waiting for services to start..."
+          sleep 20
+
+          echo "📊 PM2 Status..."
+          pm2 status
+
+          echo "🏥 Health checks..."
+          echo "Testing API server..."
           curl -f http://localhost:3001/health && echo "✅ API healthy" || echo "❌ API unhealthy"
+
+          echo "Testing Workflow API..."
+          curl -f http://localhost:3001/api/workflow/health && echo "✅ Workflow API healthy" || echo "❌ Workflow API unhealthy"
+
+          echo "Testing Web server..."
           curl -f http://localhost:3000 && echo "✅ Web healthy" || echo "❌ Web unhealthy"
+
+          echo "🌐 Testing public endpoints..."
+          curl -f http://docuslicer.com/api/workflow/health && echo "✅ Public Workflow API healthy" || echo "❌ Public Workflow API unhealthy"
 
           echo "✅ Deployment completed!"
