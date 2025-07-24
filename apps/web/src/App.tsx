@@ -6,6 +6,7 @@ import { DashboardPage } from './pages/DashboardPage'
 import { ProcessPage } from './pages/ProcessPage'
 import { DocumentsPage } from './pages/DocumentsPage'
 import { WorkflowsPage } from './pages/WorkflowsPage'
+import { SettingsPage } from './pages/SettingsPage'
 import { SignInPage } from './pages/SignInPage'
 import { SignUpPage } from './pages/SignUpPage'
 import './App.css'
@@ -48,6 +49,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <WorkflowsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/settings"
+              element={
+                <ProtectedRoute>
+                  <SettingsPage />
                 </ProtectedRoute>
               }
             />

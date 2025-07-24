@@ -85,14 +85,6 @@ export function DashboardPage() {
             <p className="text-gray-600 text-sm">Upload and process PDF documents</p>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer">
-            <div className="flex items-center justify-center w-12 h-12 bg-green-100 rounded-lg mb-4">
-              <Activity className="h-6 w-6 text-green-600" />
-            </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Workflows</h3>
-            <p className="text-gray-600 text-sm">Manage and create automation workflows</p>
-          </div>
-
           <div
             onClick={() => navigate('/documents')}
             className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer"
@@ -115,7 +107,10 @@ export function DashboardPage() {
             <p className="text-gray-600 text-sm">Create automated PDF processing workflows</p>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+          <div
+            onClick={() => navigate('/settings')}
+            className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+          >
             <div className="flex items-center justify-center w-12 h-12 bg-orange-100 rounded-lg mb-4">
               <Settings className="h-6 w-6 text-orange-600" />
             </div>
