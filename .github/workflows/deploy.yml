@@ -39,10 +39,10 @@ jobs:
           CORS_ORIGIN=http://docuslicer.com
           EOF
 
-          # Create Web environment file
+          # Create Web environment file with IP configuration
           cat > apps/web/.env << 'EOF'
           NODE_ENV=production
-          VITE_API_URL=http://docuslicer.com/api
+          VITE_API_URL=http://162.216.113.89/api
           VITE_APP_NAME=DocuSlicer
           VITE_APP_VERSION=2.0.0
 
@@ -73,10 +73,8 @@ jobs:
           pm2 stop docuslicer-api || echo "API not running"
           pm2 stop docuslicer-web || echo "Web not running"
 
-          echo "🌐 Configuring nginx..."
-          sudo cp nginx-docuslicer.conf /etc/nginx/sites-available/docuslicer
-          sudo ln -sf /etc/nginx/sites-available/docuslicer /etc/nginx/sites-enabled/
-          sudo rm -f /etc/nginx/sites-enabled/default
+          echo "🌐 Configuring nginx for IP access..."
+          sudo cp nginx-ip-config.conf /etc/nginx/sites-available/default
           sudo nginx -t && sudo systemctl reload nginx || echo "Nginx configuration failed"
 
           echo "🚀 Starting services..."
@@ -102,14 +100,14 @@ jobs:
           curl -f http://localhost:3000 && echo "✅ Web healthy" || echo "❌ Web unhealthy"
 
           echo "🌐 Testing public endpoints..."
-          curl -f http://docuslicer.com/api/workflow/health && echo "✅ Public Workflow API healthy" || echo "❌ Public Workflow API unhealthy"
+          curl -f http://162.216.113.89/api/workflow/health && echo "✅ Public Workflow API healthy" || echo "❌ Public Workflow API unhealthy"
 
           echo "📈 Performance metrics..."
           curl -s http://localhost:3001/health | jq '.performance' || echo "Performance metrics not available"
 
           echo "🔍 Final connectivity tests..."
           echo "Testing main site externally..."
-          curl -I http://docuslicer.com/ && echo "✅ Main site accessible" || echo "❌ Main site not accessible"
+          curl -I http://162.216.113.89/ && echo "✅ Main site accessible" || echo "❌ Main site not accessible"
 
           echo "🔥 Checking firewall and ports..."
           sudo ufw status || echo "UFW not configured"
@@ -119,4 +117,5 @@ jobs:
           find apps/web/dist -name "*.map" -delete || echo "No source maps to clean"
 
           echo "✅ Deployment completed with performance optimizations!"
-          echo "🌐 Site should be accessible at: http://docuslicer.com"
+          echo "🌐 Site should be accessible at: http://162.216.113.89"
+          echo "🔧 API endpoint: http://162.216.113.89/api"
