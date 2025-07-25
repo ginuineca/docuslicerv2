@@ -39,10 +39,10 @@ jobs:
           CORS_ORIGIN=http://docuslicer.com
           EOF
 
-          # Create Web environment file for InterServer
+          # Create Web environment file for InterServer VPS
           cat > apps/web/.env << 'EOF'
           NODE_ENV=production
-          VITE_API_URL=https://docuslicer.com/api
+          VITE_API_URL=http://docuslicer.com/api
           VITE_APP_NAME=DocuSlicer
           VITE_APP_VERSION=2.0.0
 
@@ -73,23 +73,35 @@ jobs:
           pm2 stop docuslicer-api || echo "API not running"
           pm2 stop docuslicer-web || echo "Web not running"
 
-          echo "🌐 Configuring web server for InterServer..."
-          # InterServer typically uses Apache with .htaccess
-          # Create .htaccess for React Router
-          cat > apps/web/dist/.htaccess << 'EOF'
-          Options -MultiViews
-          RewriteEngine On
-          RewriteCond %{REQUEST_FILENAME} !-f
-          RewriteRule ^ index.html [QSA,L]
+          echo "🌐 Configuring nginx for InterServer VPS..."
+          sudo cp nginx-docuslicer.conf /etc/nginx/sites-available/docuslicer
+          sudo ln -sf /etc/nginx/sites-available/docuslicer /etc/nginx/sites-enabled/
+          sudo rm -f /etc/nginx/sites-enabled/default
 
-          # Enable compression
-          <IfModule mod_deflate.c>
-              AddOutputFilterByType DEFLATE text/plain text/html text/xml text/css application/xml application/xhtml+xml application/rss+xml application/javascript application/x-javascript
-          </IfModule>
-          EOF
+          echo "✅ Testing nginx configuration..."
+          sudo nginx -t
 
-          echo "🚀 Starting services..."
-          pm2 start ecosystem.config.js --env production || echo "PM2 start failed"
+          if [ $? -eq 0 ]; then
+              echo "✅ Nginx config valid, reloading..."
+              sudo systemctl reload nginx
+              sudo systemctl enable nginx
+          else
+              echo "❌ Nginx configuration error"
+              exit 1
+          fi
+
+          echo "🚀 Starting services with PM2..."
+          # Create log directory
+          sudo mkdir -p /var/log/docuslicer
+          sudo chown -R $USER:$USER /var/log/docuslicer
+
+          # Stop existing processes
+          pm2 stop all || true
+          pm2 delete all || true
+
+          # Start services
+          pm2 start ecosystem.config.js --env production
+          pm2 save
 
           echo "⏳ Waiting for services to start..."
           sleep 20
