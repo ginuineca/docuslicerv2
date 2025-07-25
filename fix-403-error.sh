@@ -1,7 +1,28 @@
 #!/bin/bash
 
-# Fix 403 Forbidden Error for DocuSlicer
-echo "🔧 Fixing 403 Forbidden Error for DocuSlicer..."
+# Fix Connection Issues for DocuSlicer
+echo "🔧 Fixing Connection Issues for DocuSlicer..."
+
+# Check if we're running as root or with sudo
+if [ "$EUID" -ne 0 ]; then
+    echo "❌ Please run this script with sudo"
+    exit 1
+fi
+
+echo "🔍 Diagnosing server status..."
+
+# Check if nginx is running
+if systemctl is-active --quiet nginx; then
+    echo "✅ Nginx is running"
+else
+    echo "❌ Nginx is not running, starting..."
+    systemctl start nginx
+fi
+
+# Check if ports are open
+echo "🔍 Checking port availability..."
+netstat -tlnp | grep :80 && echo "✅ Port 80 is open" || echo "❌ Port 80 is not open"
+netstat -tlnp | grep :3001 && echo "✅ Port 3001 is open" || echo "❌ Port 3001 is not open"
 
 # Navigate to project directory
 cd /var/www/docuslicer || exit 1
@@ -49,4 +70,20 @@ pm2 status
 echo "🌐 Nginx Status:"
 sudo systemctl status nginx --no-pager -l
 
-echo "✅ Fix complete! DocuSlicer should now be accessible."
+echo "🔥 Checking firewall status..."
+ufw status || echo "UFW not configured"
+
+echo "🌐 Testing external connectivity..."
+curl -I http://docuslicer.com/ && echo "✅ External access OK" || echo "❌ External access failed"
+
+echo "📋 Final status summary:"
+echo "Nginx: $(systemctl is-active nginx)"
+echo "PM2 processes:"
+pm2 list
+
+echo "🔍 If still having issues, check:"
+echo "1. Domain DNS settings (should point to server IP)"
+echo "2. Server firewall/security groups"
+echo "3. Network connectivity"
+
+echo "✅ Fix complete! DocuSlicer should now be accessible at http://docuslicer.com"

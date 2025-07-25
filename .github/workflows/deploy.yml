@@ -45,6 +45,10 @@ jobs:
           VITE_API_URL=http://docuslicer.com/api
           VITE_APP_NAME=DocuSlicer
           VITE_APP_VERSION=2.0.0
+
+          # Supabase Configuration
+          VITE_SUPABASE_URL=https://phqznzfdrecztrklnetj.supabase.co
+          VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBocXpuemZkcmVjenRya2xuZXRqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI4NTI4NDksImV4cCI6MjA2ODQyODg0OX0.JhmRRSfR1bD98QXy3V8uiYQmjGVhQuGuu_QmzCssW4o
           EOF
 
           echo "🔨 Building API with optimizations..."
@@ -103,7 +107,16 @@ jobs:
           echo "📈 Performance metrics..."
           curl -s http://localhost:3001/health | jq '.performance' || echo "Performance metrics not available"
 
+          echo "🔍 Final connectivity tests..."
+          echo "Testing main site externally..."
+          curl -I http://docuslicer.com/ && echo "✅ Main site accessible" || echo "❌ Main site not accessible"
+
+          echo "🔥 Checking firewall and ports..."
+          sudo ufw status || echo "UFW not configured"
+          netstat -tlnp | grep :80 && echo "✅ Port 80 open" || echo "❌ Port 80 not open"
+
           echo "🧹 Cleaning up old files..."
           find apps/web/dist -name "*.map" -delete || echo "No source maps to clean"
 
           echo "✅ Deployment completed with performance optimizations!"
+          echo "🌐 Site should be accessible at: http://docuslicer.com"
