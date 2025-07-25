@@ -1,5 +1,16 @@
+// Core components
 export { Logo } from './Logo'
 export { LogoIcon } from './LogoIcon'
+export { DemoBanner } from './DemoBanner'
+
+// Layout components
+export { AppLayout } from './layout/AppLayout'
+
+// UI components
+export { Button, IconButton, FloatingActionButton, ButtonGroup } from './ui/Button'
+export { Card, StatsCard, ActionCard, FeatureCard } from './ui/Card'
+
+// PDF processing components
 export { PDFUpload } from './PDFUpload'
 export { PDFViewer } from './PDFViewer'
 export { PDFSplitter } from './PDFSplitter'

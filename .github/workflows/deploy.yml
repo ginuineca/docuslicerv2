@@ -29,11 +29,36 @@ jobs:
           echo "📦 Installing dependencies..."
           npm install --production
 
-          echo "🔨 Building API..."
-          npm run build:api
+          echo "⚙️ Setting up production environment..."
+          # Create API environment file
+          cat > apps/api/.env << 'EOF'
+          NODE_ENV=production
+          PORT=3001
+          HOST=0.0.0.0
+          FRONTEND_URL=http://docuslicer.com
+          CORS_ORIGIN=http://docuslicer.com
+          EOF
 
-          echo "🔨 Building web application..."
-          npm run build:web
+          # Create Web environment file
+          cat > apps/web/.env << 'EOF'
+          NODE_ENV=production
+          VITE_API_URL=http://docuslicer.com/api
+          VITE_APP_NAME=DocuSlicer
+          VITE_APP_VERSION=2.0.0
+          EOF
+
+          echo "🔨 Building API with optimizations..."
+          NODE_ENV=production npm run build:api
+
+          echo "🔨 Building web application with optimizations..."
+          NODE_ENV=production npm run build:web
+
+          echo "📊 Analyzing bundle sizes..."
+          ls -lh apps/web/dist/assets/ || echo "No assets directory found"
+
+          echo "🗜️ Compressing assets..."
+          find apps/web/dist -name "*.js" -exec gzip -k {} \;
+          find apps/web/dist -name "*.css" -exec gzip -k {} \;
 
           echo "🔄 Stopping services..."
           pm2 stop docuslicer-api || echo "API not running"
@@ -48,9 +73,12 @@ jobs:
           echo "📊 PM2 Status..."
           pm2 status
 
-          echo "🏥 Health checks..."
+          echo "🏥 Health checks and performance validation..."
           echo "Testing API server..."
           curl -f http://localhost:3001/health && echo "✅ API healthy" || echo "❌ API unhealthy"
+
+          echo "Testing API performance..."
+          curl -w "Response time: %{time_total}s\n" -f http://localhost:3001/health > /dev/null
 
           echo "Testing Workflow API..."
           curl -f http://localhost:3001/api/workflow/health && echo "✅ Workflow API healthy" || echo "❌ Workflow API unhealthy"
@@ -61,4 +89,10 @@ jobs:
           echo "🌐 Testing public endpoints..."
           curl -f http://docuslicer.com/api/workflow/health && echo "✅ Public Workflow API healthy" || echo "❌ Public Workflow API unhealthy"
 
-          echo "✅ Deployment completed!"
+          echo "📈 Performance metrics..."
+          curl -s http://localhost:3001/health | jq '.performance' || echo "Performance metrics not available"
+
+          echo "🧹 Cleaning up old files..."
+          find apps/web/dist -name "*.map" -delete || echo "No source maps to clean"
+
+          echo "✅ Deployment completed with performance optimizations!"

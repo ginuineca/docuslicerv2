@@ -1,0 +1,195 @@
+#!/bin/bash
+
+# Fix DocuSlicer Nginx Configuration
+# This script will properly configure nginx for external access
+
+set -e
+
+echo "🔧 Fixing DocuSlicer Nginx Configuration..."
+
+# Backup existing configurations
+echo "📦 Creating backup of existing nginx configurations..."
+sudo cp -r /etc/nginx/sites-available /etc/nginx/sites-available.backup.$(date +%Y%m%d_%H%M%S) 2>/dev/null || true
+sudo cp -r /etc/nginx/sites-enabled /etc/nginx/sites-enabled.backup.$(date +%Y%m%d_%H%M%S) 2>/dev/null || true
+
+# Remove all existing site configurations to avoid conflicts
+echo "🧹 Cleaning up existing configurations..."
+sudo rm -f /etc/nginx/sites-enabled/*
+sudo rm -f /etc/nginx/sites-available/docuslicer*
+
+# Create the new optimized nginx configuration
+echo "📝 Creating new nginx configuration..."
+sudo tee /etc/nginx/sites-available/docuslicer > /dev/null << 'EOF'
+# DocuSlicer Nginx Configuration
+# Optimized for external access and proper DNS resolution
+
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name docuslicer.com www.docuslicer.com 162.216.113.89 _;
+    
+    # Increase client body size for file uploads
+    client_max_body_size 100M;
+    
+    # Security headers
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-XSS-Protection "1; mode=block" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header Referrer-Policy "no-referrer-when-downgrade" always;
+    add_header Content-Security-Policy "default-src 'self' http: https: data: blob: 'unsafe-inline' 'unsafe-eval'" always;
+    
+    # Gzip compression
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_proxied any;
+    gzip_types 
+        text/plain
+        text/css
+        text/xml
+        text/javascript
+        application/javascript
+        application/xml+rss
+        application/json
+        application/xml
+        image/svg+xml;
+    
+    # Root directory for static files
+    root /var/www/docuslicer/apps/web/dist;
+    index index.html index.htm;
+    
+    # Handle static assets with long cache times
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|webp|avif)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+        add_header Access-Control-Allow-Origin "*";
+        try_files $uri =404;
+    }
+    
+    # API proxy - forward all /api requests to the Node.js server
+    location /api/ {
+        proxy_pass http://127.0.0.1:3001/api/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+        proxy_read_timeout 300;
+        proxy_connect_timeout 300;
+        proxy_send_timeout 300;
+        
+        # CORS headers for API
+        add_header Access-Control-Allow-Origin "*" always;
+        add_header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS" always;
+        add_header Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept, Authorization" always;
+        
+        if ($request_method = 'OPTIONS') {
+            return 204;
+        }
+    }
+    
+    # API proxy without trailing slash
+    location /api {
+        proxy_pass http://127.0.0.1:3001/api;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+        proxy_read_timeout 300;
+        proxy_connect_timeout 300;
+        proxy_send_timeout 300;
+    }
+    
+    # WebSocket support for real-time features
+    location /socket.io/ {
+        proxy_pass http://127.0.0.1:3001/socket.io/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+    
+    # Health check endpoint
+    location /health {
+        access_log off;
+        return 200 "healthy\n";
+        add_header Content-Type text/plain;
+    }
+    
+    # Handle React Router - serve index.html for all routes that don't match files
+    # This must be last to catch all unmatched routes
+    location / {
+        try_files $uri $uri/ @fallback;
+    }
+    
+    # Fallback for React Router
+    location @fallback {
+        rewrite ^.*$ /index.html last;
+    }
+    
+    # Security - deny access to sensitive files
+    location ~ /\. {
+        deny all;
+        return 404;
+    }
+    
+    location ~ ^/(\.user.ini|\.htaccess|\.htpasswd|\.sh|\.bak|\.swp|\.swo)$ {
+        deny all;
+        return 404;
+    }
+    
+    # Deny access to sensitive directories
+    location ~ ^/(node_modules|\.git|logs|temp|uploads)/ {
+        deny all;
+        return 404;
+    }
+    
+    # Logging
+    access_log /var/log/nginx/docuslicer_access.log;
+    error_log /var/log/nginx/docuslicer_error.log;
+}
+EOF
+
+# Enable the site
+echo "🔗 Enabling the site..."
+sudo ln -sf /etc/nginx/sites-available/docuslicer /etc/nginx/sites-enabled/
+
+# Test nginx configuration
+echo "🧪 Testing nginx configuration..."
+if sudo nginx -t; then
+    echo "✅ Nginx configuration is valid"
+else
+    echo "❌ Nginx configuration has errors"
+    exit 1
+fi
+
+# Reload nginx
+echo "🔄 Reloading nginx..."
+sudo systemctl reload nginx
+
+# Check nginx status
+echo "📊 Checking nginx status..."
+sudo systemctl status nginx --no-pager -l
+
+echo ""
+echo "✅ Nginx configuration has been fixed!"
+echo ""
+echo "🌐 Your site should now be accessible at:"
+echo "   - http://docuslicer.com/"
+echo "   - http://www.docuslicer.com/"
+echo "   - http://162.216.113.89/"
+echo ""
+echo "🔍 Test the configuration:"
+echo "   curl -I http://docuslicer.com/"
+echo "   curl -s http://docuslicer.com/api/status"
+echo ""

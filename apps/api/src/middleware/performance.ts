@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
+import Redis from 'ioredis'
 
 interface PerformanceMetrics {
   endpoint: string
@@ -8,6 +9,15 @@ interface PerformanceMetrics {
   timestamp: Date
   memoryUsage: NodeJS.MemoryUsage
   userAgent?: string
+  cacheHit?: boolean
+  queryCount?: number
+  payloadSize?: number
+}
+
+interface CacheOptions {
+  ttl: number // Time to live in seconds
+  key?: string
+  condition?: (req: Request, res: Response) => boolean
 }
 
 class PerformanceMonitor {
@@ -44,9 +54,30 @@ class PerformanceMonitor {
 
   getErrorRate(): number {
     if (this.metrics.length === 0) return 0
-    
+
     const errorCount = this.metrics.filter(m => m.statusCode >= 400).length
     return Math.round((errorCount / this.metrics.length) * 100)
+  }
+
+  getCacheHitRate(): number {
+    if (this.metrics.length === 0) return 0
+
+    const cacheHits = this.metrics.filter(m => m.cacheHit === true).length
+    return Math.round((cacheHits / this.metrics.length) * 100)
+  }
+
+  getMemoryTrend(): { average: number; peak: number; current: number } {
+    if (this.metrics.length === 0) {
+      const current = process.memoryUsage()
+      return { average: 0, peak: 0, current: current.heapUsed }
+    }
+
+    const memoryValues = this.metrics.map(m => m.memoryUsage.heapUsed)
+    const average = memoryValues.reduce((sum, val) => sum + val, 0) / memoryValues.length
+    const peak = Math.max(...memoryValues)
+    const current = process.memoryUsage().heapUsed
+
+    return { average: Math.round(average), peak, current }
   }
 
   getStats(): {
@@ -238,39 +269,264 @@ export function compressionMiddleware(req: Request, res: Response, next: NextFun
   next()
 }
 
+// Redis client for caching
+let redisClient: Redis | null = null
+
+try {
+  redisClient = new Redis({
+    host: process.env.REDIS_HOST || 'localhost',
+    port: parseInt(process.env.REDIS_PORT || '6379'),
+    retryDelayOnFailover: 100,
+    maxRetriesPerRequest: 3,
+    lazyConnect: true
+  })
+} catch (error) {
+  console.warn('Redis not available, caching disabled:', error)
+}
+
+/**
+ * Response caching middleware
+ */
+export function cacheMiddleware(options: CacheOptions) {
+  return async (req: Request, res: Response, next: NextFunction) => {
+    if (!redisClient || req.method !== 'GET') {
+      return next()
+    }
+
+    const cacheKey = options.key || `cache:${req.originalUrl}`
+
+    try {
+      // Check cache condition
+      if (options.condition && !options.condition(req, res)) {
+        return next()
+      }
+
+      // Try to get from cache
+      const cachedData = await redisClient.get(cacheKey)
+
+      if (cachedData) {
+        const parsed = JSON.parse(cachedData)
+        res.set(parsed.headers)
+        res.status(parsed.status)
+
+        // Mark as cache hit for metrics
+        ;(req as any).cacheHit = true
+
+        return res.json(parsed.data)
+      }
+
+      // Override res.json to cache the response
+      const originalJson = res.json.bind(res)
+      res.json = function(data: any) {
+        // Cache successful responses
+        if (res.statusCode >= 200 && res.statusCode < 300) {
+          const cacheData = {
+            data,
+            status: res.statusCode,
+            headers: res.getHeaders()
+          }
+
+          redisClient?.setex(cacheKey, options.ttl, JSON.stringify(cacheData))
+            .catch(err => console.warn('Cache write failed:', err))
+        }
+
+        return originalJson(data)
+      }
+
+      next()
+    } catch (error) {
+      console.warn('Cache middleware error:', error)
+      next()
+    }
+  }
+}
+
+/**
+ * Response compression and optimization middleware
+ */
+export function responseOptimizationMiddleware() {
+  return (req: Request, res: Response, next: NextFunction) => {
+    // Set performance headers
+    res.set({
+      'X-Content-Type-Options': 'nosniff',
+      'X-Frame-Options': 'DENY',
+      'X-XSS-Protection': '1; mode=block',
+      'Cache-Control': 'public, max-age=300', // 5 minutes default
+      'Vary': 'Accept-Encoding'
+    })
+
+    // Override res.json to optimize responses
+    const originalJson = res.json.bind(res)
+    res.json = function(data: any) {
+      // Remove null/undefined values to reduce payload size
+      const optimizedData = removeEmptyValues(data)
+
+      // Set content length for metrics
+      const jsonString = JSON.stringify(optimizedData)
+      ;(req as any).payloadSize = Buffer.byteLength(jsonString, 'utf8')
+
+      return originalJson(optimizedData)
+    }
+
+    next()
+  }
+}
+
+/**
+ * Database query optimization middleware
+ */
+export function queryOptimizationMiddleware() {
+  return (req: Request, res: Response, next: NextFunction) => {
+    const startTime = Date.now()
+    let queryCount = 0
+
+    // Mock query counter (in real app, integrate with your ORM)
+    ;(req as any).trackQuery = () => {
+      queryCount++
+    }
+
+    res.on('finish', () => {
+      ;(req as any).queryCount = queryCount
+      ;(req as any).queryTime = Date.now() - startTime
+    })
+
+    next()
+  }
+}
+
 /**
  * Health check endpoint with performance metrics
  */
 export function createHealthCheckHandler() {
   return (req: Request, res: Response) => {
     const stats = performanceMonitor.getStats()
-    const uptime = process.uptime()
-    
+    const memoryUsage = process.memoryUsage()
+    const cpuUsage = process.cpuUsage()
+
     res.json({
       status: 'healthy',
       timestamp: new Date().toISOString(),
-      uptime: {
-        seconds: Math.floor(uptime),
-        human: `${Math.floor(uptime / 3600)}h ${Math.floor((uptime % 3600) / 60)}m ${Math.floor(uptime % 60)}s`
-      },
+      uptime: process.uptime(),
       performance: {
-        totalRequests: stats.totalRequests,
-        averageResponseTime: stats.averageResponseTime,
-        slowRequests: stats.slowRequests,
-        errorRate: stats.errorRate,
-        topEndpoints: stats.topEndpoints.slice(0, 5)
+        averageResponseTime: performanceMonitor.getAverageResponseTime(),
+        errorRate: performanceMonitor.getErrorRate(),
+        cacheHitRate: performanceMonitor.getCacheHitRate(),
+        slowRequests: performanceMonitor.getSlowRequests().length,
+        totalRequests: performanceMonitor.getMetrics().length
       },
       memory: {
-        used: Math.round(stats.memoryUsage.heapUsed / 1024 / 1024),
-        total: Math.round(stats.memoryUsage.heapTotal / 1024 / 1024),
-        external: Math.round(stats.memoryUsage.external / 1024 / 1024),
-        rss: Math.round(stats.memoryUsage.rss / 1024 / 1024)
+        used: Math.round(memoryUsage.heapUsed / 1024 / 1024),
+        total: Math.round(memoryUsage.heapTotal / 1024 / 1024),
+        external: Math.round(memoryUsage.external / 1024 / 1024),
+        rss: Math.round(memoryUsage.rss / 1024 / 1024)
       },
-      system: {
-        nodeVersion: process.version,
-        platform: process.platform,
-        arch: process.arch
+      cpu: {
+        user: cpuUsage.user,
+        system: cpuUsage.system
+      },
+      cache: {
+        available: !!redisClient,
+        connected: redisClient?.status === 'ready'
       }
     })
+  }
+}
+
+/**
+ * Remove empty values from objects to reduce payload size
+ */
+function removeEmptyValues(obj: any): any {
+  if (Array.isArray(obj)) {
+    return obj.map(removeEmptyValues).filter(item => item !== null && item !== undefined)
+  }
+
+  if (obj !== null && typeof obj === 'object') {
+    const cleaned: any = {}
+
+    for (const [key, value] of Object.entries(obj)) {
+      if (value !== null && value !== undefined && value !== '') {
+        cleaned[key] = removeEmptyValues(value)
+      }
+    }
+
+    return cleaned
+  }
+
+  return obj
+}
+
+/**
+ * API rate limiting with performance tracking
+ */
+export function createRateLimitMiddleware(options: {
+  windowMs: number
+  max: number
+  message?: string
+}) {
+  const requests = new Map<string, { count: number; resetTime: number }>()
+
+  return (req: Request, res: Response, next: NextFunction) => {
+    const key = req.ip || 'unknown'
+    const now = Date.now()
+    const windowStart = now - options.windowMs
+
+    // Clean old entries
+    for (const [ip, data] of requests.entries()) {
+      if (data.resetTime < now) {
+        requests.delete(ip)
+      }
+    }
+
+    // Get or create request data
+    let requestData = requests.get(key)
+    if (!requestData || requestData.resetTime < now) {
+      requestData = { count: 0, resetTime: now + options.windowMs }
+      requests.set(key, requestData)
+    }
+
+    requestData.count++
+
+    // Set rate limit headers
+    res.set({
+      'X-RateLimit-Limit': options.max.toString(),
+      'X-RateLimit-Remaining': Math.max(0, options.max - requestData.count).toString(),
+      'X-RateLimit-Reset': new Date(requestData.resetTime).toISOString()
+    })
+
+    if (requestData.count > options.max) {
+      return res.status(429).json({
+        error: 'Too Many Requests',
+        message: options.message || 'Rate limit exceeded',
+        retryAfter: Math.ceil((requestData.resetTime - now) / 1000)
+      })
+    }
+
+    next()
+  }
+}
+
+/**
+ * Request timeout middleware
+ */
+export function timeoutMiddleware(timeoutMs: number = 30000) {
+  return (req: Request, res: Response, next: NextFunction) => {
+    const timeout = setTimeout(() => {
+      if (!res.headersSent) {
+        res.status(408).json({
+          error: 'Request Timeout',
+          message: 'Request took too long to process'
+        })
+      }
+    }, timeoutMs)
+
+    res.on('finish', () => {
+      clearTimeout(timeout)
+    })
+
+    res.on('close', () => {
+      clearTimeout(timeout)
+    })
+
+    next()
   }
 }

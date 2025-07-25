@@ -43,6 +43,15 @@ import {
   analyticsHeadersMiddleware,
   errorTrackingMiddleware
 } from './middleware/analyticsMiddleware';
+import {
+  performanceMiddleware,
+  cacheMiddleware,
+  responseOptimizationMiddleware,
+  queryOptimizationMiddleware,
+  createHealthCheckHandler,
+  createRateLimitMiddleware,
+  timeoutMiddleware
+} from './middleware/performance';
 
 // Load environment variables
 dotenv.config();
@@ -72,9 +81,14 @@ app.use(performanceTrackingMiddleware);
 
 // Performance and monitoring middleware
 app.use(performanceMiddleware);
+app.use(responseOptimizationMiddleware());
+app.use(queryOptimizationMiddleware());
 app.use(timeoutMiddleware(30000)); // 30 second timeout
-app.use(rateLimitMiddleware(1000, 60000)); // 1000 requests per minute
-app.use(compressionMiddleware);
+app.use(createRateLimitMiddleware({
+  windowMs: 60000, // 1 minute
+  max: 1000, // 1000 requests per minute
+  message: 'Too many requests from this IP'
+}));
 
 // Security and CORS middleware
 app.use(helmet());
@@ -115,8 +129,14 @@ app.use('/api/pdf',
 // File management routes
 app.use('/api/files', fileRoutes);
 
-// Template management routes
-app.use('/api/templates', templateRoutes);
+// Template management routes with caching
+app.use('/api/templates',
+  cacheMiddleware({
+    ttl: 300, // 5 minutes cache
+    condition: (req) => req.method === 'GET'
+  }),
+  templateRoutes
+);
 
 // Queue management routes
 app.use('/api/queue', queueRoutes);

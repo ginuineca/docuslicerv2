@@ -1,33 +1,42 @@
 import { Link } from 'react-router-dom'
-import { FileText, Zap, Shield, ArrowRight } from 'lucide-react'
+import { FileText, Zap, Shield, ArrowRight, Workflow, Users, Star } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
-import { Logo } from '../components'
+import { Logo, Button, FeatureCard, DemoBanner } from '../components'
 
 export function HomePage() {
   const { user } = useAuth()
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+      {/* Demo Banner */}
+      <DemoBanner />
+
       {/* Header */}
-      <header className="bg-white shadow-sm">
+      <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200/50 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
+          <div className="flex justify-between items-center py-4">
             <Logo />
-            <nav className="flex space-x-8">
+            <nav className="flex items-center space-x-8">
               {user ? (
                 <>
-                  <Link to="/dashboard" className="text-gray-600 hover:text-gray-900">
+                  <Link
+                    to="/dashboard"
+                    className="text-gray-600 hover:text-gray-900 font-medium transition-colors"
+                  >
                     Dashboard
                   </Link>
                   <span className="text-gray-600">Welcome, {user.email}</span>
                 </>
               ) : (
                 <>
-                  <Link to="/signin" className="text-gray-600 hover:text-gray-900">
+                  <Link
+                    to="/signin"
+                    className="text-gray-600 hover:text-gray-900 font-medium transition-colors"
+                  >
                     Sign In
                   </Link>
-                  <Link to="/signup" className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+                  <Button as={Link} to="/signup" icon={ArrowRight} iconPosition="right">
                     Get Started
-                  </Link>
+                  </Button>
                 </>
               )}
             </nav>
