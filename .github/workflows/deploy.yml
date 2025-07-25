@@ -65,9 +65,23 @@ jobs:
           find apps/web/dist -name "*.css" -exec gzip -k {} \;
 
           echo "🔧 Setting proper permissions..."
+          # Ensure the dist directory exists and has content
+          ls -la /var/www/docuslicer/apps/web/dist/ || echo "Dist directory missing!"
+
+          # Set ownership and permissions
           sudo chown -R www-data:www-data /var/www/docuslicer/apps/web/dist
           sudo chmod -R 755 /var/www/docuslicer/apps/web/dist
           sudo chmod 644 /var/www/docuslicer/apps/web/dist/index.html
+
+          # Verify index.html exists
+          if [ ! -f "/var/www/docuslicer/apps/web/dist/index.html" ]; then
+              echo "❌ index.html missing! Build may have failed."
+              ls -la /var/www/docuslicer/apps/web/dist/
+              exit 1
+          fi
+
+          echo "✅ File structure verified:"
+          ls -la /var/www/docuslicer/apps/web/dist/
 
           echo "🔄 Stopping services..."
           pm2 stop docuslicer-api || echo "API not running"
@@ -130,7 +144,20 @@ jobs:
 
           echo "🔍 Final connectivity tests..."
           echo "Testing main site externally..."
-          curl -I https://docuslicer.com/ && echo "✅ Main site accessible" || echo "❌ Main site not accessible"
+          curl -I http://docuslicer.com/ && echo "✅ Main site accessible" || echo "❌ Main site not accessible"
+
+          echo "Testing www subdomain..."
+          curl -I http://www.docuslicer.com/ && echo "✅ WWW site accessible" || echo "❌ WWW site not accessible"
+
+          echo "🔍 Debugging 403 errors..."
+          echo "Nginx document root permissions:"
+          ls -la /var/www/docuslicer/apps/web/dist/
+
+          echo "Nginx configuration test:"
+          sudo nginx -T | grep -A 5 -B 5 "root /var/www/docuslicer"
+
+          echo "Recent nginx error log:"
+          sudo tail -5 /var/log/nginx/error.log || echo "No nginx error log"
 
           echo "🔥 Checking firewall and ports..."
           sudo ufw status || echo "UFW not configured"
