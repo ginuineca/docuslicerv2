@@ -60,9 +60,20 @@ jobs:
           find apps/web/dist -name "*.js" -exec gzip -k {} \;
           find apps/web/dist -name "*.css" -exec gzip -k {} \;
 
+          echo "🔧 Setting proper permissions..."
+          sudo chown -R www-data:www-data /var/www/docuslicer/apps/web/dist
+          sudo chmod -R 755 /var/www/docuslicer/apps/web/dist
+          sudo chmod 644 /var/www/docuslicer/apps/web/dist/index.html
+
           echo "🔄 Stopping services..."
           pm2 stop docuslicer-api || echo "API not running"
           pm2 stop docuslicer-web || echo "Web not running"
+
+          echo "🌐 Configuring nginx..."
+          sudo cp nginx-docuslicer.conf /etc/nginx/sites-available/docuslicer
+          sudo ln -sf /etc/nginx/sites-available/docuslicer /etc/nginx/sites-enabled/
+          sudo rm -f /etc/nginx/sites-enabled/default
+          sudo nginx -t && sudo systemctl reload nginx || echo "Nginx configuration failed"
 
           echo "🚀 Starting services..."
           pm2 start ecosystem.config.js --env production || echo "PM2 start failed"
