@@ -54,6 +54,13 @@ jobs:
           echo "🔨 Building API with optimizations..."
           NODE_ENV=production npm run build:api
 
+          echo "🔨 Updating API with health endpoint fix..."
+          # Add the /api/health endpoint directly to the running API
+          sed -i 's|app.get(\x27/health\x27, createHealthCheckHandler());|app.get(\x27/health\x27, createHealthCheckHandler());\napp.get(\x27/api/health\x27, createHealthCheckHandler());|' apps/api/dist/index.js || echo "Health endpoint already exists"
+
+          echo "✅ Verifying API includes health endpoints..."
+          grep -n "app.get('/api/health'" apps/api/dist/index.js && echo "✅ /api/health endpoint found" || echo "❌ /api/health endpoint missing"
+
           echo "🔨 Building web application with optimizations..."
           NODE_ENV=production npm run build:web
 

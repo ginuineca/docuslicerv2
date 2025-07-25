@@ -28,7 +28,11 @@ import {
   timeoutMiddleware,
   rateLimitMiddleware,
   compressionMiddleware,
-  createHealthCheckHandler
+  createHealthCheckHandler,
+  cacheMiddleware,
+  responseOptimizationMiddleware,
+  queryOptimizationMiddleware,
+  createRateLimitMiddleware
 } from './middleware/performance';
 import {
   errorHandler,
@@ -43,15 +47,7 @@ import {
   analyticsHeadersMiddleware,
   errorTrackingMiddleware
 } from './middleware/analyticsMiddleware';
-import {
-  performanceMiddleware,
-  cacheMiddleware,
-  responseOptimizationMiddleware,
-  queryOptimizationMiddleware,
-  createHealthCheckHandler,
-  createRateLimitMiddleware,
-  timeoutMiddleware
-} from './middleware/performance';
+// Duplicate import removed - using the first import block above
 
 // Load environment variables
 dotenv.config();
