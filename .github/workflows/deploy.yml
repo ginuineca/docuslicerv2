@@ -39,10 +39,10 @@ jobs:
           CORS_ORIGIN=http://docuslicer.com
           EOF
 
-          # Create Web environment file with IP configuration
+          # Create Web environment file for InterServer
           cat > apps/web/.env << 'EOF'
           NODE_ENV=production
-          VITE_API_URL=http://162.216.113.89/api
+          VITE_API_URL=https://docuslicer.com/api
           VITE_APP_NAME=DocuSlicer
           VITE_APP_VERSION=2.0.0
 
@@ -73,9 +73,20 @@ jobs:
           pm2 stop docuslicer-api || echo "API not running"
           pm2 stop docuslicer-web || echo "Web not running"
 
-          echo "🌐 Configuring nginx for IP access..."
-          sudo cp nginx-ip-config.conf /etc/nginx/sites-available/default
-          sudo nginx -t && sudo systemctl reload nginx || echo "Nginx configuration failed"
+          echo "🌐 Configuring web server for InterServer..."
+          # InterServer typically uses Apache with .htaccess
+          # Create .htaccess for React Router
+          cat > apps/web/dist/.htaccess << 'EOF'
+          Options -MultiViews
+          RewriteEngine On
+          RewriteCond %{REQUEST_FILENAME} !-f
+          RewriteRule ^ index.html [QSA,L]
+
+          # Enable compression
+          <IfModule mod_deflate.c>
+              AddOutputFilterByType DEFLATE text/plain text/html text/xml text/css application/xml application/xhtml+xml application/rss+xml application/javascript application/x-javascript
+          </IfModule>
+          EOF
 
           echo "🚀 Starting services..."
           pm2 start ecosystem.config.js --env production || echo "PM2 start failed"
@@ -100,14 +111,14 @@ jobs:
           curl -f http://localhost:3000 && echo "✅ Web healthy" || echo "❌ Web unhealthy"
 
           echo "🌐 Testing public endpoints..."
-          curl -f http://162.216.113.89/api/workflow/health && echo "✅ Public Workflow API healthy" || echo "❌ Public Workflow API unhealthy"
+          curl -f https://docuslicer.com/api/workflow/health && echo "✅ Public Workflow API healthy" || echo "❌ Public Workflow API unhealthy"
 
           echo "📈 Performance metrics..."
           curl -s http://localhost:3001/health | jq '.performance' || echo "Performance metrics not available"
 
           echo "🔍 Final connectivity tests..."
           echo "Testing main site externally..."
-          curl -I http://162.216.113.89/ && echo "✅ Main site accessible" || echo "❌ Main site not accessible"
+          curl -I https://docuslicer.com/ && echo "✅ Main site accessible" || echo "❌ Main site not accessible"
 
           echo "🔥 Checking firewall and ports..."
           sudo ufw status || echo "UFW not configured"
@@ -117,5 +128,6 @@ jobs:
           find apps/web/dist -name "*.map" -delete || echo "No source maps to clean"
 
           echo "✅ Deployment completed with performance optimizations!"
-          echo "🌐 Site should be accessible at: http://162.216.113.89"
-          echo "🔧 API endpoint: http://162.216.113.89/api"
+          echo "🌐 Site should be accessible at: https://docuslicer.com"
+          echo "🔧 API endpoint: https://docuslicer.com/api"
+          echo "📋 InterServer hosting configured with .htaccess for React Router"
