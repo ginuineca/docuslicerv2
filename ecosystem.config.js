@@ -31,32 +31,6 @@ module.exports = {
       watch: false,
       ignore_watch: ['node_modules', 'logs', 'uploads', 'temp'],
       source_map_support: true
-    },
-    {
-      name: 'docuslicer-web',
-      script: 'serve',
-      args: '-s apps/web/dist -l 3000',
-      cwd: '/var/www/docuslicer',
-      instances: 1,
-      exec_mode: 'fork',
-      env: {
-        NODE_ENV: 'production'
-      },
-      env_production: {
-        NODE_ENV: 'production'
-      },
-      log_file: '/var/log/docuslicer/web.log',
-      out_file: '/var/log/docuslicer/web-out.log',
-      error_file: '/var/log/docuslicer/web-error.log',
-      log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
-      merge_logs: true,
-      max_memory_restart: '512M',
-      restart_delay: 4000,
-      max_restarts: 10,
-      min_uptime: '10s',
-      kill_timeout: 5000,
-      autorestart: true,
-      watch: false
     }
   ],
 

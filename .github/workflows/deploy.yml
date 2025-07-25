@@ -133,11 +133,11 @@ jobs:
           echo "Testing Workflow API..."
           curl -f http://localhost:3001/api/workflow/health && echo "✅ Workflow API healthy" || echo "❌ Workflow API unhealthy"
 
-          echo "Testing Web server..."
-          curl -f http://localhost:3000 && echo "✅ Web healthy" || echo "❌ Web unhealthy"
+          echo "Testing nginx static file serving..."
+          curl -f http://localhost/ && echo "✅ Nginx serving files" || echo "❌ Nginx not serving files"
 
           echo "🌐 Testing public endpoints..."
-          curl -f https://docuslicer.com/api/workflow/health && echo "✅ Public Workflow API healthy" || echo "❌ Public Workflow API unhealthy"
+          curl -f http://docuslicer.com/api/health && echo "✅ Public API healthy" || echo "❌ Public API unhealthy"
 
           echo "📈 Performance metrics..."
           curl -s http://localhost:3001/health | jq '.performance' || echo "Performance metrics not available"

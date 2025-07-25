@@ -106,6 +106,7 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // Enhanced health check endpoint with performance metrics
 app.get('/health', createHealthCheckHandler());
+app.get('/api/health', createHealthCheckHandler());
 
 // API routes
 app.get('/api/status', (req, res) => {
