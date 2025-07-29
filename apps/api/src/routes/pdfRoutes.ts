@@ -41,6 +41,7 @@ const upload = multer({
 
 // Validation schemas
 const splitRequestSchema = z.object({
+  fileId: z.string().min(1),
   ranges: z.array(z.object({
     start: z.number().min(1),
     end: z.number().min(1),
@@ -87,12 +88,13 @@ router.post('/upload', upload.single('pdf'), async (req, res) => {
 
     res.json({
       success: true,
-      file: {
-        id: path.basename(req.file.path, path.extname(req.file.path)),
-        originalName: req.file.originalname,
+      fileId: path.basename(req.file.path, path.extname(req.file.path)),
+      info: {
+        pages: pdfInfo.pages,
         size: req.file.size,
-        path: req.file.path,
-        ...pdfInfo
+        title: pdfInfo.title,
+        author: pdfInfo.author,
+        creationDate: pdfInfo.creationDate
       }
     })
   } catch (error) {
@@ -119,11 +121,10 @@ router.post('/upload', upload.single('pdf'), async (req, res) => {
  */
 router.post('/split', async (req, res) => {
   try {
-    const { filePath, ranges } = splitRequestSchema.parse(req.body)
-    
-    if (!filePath || typeof filePath !== 'string') {
-      return res.status(400).json({ error: 'File path is required' })
-    }
+    const { fileId, ranges } = splitRequestSchema.parse(req.body)
+
+    // Construct file path from fileId
+    const filePath = path.join(process.cwd(), 'uploads', 'temp', `${fileId}.pdf`)
 
     // Check if file exists
     try {
@@ -141,24 +142,26 @@ router.post('/split', async (req, res) => {
 
     // Get file information for each output file
     const results = await Promise.all(
-      outputFiles.map(async (filePath) => {
+      outputFiles.map(async (filePath, index) => {
         const stats = await fs.stat(filePath)
         const pdfInfo = await pdfService.getPDFInfo(filePath)
-        
+        const fileName = path.basename(filePath)
+
         return {
-          name: path.basename(filePath),
-          path: filePath,
-          size: stats.size,
+          id: Math.random().toString(36).substr(2, 9),
+          name: fileName,
+          status: 'completed' as const,
+          progress: 100,
+          downloadUrl: `/api/pdf/download/${encodeURIComponent(fileName)}`,
           pages: pdfInfo.pageCount,
-          downloadUrl: `/api/pdf/download/${encodeURIComponent(path.basename(filePath))}`
+          size: stats.size
         }
       })
     )
 
     res.json({
       success: true,
-      message: `PDF split into ${outputFiles.length} files`,
-      files: results
+      results
     })
   } catch (error) {
     console.error('Split error:', error)

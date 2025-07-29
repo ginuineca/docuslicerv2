@@ -1,17 +1,20 @@
 import { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { Upload, File, X, AlertCircle, CheckCircle } from 'lucide-react'
+import { pdfService, PDFInfo } from '../services/pdfService'
 
 interface UploadedFile {
   id: string
   file: File
+  fileId?: string
+  info?: PDFInfo
   status: 'uploading' | 'success' | 'error'
   progress: number
   error?: string
 }
 
 interface PDFUploadProps {
-  onFilesUploaded: (files: File[]) => void
+  onFilesUploaded: (files: Array<{ file: File; fileId: string; info: PDFInfo }>) => void
   maxFiles?: number
   maxSize?: number // in bytes
   className?: string
@@ -41,39 +44,61 @@ export function PDFUpload({
 
     setUploadedFiles(prev => [...prev, ...newFiles])
 
-    // Simulate upload progress
+    // Upload files to server
     newFiles.forEach(uploadFile => {
-      simulateUpload(uploadFile.id)
+      uploadToServer(uploadFile.id, uploadFile.file)
     })
-
-    // Call the callback with the files
-    onFilesUploaded(acceptedFiles)
   }, [onFilesUploaded])
 
-  const simulateUpload = (fileId: string) => {
-    let progress = 0
-    const interval = setInterval(() => {
-      progress += Math.random() * 30
-      if (progress >= 100) {
-        progress = 100
-        clearInterval(interval)
-        setUploadedFiles(prev => 
-          prev.map(f => 
-            f.id === fileId 
-              ? { ...f, status: 'success', progress: 100 }
-              : f
-          )
+  const uploadToServer = async (fileId: string, file: File) => {
+    try {
+      // Update progress to show upload starting
+      setUploadedFiles(prev =>
+        prev.map(f =>
+          f.id === fileId
+            ? { ...f, progress: 10 }
+            : f
         )
-      } else {
-        setUploadedFiles(prev => 
-          prev.map(f => 
-            f.id === fileId 
-              ? { ...f, progress }
-              : f
-          )
+      )
+
+      // Upload file and get info
+      const { fileId: serverFileId, info } = await pdfService.uploadPDF(file)
+
+      // Update with success
+      setUploadedFiles(prev => {
+        const updatedFiles = prev.map(f =>
+          f.id === fileId
+            ? { ...f, status: 'success' as const, progress: 100, fileId: serverFileId, info }
+            : f
         )
-      }
-    }, 200)
+
+        // Call callback with successfully uploaded files
+        const successfulFiles = updatedFiles
+          .filter(f => f.status === 'success' && f.fileId && f.info)
+          .map(f => ({ file: f.file, fileId: f.fileId!, info: f.info! }))
+
+        if (successfulFiles.length > 0) {
+          onFilesUploaded(successfulFiles)
+        }
+
+        return updatedFiles
+      })
+
+    } catch (error) {
+      // Update with error
+      setUploadedFiles(prev =>
+        prev.map(f =>
+          f.id === fileId
+            ? {
+                ...f,
+                status: 'error' as const,
+                progress: 0,
+                error: error instanceof Error ? error.message : 'Upload failed'
+              }
+            : f
+        )
+      )
+    }
   }
 
   const removeFile = (fileId: string) => {

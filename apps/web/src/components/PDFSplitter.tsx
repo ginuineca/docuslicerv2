@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Scissors, Download, Eye, Plus, Minus } from 'lucide-react'
+import { pdfService, SplitRange as ServiceSplitRange } from '../services/pdfService'
 
 interface SplitRange {
   id: string
@@ -10,12 +11,13 @@ interface SplitRange {
 
 interface PDFSplitterProps {
   file: File
+  fileId: string
   totalPages: number
   onSplit: (ranges: SplitRange[]) => void
   onPreview: (file: File) => void
 }
 
-export function PDFSplitter({ file, totalPages, onSplit, onPreview }: PDFSplitterProps) {
+export function PDFSplitter({ file, fileId, totalPages, onSplit, onPreview }: PDFSplitterProps) {
   const [splitRanges, setSplitRanges] = useState<SplitRange[]>([
     { id: '1', start: 1, end: totalPages, name: `${file.name.replace('.pdf', '')}_part1` }
   ])

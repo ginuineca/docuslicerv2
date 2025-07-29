@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import { Logo } from '../components'
+import { pdfService } from '../services/pdfService'
 import { PDFUpload } from '../components/PDFUpload'
 import { PDFViewer } from '../components/PDFViewer'
 import { PDFSplitter } from '../components/PDFSplitter'
@@ -18,6 +19,7 @@ import { ArrowLeft, Scissors, Merge, Download, Eye, FileText, Zap, Layout, Users
 
 interface ProcessedFile {
   id: string
+  fileId: string
   name: string
   size: number
   pages: number
@@ -51,22 +53,16 @@ export function ProcessPage() {
   const [processingResults, setProcessingResults] = useState<ProcessedResult[]>([])
   const [selectedFile, setSelectedFile] = useState<ProcessedFile | null>(null)
 
-  const handleFilesUploaded = async (files: File[]) => {
-    // Process files and extract metadata
-    const processedFiles: ProcessedFile[] = await Promise.all(
-      files.map(async (file) => {
-        // For now, we'll simulate page count - later we'll use pdf-lib to get actual count
-        const simulatedPageCount = Math.floor(Math.random() * 20) + 1
-        
-        return {
-          id: Math.random().toString(36).substr(2, 9),
-          name: file.name,
-          size: file.size,
-          pages: simulatedPageCount,
-          file
-        }
-      })
-    )
+  const handleFilesUploaded = async (files: Array<{ file: File; fileId: string; info: any }>) => {
+    // Process files with real metadata from server
+    const processedFiles: ProcessedFile[] = files.map((fileData) => ({
+      id: Math.random().toString(36).substr(2, 9),
+      fileId: fileData.fileId,
+      name: fileData.file.name,
+      size: fileData.file.size,
+      pages: fileData.info.pages,
+      file: fileData.file
+    }))
 
     setUploadedFiles(prev => [...prev, ...processedFiles])
   }
@@ -162,20 +158,55 @@ export function ProcessPage() {
   const handleSplit = async (ranges: SplitRange[]) => {
     if (!selectedFile) return
 
-    // Create processing results
-    const newResults: ProcessedResult[] = ranges.map(range => ({
-      id: Math.random().toString(36).substr(2, 9),
-      name: `${range.name}.pdf`,
-      status: 'processing' as const,
-      progress: 0,
-      pages: range.end - range.start + 1
-    }))
+    try {
+      // Convert ranges to service format
+      const serviceRanges = ranges.map(range => ({
+        start: range.start,
+        end: range.end,
+        name: range.name
+      }))
 
-    setProcessingResults(prev => [...prev, ...newResults])
+      // Create processing results
+      const newResults: ProcessedResult[] = ranges.map(range => ({
+        id: Math.random().toString(36).substr(2, 9),
+        name: `${range.name}.pdf`,
+        status: 'processing' as const,
+        progress: 0,
+        pages: range.end - range.start + 1
+      }))
 
-    // Simulate processing
-    for (const result of newResults) {
-      simulateProcessing(result.id)
+      setProcessingResults(prev => [...prev, ...newResults])
+
+      // Perform actual split
+      const splitResults = await pdfService.splitPDF(selectedFile.fileId, serviceRanges)
+
+      // Update results with actual data
+      setProcessingResults(prev =>
+        prev.map((result, index) => {
+          const splitResult = splitResults[index]
+          if (splitResult) {
+            return {
+              ...result,
+              status: splitResult.status,
+              progress: splitResult.progress,
+              downloadUrl: splitResult.downloadUrl,
+              error: splitResult.error
+            }
+          }
+          return result
+        })
+      )
+
+    } catch (error) {
+      // Handle error
+      setProcessingResults(prev =>
+        prev.map(result => ({
+          ...result,
+          status: 'error' as const,
+          progress: 0,
+          error: error instanceof Error ? error.message : 'Split failed'
+        }))
+      )
     }
   }
 
@@ -417,6 +448,7 @@ export function ProcessPage() {
             <div className="lg:col-span-3 mt-8">
               <PDFSplitter
                 file={selectedFile.file}
+                fileId={selectedFile.fileId}
                 totalPages={selectedFile.pages}
                 onSplit={handleSplit}
                 onPreview={openPreview}
